@@ -33,10 +33,5 @@ jobs:
           echo test, and deploy your project.
           
       # Lints Javascript code 
-      - name: eslint + fix
-        uses: getsentry/action-eslint-fix@v1
-        with:
-          # GitHub token
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          # Just runs eslint, doesn't commit any changes
-          dry: true
+      - name: ESLint (JS/TS) Action 
+        uses: iCrawl/action-eslint@v1
