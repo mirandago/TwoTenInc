@@ -6,9 +6,9 @@ name: CI
 # events but only for the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [ main, 'dev/**']
   pull_request:
-    branches: [ main ]
+    branches: [ main, 'dev/**']
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,6 +37,6 @@ jobs:
         uses: getsentry/action-eslint-fix@v2
         with:
           # GitHub token
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           # Just runs eslint, doesn't commit any changes
           dry: true
