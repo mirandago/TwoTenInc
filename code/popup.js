@@ -8,10 +8,11 @@ function click(e) {
   document.body.style.backgroundColor='red';
   
   // make a new tab and a new window
-  chrome.tabs.create({url: "http://www.stackoverflow.com"});
-  chrome.windows.create({url: "http://www.stackoverflow.com",type:"popup"});
+  //chrome.tabs.create({url: "http://www.stackoverflow.com"});
+  chrome.windows.create({url: "newPage.html",type:"popup"});
   //window.close();
 
+  
 }
 
 // add click even listener to all 'h2' elements in popup
