@@ -10,17 +10,17 @@ describe('Small end-to-end test', () => {
 	})
 	
 	// check Hello world popup has correct elements
-    it('Hello World popup loads', () => {
+	it('Hello World popup loads', () => {
 		cy.visit('/code/popup.html')
 		cy.get('title').should('have.text','Hello world')
 		cy.get('h2').should('have.text','Hello world!')
 		cy.get('button').should('have.text', 'button')
-    })
+	})
 	
 	// check Hello world popup redirects on click
 	it('redirects on click', () => {
-	  cy.get('button').click()
-	  cy.url().should('include', 'newPage')
+		cy.get('button').click()
+		cy.url().should('include', 'newPage')
 	})
 	
 	// check Awful counter has correct elements
