@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mirandago/TwoTenInc#readme",
   "devDependencies": {
+    "cypress": "^5.5.0",
     "eslint": "^7.12.1",
     "eslint-config-google": "^0.14.0"
   }

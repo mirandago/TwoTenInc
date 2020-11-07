@@ -1,15 +1,21 @@
 {
-    "manifest_version": 2,
-    "version": "1.0",
-    "name": "Hello World!",
-    "description": "Learning how to make a chrome extension!",
-  
-    "icons":
-    {
-  
-    },
-    "browser_action":
-    {
-        "default_popup": "frontend/popup.html"
-    }
- } 
+   "manifest_version": 2,
+   "version": "1.0",
+   "name": "Testing!",
+   "description": "Setting up testing",
+ 
+   "icons":
+   {
+ 
+   },
+   "permissions": [
+    "activeTab",
+    "storage"
+   ],
+   "browser_action":
+   {
+       "default_popup": "popup.html"
+   }
+   
+} 
+ 
