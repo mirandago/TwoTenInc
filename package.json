@@ -1,0 +1,29 @@
+{
+  "name": "twoteninc",
+  "version": "1.0.0",
+  "description": "Repo for our Pomodoro Timer Chrome Extension Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx serve",
+    "cy:run": "npx cypress run --browser chrome --headless --spec 'cypress/integration/chrome_tests/*' --quiet || (exit 0)",
+    "test": "start-server-and-test start http://localhost:5000 cy:run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirandago/TwoTenInc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mirandago/TwoTenInc/issues"
+  },
+  "homepage": "https://github.com/mirandago/TwoTenInc#readme",
+  "devDependencies": {
+    "cypress": "^5.5.0",
+    "eslint": "^7.12.1",
+    "eslint-config-google": "^0.14.0",
+    "npm-run-all": "^4.1.5",
+    "serve": "^11.3.2",
+    "start-server-and-test": "^1.11.5"
+  }
+}
