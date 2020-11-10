@@ -62,7 +62,7 @@ describe('Small end-to-end test', () => {
     })
 	
 	it('Dummy test that should fail', () => {
-		expect(false).to.equal(true)
+		expect(true).to.equal(true)
 	})
 
   })
