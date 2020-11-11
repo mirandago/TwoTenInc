@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+
+<style type="text/css">
+  .topcorner{
+    position:absolute;
+    top:0;
+    right:0;
+  }
+ 
+  .button {
+    border: none;
+    color: white
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 36px;
+    margin: 4px 2px;
+    cursor: pointer;
+	border-radius: 50%;
+  }
+
+  .button1 {background-color: #FFFACD; /* lemonchiffon */
+    padding: 40px;}
+  .buttonExit {background-color: #FFFFFF; /* white */
+    padding: 0px;}
+
+</style>
+
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <div class="topcorner">
+    <button class="button buttonExit" onclick="self.close()">
+	  <i class="fa fa-times-circle"style="color:#000000"></i>
+	</button>
+  </div>
+  
+  <button class="button button1">
+	<i class="fa fa-bell" style="font-size:48px;color:#F7BB05"></i>
+  </button>
+</head>
+
+
+<body>
+
+  <hr></hr>
+  <h1><p style="font-family:arial"><p style="font-size:x-large">Timer Alarm</p></p></h1>
+    <input type="checkbox" id="timer_alarm">Notification sound</input>
+  <br></br>
+  <br></br>
+  <h1><p style="font-family:arial"><p style="font-size:x-large">Break Alarm</p></p></h1>
+    <input type="checkbox" id="break_alarm">Notification sound</input>
+</body>
+
+
+</html>

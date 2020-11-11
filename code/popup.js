@@ -10,7 +10,7 @@ function click() {
 
   // make a new tab and a new window
   // chrome.tabs.create({url: "http://www.stackoverflow.com"});
-  chrome.windows.create({url: 'newPage.html', type: 'popup'});
+  chrome.windows.create({url: 'settings.html', type: 'popup'});
   // window.close();
 }
 
