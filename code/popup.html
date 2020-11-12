@@ -1,13 +1,22 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="popup.css">
 <html>
 <head>
-      <title>Hello world</title>
-     <script language='javascript' src='popup.js'></script>
-     <form action="/code/newPage.html" class="inline">
-          <button class="float-left submit-button" >button</button>
-      </form>
+    <title>Popup Page</title>
 </head>
 <body>
-     <h2 id="hello">Hello world!</h2>
+    <div id="rcorners"><p id="timer_state">Timer State</p></div>
+    <div id="timerContainer"><p id="timer">Show da tiner bro</p></div>
+    
+    <div id="timerButtonsContainer">
+    <button class="submit-button" id="play_button">play</button>
+    <button class="submit-button" id="pause_button">pause</button>
+    <button class="submit-button" id="reset_button">reset</button>
+    </div>
+    <div id="settingContainer">
+    <button class="submit-button" id="setting_button">Settings</button>
+    </div>
+
 </body>
 </html>
+<script language='javascript' src='timer.js'></script>

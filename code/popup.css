@@ -1,0 +1,31 @@
+body {
+    /*background-color: lightblue; */
+    height: 200px;
+    width: 200px;
+}
+  
+#rcorners {
+    margin: auto;
+    text-align: center;
+    border-radius: 12px;
+    background: #73AD21;
+    width: 50%;
+    height: relative;
+}
+
+#timerContainer {
+    margin: auto;
+    text-align: center;
+    padding: 10px;
+    font-size: 28px;
+}
+
+#settingContainer {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+}
+
+#timerButtonsContainer {
+    text-align: center;
+}
