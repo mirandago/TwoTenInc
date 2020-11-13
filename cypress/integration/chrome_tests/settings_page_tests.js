@@ -35,7 +35,7 @@ describe('Settings Page test', () => {
     })
 	
 	// check break notification checkbox
-	it('Timer Notification works', () => {
+	it('Break Notification works', () => {
 		cy.visit('/code/settings.html')
 		cy.get('input#break').click() // check the box
 		cy.get('body').should('have.css', 'background-color', 'rgb(0, 0, 255)')
