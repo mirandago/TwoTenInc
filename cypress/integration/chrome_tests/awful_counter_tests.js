@@ -20,7 +20,7 @@ describe('Small end-to-end test', () => {
 	// check Hello world popup redirects on click
 	it('redirects on click', () => {
 		cy.get('button').click()
-		cy.url().should('include', 'newPage')
+		cy.url().should('include', 'settings')
 	})
 	
 	// check Awful counter has correct elements

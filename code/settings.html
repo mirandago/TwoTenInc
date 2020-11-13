@@ -30,16 +30,12 @@
 
 
 <head>
+  <script language='javascript' src='settings.js'></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
-  <div class="topcorner">
-    <button class="button buttonExit" onclick="self.close()">
-	  <i class="fa fa-times-circle"style="color:#000000"></i>
-	</button>
-  </div>
-  
-  <button class="button button1">
-	<i class="fa fa-bell" style="font-size:48px;color:#F7BB05"></i>
+    
+  <button class="button button1" id="bell">
+	<i class="fa fa-bell" style="font-size:48px;color:#F7BB05" id="bell"></i>
   </button>
 </head>
 
@@ -47,12 +43,12 @@
 <body>
 
   <hr></hr>
-  <h1><p style="font-family:arial"><p style="font-size:x-large">Timer Alarm</p></p></h1>
-    <input type="checkbox" id="timer_alarm">Notification sound</input>
+  <h1 id="timer"><p style="font-family:arial"><p style="font-size:x-large">Timer Alarm</p></p></h1>
+    <input type="checkbox" id="timer">Notification sound</input>
   <br></br>
   <br></br>
-  <h1><p style="font-family:arial"><p style="font-size:x-large">Break Alarm</p></p></h1>
-    <input type="checkbox" id="break_alarm">Notification sound</input>
+  <h1 id = "break"><p style="font-family:arial"><p style="font-size:x-large">Break Alarm</p></p></h1>
+    <input type="checkbox" id="break">Notification sound</input>
 </body>
 
 
