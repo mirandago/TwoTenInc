@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     divs[i].addEventListener('click', click);
   }
   const _selector1 = document.querySelector('input[type=checkbox]#timer');
-  _selector1.addEventListener('change', function (event) {
+  _selector1.addEventListener('change', function(event) {
     if (_selector1.checked) {
       document.body.style.backgroundColor='red';
     } else {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   const _selector2 = document.querySelector('input[type=checkbox]#break');
-  _selector2.addEventListener('change', function (event) {
+  _selector2.addEventListener('change', function(event) {
     if (_selector2.checked) {
       document.body.style.backgroundColor='blue';
     } else {
