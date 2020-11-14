@@ -19,6 +19,7 @@ class Timer {
     }
     
     switchState() {
+        this.audioNotification();
         if (this.focus) {
             this.focus = false;
             document.getElementById(this.stateId).innerText = DefaultBreakText;
@@ -31,6 +32,16 @@ class Timer {
             this.time_left = DefaultFocusTime;
         }
         this.startTimer();
+    }
+
+    audioNotification() {
+        if(this.focus) {
+            var myAudio = new Audio(chrome.runtime.getURL("audio/break.mp3"));
+            myAudio.play();
+        } else {
+            var myAudio = new Audio(chrome.runtime.getURL("audio/focus.mp3"));
+            myAudio.play();
+        }
     }
 
     updateTimerDisplay() {
