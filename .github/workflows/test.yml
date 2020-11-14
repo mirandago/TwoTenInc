@@ -1,0 +1,15 @@
+# This is the test workflow
+name: Test
+on: 
+  push:
+    branches: [main, 'dev/**']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Run the automated tests in the specified folder
+        run: npm run test
