@@ -44,8 +44,4 @@ describe('Settings Page test', () => {
     })
 	
 	// need failing test to get screenshot
-	it('Dummy test that should fail', () => {
-		expect(false).to.equal(true)
-	})
-
   })
