@@ -2,8 +2,8 @@
 {
    "manifest_version": 2,
    "version": "1.0",
-   "name": "Testing!",
-   "description": "Setting up testing",
+   "name": "Priority 1!",
+   "description": "base of project",
  
    "icons":
    {
