@@ -16,6 +16,19 @@ class Timer {
         this.stateId = stateId;
         document.getElementById(id).innerText = time_left;
         document.getElementById(stateId).innerText = DefaultFocusText;
+        document.getElementById("pause_img").style.display = "none"
+
+        //this.hideButtons(active);
+    }
+
+    hideButtons(active) {
+        if (active) {
+            document.getElementById("play_img").style.display = "none"
+            document.getElementById("pause_img").style.display = "block"
+        } else {
+            document.getElementById("play_img").style.display = "block"
+            document.getElementById("pause_img").style.display = "none"
+        }
     }
     
     switchState() {
@@ -24,11 +37,13 @@ class Timer {
             this.focus = false;
             document.getElementById(this.stateId).innerText = DefaultBreakText;
             document.getElementById(this.timerId).innerText = DefaultBreakTime;
+            document.getElementById("rcorners").style.backgroundColor = "green";
             this.time_left = DefaultBreakTime;
         } else {
             this.focus = true;
             document.getElementById(this.stateId).innerText = DefaultFocusText;
             document.getElementById(this.timerId).innerText = DefaultFocusTime;
+            document.getElementById("rcorners").style.backgroundColor = "blue";
             this.time_left = DefaultFocusTime;
         }
         this.startTimer();
@@ -57,6 +72,7 @@ class Timer {
         this.active = true;
         var id = this.timerId;
         console.log("what is id" + id);
+        this.hideButtons(true);
         this.runningCall = setInterval(
             this.updateTimerDisplay.bind(this)
         ,1000);
@@ -65,6 +81,7 @@ class Timer {
     pauseTimer() {
         this.active = false;
         clearInterval(this.runningCall);
+        this.hideButtons(false);
     }
 
     resetTimer() {
@@ -72,6 +89,9 @@ class Timer {
         this.focus = true;
         this.active = false;
         document.getElementById(this.timerId).innerText = DefaultTime;
+        document.getElementById(this.stateId).innerText = DefaultFocusText;
+        document.getElementById("rcorners").style.backgroundColor = "blue";
+        this.hideButtons(false);
         clearInterval(this.runningCall);
     }
 
@@ -90,15 +110,17 @@ class Timer {
 
 var timer = new Timer(DefaultFocusTime, DefaultActive, DefaultFocus, "timer", "timer_state");
 
-document.getElementById("play_button").addEventListener("click", function(){
+
+document.getElementById("play_img").addEventListener("click", function() {
     timer.startTimer();
 });
 
-document.getElementById("pause_button").addEventListener("click", function(){
+document.getElementById("pause_img").addEventListener("click", function(){
     timer.pauseTimer();
 });
 
-document.getElementById("reset_button").addEventListener("click", function(){
+document.getElementById("reset_img").addEventListener("click", function(){
     timer.resetTimer();
 });
+
 
