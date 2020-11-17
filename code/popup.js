@@ -78,4 +78,9 @@ document.getElementById('reset_img').addEventListener('click', function() {
   chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
 });
 
+document.getElementById('reset_img').addEventListener('click', function() {
+  chrome.windows.create({url: 'settings.html', type: 'popup', height: 500, width: 500});
+});
+});
+
 
