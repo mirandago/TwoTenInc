@@ -79,7 +79,8 @@ document.getElementById('reset_img').addEventListener('click', function() {
 });
 
 document.getElementById('reset_img').addEventListener('click', function() {
-  chrome.windows.create({url: 'settings.html', type: 'popup', height: 500, width: 500});
+  chrome.windows.create({url: 'settings.html', type: 'popup', height: 500, 
+                         width: 500});
 });
 
 
