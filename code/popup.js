@@ -80,7 +80,7 @@ document.getElementById('reset_img').addEventListener('click', function() {
 
 document.getElementById('setting_img').addEventListener('click', function() {
   window.self.close();
-  chrome.windows.create({url: 'settings.html', type: 'popup', height: 500,
+  chrome.windows.create({url: 'audioSettings.html', type: 'popup', height: 500,
     width: 500});
 });
 
