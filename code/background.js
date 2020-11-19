@@ -5,6 +5,8 @@ let timeLeft;
 let runningCall;
 let isFocus;
 let isActive;
+const breakAudio = new Audio(chrome.runtime.getURL('audio/break.mp3'));
+const focusAudio = new Audio(chrome.runtime.getURL('audio/focus.mp3'));
 // let currentTask;
 
 // constants
@@ -29,11 +31,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // time hits 0, play sound and update state
       if (timeLeft == 0) {
         if (isFocus) {
-          const myAudio = new Audio(chrome.runtime.getURL('audio/break.mp3'));
-          myAudio.play();
+          chrome.storage.sync.get(['break_audio'], function(result) {
+            if (result.break_audio === undefined) {
+              breakAudio.play();
+              chrome.storage.sync.set({'break_audio': 'on'});
+            } else if (result.break_audio === 'on') {
+              breakAudio.play();
+            }
+          });
         } else {
-          const myAudio = new Audio(chrome.runtime.getURL('audio/focus.mp3'));
-          myAudio.play();
+          chrome.storage.sync.get(['focus_audio'], function(result) {
+            if (result.focus_audio === undefined) {
+              focusAudio.play();
+              chrome.storage.sync.set({'focus_audio': 'on'});
+            } else if (result.focus_audio === 'on') {
+              focusAudio.play();
+            }
+          });
         }
         if (isFocus) {
           isFocus = false;
