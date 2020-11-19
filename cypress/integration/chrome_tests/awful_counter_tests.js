@@ -11,7 +11,7 @@ describe('Small end-to-end test', () => {
 	
 	// check Hello world popup has correct elements
 	it('Hello World popup loads', () => {
-		cy.visit('/code/popup.html')
+		cy.visit('/code/old_popup.html')
 		cy.get('title').should('have.text','Hello world')
 		cy.get('h2').should('have.text','Hello world!')
 		cy.get('button').should('have.text', 'button')

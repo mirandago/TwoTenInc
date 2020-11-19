@@ -1,27 +1,86 @@
-'use strict';
+const DEFAULT_FOCUS_TEXT = 'Focus';
+const DEFAULT_BREAK_TEXT = 'Break';
 
 /**
- * Execute when button is clicked
+ * Displays and updates the UI of the popup page
  */
-function click() {
-  // check that event listener works by changing original popup
-  document.getElementById('hello').innerHTML = 'clicked';
-  document.body.style.backgroundColor='red';
+class TimerDisplay {
+  /**
+   * Constructor for Timer Display. Saves the id for individual UI
+   * elements
+   * @param {*} timerId
+   * @param {*} playId
+   * @param {*} pauseId
+   * @param {*} stateTextId
+   * @param {*} stateContainerId
+   */
+  constructor(timerId, playId, pauseId, stateTextId, stateContainerId) {
+    this.timerId = timerId;
+    this.playId = playId;
+    this.pauseId = pauseId;
+    this.stateTextId = stateTextId;
+    this.stateContainerId = stateContainerId;
+  }
 
-  // make a new window
-  chrome.windows.create({url: 'settings.html', type: 'popup'});
+  /**
+   * Update timer display based on the timer argument passed in
+   * @param {*} timer
+   */
+  updateTimerDisplay(timer) {
+    document.getElementById(this.timerId).innerText = timer.timeLeft;
+    if (timer.isActive) {
+      document.getElementById(this.playId).style.display = 'none';
+      document.getElementById(this.pauseId).style.display = 'block';
+    } else {
+      document.getElementById(this.playId).style.display = 'block';
+      document.getElementById(this.pauseId).style.display = 'none';
+    }
+    if (timer.isFocus) {
+      document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+      document.getElementById(this.stateContainerId).style.backgroundColor =
+        'blue';
+    } else {
+      document.getElementById(this.stateTextId).innerText = DEFAULT_BREAK_TEXT;
+      document.getElementById(this.stateContainerId).style.backgroundColor =
+        'green';
+    }
+  }
 }
 
+// timer dsiplay variable
+const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
+    'timer_state', 'rcorners');
 
-// add click even listener to all 'h2' and 'button' elements in popup
-document.addEventListener('DOMContentLoaded', function() {
-  const divs = document.querySelectorAll('h2');
-  for (let i = 0; i < divs.length; i++) {
-    divs[i].addEventListener('click', click);
-  }
-  const divs2 = document.querySelectorAll('button');
-  for (let i = 0; i < divs2.length; i++) {
-    divs2[i].addEventListener('click', click);
-  }
+// Every 200 millisecond the timer UI will update
+getTimer = setInterval(() => {
+  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+    timerDisplay.updateTimerDisplay(response);
+  });
+}, 200);
+
+// Load the state of the timer as soon as the Dom loads
+window.addEventListener('DOMContentLoaded', (event) => {
+  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+    timerDisplay.updateTimerDisplay(response);
+  });
 });
+
+// Button click event listeners
+document.getElementById('play_img').addEventListener('click', function() {
+  chrome.runtime.sendMessage({cmd: 'START_TIMER'});
+});
+
+document.getElementById('pause_img').addEventListener('click', function() {
+  chrome.runtime.sendMessage({cmd: 'PAUSE_TIMER'});
+});
+
+document.getElementById('reset_img').addEventListener('click', function() {
+  chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
+});
+
+document.getElementById('reset_img').addEventListener('click', function() {
+  chrome.windows.create({url: 'settings.html', type: 'popup', height: 500,
+    width: 500});
+});
+
 
