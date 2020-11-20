@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
   for (let i = 0; i < divs.length; i++) {
     divs[i].addEventListener('click', click);
   }
+
   const _selector1 = document.querySelector('input[type=checkbox]#timer');
 
   chrome.storage.local.get(['focus_audio'], function(result) {
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const _selector2 = document.querySelector('input[type=checkbox]#break');
 
   chrome.storage.local.get(['break_audio'], function(result) {
-    if (result.break_audio === 'on' || result.focus_audio === undefined) {
+    if (result.break_audio === 'on' || result.break_audio === undefined) {
       _selector2.checked = true;
     }
     console.log('break_audio is currently is ' + result.break_audio);
