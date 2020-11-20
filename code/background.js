@@ -31,19 +31,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // time hits 0, play sound and update state
       if (timeLeft == 0) {
         if (isFocus) {
-          chrome.storage.sync.get(['break_audio'], function(result) {
+          chrome.storage.local.get(['break_audio'], function(result) {
             if (result.break_audio === undefined) {
               breakAudio.play();
-              chrome.storage.sync.set({'break_audio': 'on'});
+              chrome.storage.local.set({'break_audio': 'on'});
             } else if (result.break_audio === 'on') {
               breakAudio.play();
             }
           });
         } else {
-          chrome.storage.sync.get(['focus_audio'], function(result) {
+          chrome.storage.local.get(['focus_audio'], function(result) {
             if (result.focus_audio === undefined) {
               focusAudio.play();
-              chrome.storage.sync.set({'focus_audio': 'on'});
+              chrome.storage.local.set({'focus_audio': 'on'});
             } else if (result.focus_audio === 'on') {
               focusAudio.play();
             }

@@ -8,7 +8,7 @@ describe('Settings Page test', () => {
 	
 	// check settings page has correct elements
 	it('Settings popup loads', () => {
-		cy.visit('/code/audioSettings.html')
+		cy.visit('/code/settingAudio.html')
 		cy.get('h1#timer').should('have.text','Timer Alarm')
 		cy.get('h1#break').should('have.text','Break Alarm')
 		cy.get('input#timer').should('exist')
@@ -19,7 +19,7 @@ describe('Settings Page test', () => {
 	
 	// check bell icon button works
 	it('Bell icon button works', () => {
-		cy.visit('/code/audioSettings.html')
+		cy.visit('/code/settingAudio.html')
 		cy.get('body').should('have.css', 'background-color', 'rgba(0, 0, 0, 0)')
 		cy.get('button#bell').click()
 		cy.get('body').should('have.css', 'background-color', 'rgb(255, 192, 203)')
@@ -27,7 +27,7 @@ describe('Settings Page test', () => {
 	
 	// check timer notification checkbox
 	it('Timer Notification works', () => {
-		cy.visit('/code/audioSettings.html')
+		cy.visit('/code/settingAudio.html')
 		cy.get('input#timer').click() // check the box
 		cy.get('body').should('have.css', 'background-color', 'rgb(255, 0, 0)')
 		cy.get('input#timer').click() // uncheck the box
@@ -36,7 +36,7 @@ describe('Settings Page test', () => {
 	
 	// check break notification checkbox
 	it('Break Notification works', () => {
-		cy.visit('/code/audioSettings.html')
+		cy.visit('/code/settingAudio.html')
 		cy.get('input#break').click() // check the box
 		cy.get('body').should('have.css', 'background-color', 'rgb(0, 0, 255)')
 		cy.get('input#break').click() // uncheck the box

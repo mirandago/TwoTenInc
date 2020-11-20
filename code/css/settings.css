@@ -1,0 +1,47 @@
+.topcorner{
+    position:absolute;
+    top:0;
+    right:0;
+}
+ 
+.buttonExit {
+    background-color: #FFFFFF; /* white */
+    padding: 0px;
+}
+
+.selectedButton {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 36px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: #FFFACD; /* lemonchiffon */
+    padding: 24px;
+}
+
+.notSelectedButton {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 36px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: #A9A9A9; /* Gray */
+    padding: 24px;
+}
+
+.orangeIcon {
+    font-size:36px;
+    color:#F7BB05;
+}
+
+.blackIcon {
+    font-size:36px;
+    color:#080808;
+}
