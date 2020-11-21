@@ -65,7 +65,7 @@ bg.handler = function(request, sender, sendResponse) {
     timeLeft = request.timeLeft;
   } else if (request.cmd === 'GET_TIME') {
     // get time
-    return{timeLeft: timeLeft};
+    return {timeLeft: timeLeft};
   } else if (request.cmd === 'GET_TIMER') {
     // get the timer back including time and state
     if (timeLeft === undefined) {
@@ -81,16 +81,14 @@ bg.handler = function(request, sender, sendResponse) {
     };
   }
   return {
-      timeLeft: timeLeft,
-      isActive: isActive,
-      isFocus: isFocus,
+    timeLeft: timeLeft,
+    isActive: isActive,
+    isFocus: isFocus,
   };
-}
+};
 
 module.exports = bg;
 module.exports.DEFAULT_FOCUS_TIME = DEFAULT_FOCUS_TIME;
 module.exports.DEFAULT_BREAK_TIME = DEFAULT_BREAK_TIME;
 module.exports.DEFAULT_FOCUS = DEFAULT_FOCUS;
 module.exports.DEFAULT_ACTIVE = DEFAULT_ACTIVE;
-  
-

@@ -60,12 +60,12 @@ getTimer = setInterval(() => {
 
 // Load the state of the timer as soon as the Dom loads
 window.addEventListener('DOMContentLoaded', (event) => {
-	chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
-	  timerDisplay.updateTimerDisplay(response);
+    chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+      timerDisplay.updateTimerDisplay(response);
 	});
 });
 
-
+// for possible testing on popup.js event listeners
 function sendMessage(command) {
 	chrome.runtime.sendMessage({cmd: command});
 }
