@@ -60,25 +60,30 @@ getTimer = setInterval(() => {
 
 // Load the state of the timer as soon as the Dom loads
 window.addEventListener('DOMContentLoaded', (event) => {
-  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
-    timerDisplay.updateTimerDisplay(response);
-  });
+	chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+	  timerDisplay.updateTimerDisplay(response);
+	});
 });
+
+
+function sendMessage(command) {
+	chrome.runtime.sendMessage({cmd: command});
+}
 
 // Button click event listeners
 document.getElementById('play_img').addEventListener('click', function() {
-  chrome.runtime.sendMessage({cmd: 'START_TIMER'});
+  sendMessage('START_TIMER');
 });
 
 document.getElementById('pause_img').addEventListener('click', function() {
-  chrome.runtime.sendMessage({cmd: 'PAUSE_TIMER'});
+  sendMessage('PAUSE_TIMER');
 });
 
 document.getElementById('reset_img').addEventListener('click', function() {
-  chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
+  sendMessage('RESET_TIMER');
 });
 
-document.getElementById('reset_img').addEventListener('click', function() {
+document.getElementById('setting_img').addEventListener('click', function() {
   chrome.windows.create({url: 'settings.html', type: 'popup', height: 500,
     width: 500});
 });
