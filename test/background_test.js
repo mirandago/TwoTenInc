@@ -41,7 +41,7 @@ describe('Testing API for background.js', () => {
     chai.expect(spy.lastCall.args[0].cmd).to.equal('SET_TIME');
     chai.expect(spy.lastCall.args[0].timeLeft).to.equal(100);
     chai.expect(spy.returnValues[0].timeLeft).to.equal(
-      spy.lastCall.args[0].timeLeft);
+        spy.lastCall.args[0].timeLeft);
     chai.expect(spy.returnValues[0].isActive).to.equal(undefined);
     chai.expect(spy.returnValues[0].isFocus).to.equal(undefined);
     spy({cmd: 'SET_TIME'}); // reset for other tests
