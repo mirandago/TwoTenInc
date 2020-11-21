@@ -65,23 +65,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
   });
 });
 
-/** for possible testing on popup.js event listeners
- */
-function sendMessage(command) {
-  chrome.runtime.sendMessage({cmd: command});
-}
-
 // Button click event listeners
 document.getElementById('play_img').addEventListener('click', function() {
-  sendMessage('START_TIMER');
+  chrome.runtime.sendMessage({cmd: 'START_TIMER'});
 });
 
 document.getElementById('pause_img').addEventListener('click', function() {
-  sendMessage('PAUSE_TIMER');
+  chrome.runtime.sendMessage({cmd: 'PAUSE_TIMER'});
 });
 
 document.getElementById('reset_img').addEventListener('click', function() {
-  sendMessage('RESET_TIMER');
+  chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
 });
 
 document.getElementById('setting_img').addEventListener('click', function() {

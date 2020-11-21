@@ -12,7 +12,7 @@ const DEFAULT_ACTIVE = require(path).DEFAULT_ACTIVE;
 
 describe('Testing API for background.js', () => {
   // spy to track calls, arguments, and return values of function
-  let spy = sinon.spy(bg.handler);
+  const spy = sinon.spy(bg.handler);
   beforeEach(function() {
     spy.resetHistory();
   });
@@ -40,7 +40,8 @@ describe('Testing API for background.js', () => {
     chai.expect(spy.calledOnce).to.equal(true);
     chai.expect(spy.lastCall.args[0].cmd).to.equal('SET_TIME');
     chai.expect(spy.lastCall.args[0].timeLeft).to.equal(100);
-    chai.expect(spy.returnValues[0].timeLeft).to.equal(spy.lastCall.args[0].timeLeft);
+    chai.expect(spy.returnValues[0].timeLeft).to.equal(
+	  spy.lastCall.args[0].timeLeft);
     chai.expect(spy.returnValues[0].isActive).to.equal(undefined);
     chai.expect(spy.returnValues[0].isFocus).to.equal(undefined);
     spy({cmd:'SET_TIME'}); // reset for other tests
