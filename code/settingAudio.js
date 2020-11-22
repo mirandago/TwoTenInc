@@ -1,30 +1,24 @@
 'use strict';
 
 /**
- * execute when bell icon is clicked
+ * Go to the timer settings page
  */
-function click() {
-  document.body.style.backgroundColor='pink';
-}
-
 function settingTimer() {
-  location.href = "settingTimer.html"
+  location.href = 'settingTimer.html';
 }
 
+/**
+ * Go to the group settings page
+ */
 function settingGroup() {
-  location.href = "settingGroup.html"
+  location.href = 'settingGroup.html';
 }
 
 // add click event listener to bell icon
 // add change event listener to checkboxes and set notification 'status'
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById("settingTimer").onclick = settingTimer;
-  document.getElementById("settingGroup").onclick = settingGroup;
-
-  // const divs = document.querySelectorAll('button');
-  // for (let i = 0; i < divs.length; i++) {
-  //   divs[i].addEventListener('click', click);
-  // }
+  document.getElementById('settingTimer').onclick = settingTimer;
+  document.getElementById('settingGroup').onclick = settingGroup;
 
   const _selector1 = document.querySelector('input[type=checkbox]#timer');
 
@@ -38,10 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
   _selector1.addEventListener('change', function(event) {
     if (_selector1.checked) {
       chrome.storage.local.set({'focus_audio': 'on'});
-      //document.body.style.backgroundColor='red';
     } else {
       chrome.storage.local.set({'focus_audio': 'off'});
-      //document.body.style.backgroundColor='green';
     }
   });
 
@@ -57,10 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
   _selector2.addEventListener('change', function(event) {
     if (_selector2.checked) {
       chrome.storage.local.set({'break_audio': 'on'});
-      //document.body.style.backgroundColor='blue';
     } else {
       chrome.storage.local.set({'break_audio': 'off'});
-      //document.body.style.backgroundColor='orange';
     }
   });
 });
