@@ -45,3 +45,55 @@
     font-size:36px;
     color:#080808;
 }
+
+.settingRow {
+    padding-left: 8px;
+    height: 40px;
+    vertical-align: center;
+}
+
+.settingColumn1{
+    width: 220px;
+    display: table-cell;
+    /*vertical-align: top;*/
+    text-align: left;
+    font-size: 16px;
+}
+
+.settingColumn2{
+    width: 60px;
+    display: table-cell;
+    justify-content: center;
+}
+
+.settingColumn3{
+    width: 100px;
+    display: table-cell;
+    text-align: left;
+}
+
+.textInput{
+    text-align: right;
+}
+
+.settingSubmitContainer {
+    padding-top: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.btnSubmit:hover {
+    background: #2196F3;
+    color: white;
+}
+
+.btnSubmit {
+    border-radius: 8px;
+    border: 2px solid;
+    border-color: #2196F3;
+    color: #2196F3;
+    background-color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+  }

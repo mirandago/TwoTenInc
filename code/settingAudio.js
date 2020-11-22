@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("settingTimer").onclick = settingTimer;
   document.getElementById("settingGroup").onclick = settingGroup;
 
-  const divs = document.querySelectorAll('button');
-  for (let i = 0; i < divs.length; i++) {
-    divs[i].addEventListener('click', click);
-  }
+  // const divs = document.querySelectorAll('button');
+  // for (let i = 0; i < divs.length; i++) {
+  //   divs[i].addEventListener('click', click);
+  // }
 
   const _selector1 = document.querySelector('input[type=checkbox]#timer');
 
@@ -38,10 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
   _selector1.addEventListener('change', function(event) {
     if (_selector1.checked) {
       chrome.storage.local.set({'focus_audio': 'on'});
-      document.body.style.backgroundColor='red';
+      //document.body.style.backgroundColor='red';
     } else {
       chrome.storage.local.set({'focus_audio': 'off'});
-      document.body.style.backgroundColor='green';
+      //document.body.style.backgroundColor='green';
     }
   });
 
@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
   _selector2.addEventListener('change', function(event) {
     if (_selector2.checked) {
       chrome.storage.local.set({'break_audio': 'on'});
-      document.body.style.backgroundColor='blue';
+      //document.body.style.backgroundColor='blue';
     } else {
       chrome.storage.local.set({'break_audio': 'off'});
-      document.body.style.backgroundColor='orange';
+      //document.body.style.backgroundColor='orange';
     }
   });
 });
