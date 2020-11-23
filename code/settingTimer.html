@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<script language='javascript' src='settingTimer.js'></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<link rel="stylesheet" href="css/settings.css">
+
+<head>
+
+  <button class="selectedButton" id="settingTimer">
+  <i class="fas fa-stopwatch orangeIcon"></i>
+  </button>
+
+  <button class="notSelectedButton" id="settingAudio">
+	<i class="fa fa-bell blackIcon"></i>
+  </button>
+
+  <button class="notSelectedButton" id="settingGroup">
+  <i class="fas fa-list-ol blackIcon"></i>
+  </button>
+
+</head>
+
+
+<body>
+  <hr></hr>
+  <h1 id="timer"><p class="largeText">Timer Settings</p></h1>
+
+  <div class="settingRow">
+    <div class ="settingColumn1">
+      Timer Length
+    </div>
+    <div class ="settingColumn2">
+      <input type="text" id="timerLength" class="textInput" maxlength="4" size="4"></input>
+    </div>
+    <div class ="settingColumn3">
+      minutes
+    </div>
+  </div>
+
+  <div class="settingRow">
+    <div class ="settingColumn1">
+      Break Length
+    </div>
+    <div class ="settingColumn2">
+      <input type="text" id="breakLength" class="textInput" maxlength="4" size="4"></input>
+    </div>
+    <div class ="settingColumn3">
+      minutes
+    </div>
+  </div>
+
+  <div class="settingRow">
+    <div class ="settingColumn1">
+      Sessions until Long Break
+    </div>
+    <div class ="settingColumn2">
+      <input type="text" id="sessionsLB" class="textInput" maxlength="4" size="4"></input>
+    </div>
+    <div class ="settingColumn3">
+      sessions
+    </div>
+  </div>
+
+  <div class="settingRow">
+    <div class ="settingColumn1">
+      Long Break Length
+    </div>
+    <div class ="settingColumn2">
+      <input type="text" id="LBreakLength" class="textInput" maxlength="4" size="4"></input>
+    </div>
+    <div class ="settingColumn3">
+      minutes
+    </div>
+  </div>
+
+  <div class="settingSubmitContainer">
+    <button class="btnSubmit" id="submitChanges">Change Settings</button>
+  </div>
+
+
+</body>
+
+
+</html>
