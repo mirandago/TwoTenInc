@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx serve",
     "cy:run": "npx cypress run --browser chrome --headless --spec 'cypress/integration/chrome_tests/*' --quiet",
-    "test": "start-server-and-test start http://localhost:5000 cy:run"
+	"test": "mocha && start-server-and-test start http://localhost:5000 cy:run"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,12 @@
   },
   "homepage": "https://github.com/mirandago/TwoTenInc#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "cypress": "^5.5.0",
     "eslint": "^7.12.1",
     "eslint-config-google": "^0.14.0",
+    "mocha": "^8.2.1",
+    "sinon-chrome": "^3.0.1",
     "start-server-and-test": "^1.11.5"
   }
 }
