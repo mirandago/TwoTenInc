@@ -11,6 +11,7 @@ describe('Timer Settings Page test', () => {
 		cy.get('button#settingAudio').should('exist')
 		cy.get('button#settingTimer').should('exist')
 		cy.get('button#settingGroup').should('exist')
+		cy.get('button#submitChanges').should('exist')
 		cy.get('input#timerLength').should('exist')
 		cy.get('input#breakLength').should('exist')
 		cy.get('input#sessionsLB').should('exist')
