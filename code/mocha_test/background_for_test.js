@@ -1,12 +1,11 @@
 // Keeps running in the background
+const bg = {};
 
 // timer variables to keep track off
 let timeLeft;
 let runningCall;
 let isFocus;
 let isActive;
-const breakAudio = new Audio(chrome.runtime.getURL('audio/break.mp3'));
-const focusAudio = new Audio(chrome.runtime.getURL('audio/focus.mp3'));
 // let currentTask;
 
 // constants
@@ -15,8 +14,11 @@ const DEFAULT_BREAK_TIME = 5;
 const DEFAULT_FOCUS = true;
 const DEFAULT_ACTIVE = false;
 
+
 // listener for run time messages
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(bg.handler);
+
+bg.handler = function(request, sender, sendResponse) {
   // start timer or continue
   if (request.cmd === 'START_TIMER') {
     isActive = true;
@@ -31,23 +33,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // time hits 0, play sound and update state
       if (timeLeft == 0) {
         if (isFocus) {
-          chrome.storage.local.get(['break_audio'], function(result) {
-            if (result.break_audio === undefined) {
-              breakAudio.play();
-              chrome.storage.local.set({'break_audio': 'on'});
-            } else if (result.break_audio === 'on') {
-              breakAudio.play();
-            }
-          });
+          const myAudio = new Audio(chrome.runtime.getURL('audio/break.mp3'));
+          myAudio.play();
         } else {
-          chrome.storage.local.get(['focus_audio'], function(result) {
-            if (result.focus_audio === undefined) {
-              focusAudio.play();
-              chrome.storage.local.set({'focus_audio': 'on'});
-            } else if (result.focus_audio === 'on') {
-              focusAudio.play();
-            }
-          });
+          const myAudio = new Audio(chrome.runtime.getURL('audio/focus.mp3'));
+          myAudio.play();
         }
         if (isFocus) {
           isFocus = false;
@@ -75,7 +65,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     timeLeft = request.timeLeft;
   } else if (request.cmd === 'GET_TIME') {
     // get time
-    sendResponse({timeLeft: timeLeft});
+    return {timeLeft: timeLeft};
   } else if (request.cmd === 'GET_TIMER') {
     // get the timer back including time and state
     if (timeLeft === undefined) {
@@ -83,12 +73,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       isFocus = DEFAULT_FOCUS;
       isActive = DEFAULT_ACTIVE;
     }
-    sendResponse({
+    return {
       timeLeft: timeLeft,
       isActive: isActive,
       isFocus: isFocus,
       // currentTask: currentTask
-    });
+    };
   }
-  return true;
-});
+  return {
+    timeLeft: timeLeft,
+    isActive: isActive,
+    isFocus: isFocus,
+  };
+};
+
+module.exports = bg;
+module.exports.DEFAULT_FOCUS_TIME = DEFAULT_FOCUS_TIME;
+module.exports.DEFAULT_BREAK_TIME = DEFAULT_BREAK_TIME;
+module.exports.DEFAULT_FOCUS = DEFAULT_FOCUS;
+module.exports.DEFAULT_ACTIVE = DEFAULT_ACTIVE;
