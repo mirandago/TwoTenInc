@@ -82,7 +82,7 @@ function newBadge(parent) {
 }
 
 /** load uncompleted task onto html page
-* @param {Array, <tasks>} data gives all tasks
+* @param {Array} data gives all tasks
 */
 function loadCurRow(data) {
   const tbody = document.getElementById(
@@ -108,7 +108,7 @@ function loadCurData() {
 }
 
 /** load a completed task onto html page
-* @param {Array, <tasks>} data gives all tasks
+* @param {Array} data gives all tasks
 */
 function loadCompleteRow(data) {
   const tbody = document.getElementById(
