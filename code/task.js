@@ -8,25 +8,28 @@ data = [
 
 let loaded = false;
 
-/**create new task node
+/** create new task node
+* @param {Object} parent gives parent node
+* @param {string} info is description of task
 */
 function newNode(parent, info) {
-  let td = document.createElement('td');
-  let text = document.createTextNode(info);
+  const td = document.createElement('td');
+  const text = document.createTextNode(info);
   td.appendChild(text);
   parent.appendChild(td);
 }
 
 /** mark as completed
+* @param {string} id is key for storage
 */
 function buttonClicked(id){
-  let words = id.split('-');
-  let trId = words[1] + '-' + words[2];
-  let tr = document.getElementById(trId);
-  let parent = tr.parentElement;
+  const words = id.split('-');
+  const trId = words[1] + '-' + words[2];
+  const tr = document.getElementById(trId);
+  const parent = tr.parentElement;
   parent.removeChild(tr);
   if (words[0] === 'complete') {
-    for(let i = 0; i < data.length; i++){
+    for (let i = 0; i < data.length; i++) {
       if (data[i].name === words[2] && data[i].group === words[1]) {
         console.log('got!!');
         data[i].completed = true;
@@ -37,15 +40,19 @@ function buttonClicked(id){
       }
     }
   }
-    //TODO: Delete or complete data in storage and add them to completed
+  // TODO: Delete or complete data in storage and add them to completed
 }
 
 /** add event listener for task button
+* @param {Object} parent gives parent node
+* @param {string} info is description of task
+* @param {string} id is key for storage
+* @param {boolean} op is true if this is 'completed' button
 */
 function newButton(parent, info, id, op) {
-  let td = document.createElement('td');
-  let button = document.createElement('button');
-  let text = document.createTextNode(info);
+  const td = document.createElement('td');
+  const button = document.createElement('button');
+  const text = document.createTextNode(info);
   button.type = 'button';
   if (op) {
     button.className = 'btn btn-primary';
@@ -62,22 +69,25 @@ function newButton(parent, info, id, op) {
 }
 
 /** badge for completed task
+* @param {Object} parent gives parent node
 */
-function newBadge(parent){
-  let td = document.createElement('td');
-  let badge = document.createElement('span');
+function newBadge(parent) {
+  const td = document.createElement('td');
+  const badge = document.createElement('span');
   badge.className = 'badge badge-success';
-  let text = document.createTextNode('Completed');
+  const text = document.createTextNode('Completed');
   badge.appendChild(text);
   td.appendChild(badge);
   parent.appendChild(td);
 }
 
 /** load uncompleted task onto html page
+* @ param {Array, <tasks>} data gives all tasks
 */
 function loadCurRow(data) {
-  let tbody = document.getElementById('task-table').getElementsByTagName('tbody')[0];
-  let tr = document.createElement('tr');
+  const tbody = document.getElementById(
+    'task-table').getElementsByTagName('tbody')[0];
+  const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'success';
   tbody.appendChild(tr);
@@ -91,17 +101,18 @@ function loadCurRow(data) {
 /** load all uncompleted tasks onto html page
 */
 function loadCurData() {
-  for(let i = 0; i < data.length; i++){
+  for (let i = 0; i < data.length; i++) {
     if (data[i].completed) continue;
     loadCurRow(data[i]);
   }
 }
 
 /** load a completed task onto html page
+* @ param {Array, <tasks>} data gives all tasks
 */
 function loadCompleteRow(data) {
-  let tbody = document.getElementById('task-table').getElementsByTagName('tbody')[0];
-  let tr = document.createElement('tr');
+  const tbody = document.getElementById('task-table').getElementsByTagName('tbody')[0];
+  const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'warning';
   tbody.appendChild(tr);
@@ -115,7 +126,7 @@ function loadCompleteRow(data) {
 /** load all completed tasks onto html page
 */
 function loadCompletedData() {
-  for(let i = 0; i < data.length; i++){
+  for (let i = 0; i < data.length; i++) {
     if (!data[i].completed) continue;
     loadCompleteRow(data[i]);
   }
