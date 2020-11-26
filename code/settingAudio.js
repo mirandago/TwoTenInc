@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (result.focus_audio === 'on' || result.focus_audio === undefined) {
       _selector1.checked = true;
     }
-    console.log('focus_audio is currently is ' + result.focus_audio);
+    // console.log('focus_audio is currently is ' + result.focus_audio);
   });
 
   _selector1.addEventListener('change', function(event) {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (result.break_audio === 'on' || result.break_audio === undefined) {
       _selector2.checked = true;
     }
-    console.log('break_audio is currently is ' + result.break_audio);
+    // console.log('break_audio is currently is ' + result.break_audio);
   });
 
   _selector2.addEventListener('change', function(event) {
