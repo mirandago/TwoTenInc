@@ -22,7 +22,7 @@ function newNode(parent, info) {
 /** mark as completed
 * @param {string} id is key for storage
 */
-function buttonClicked(id){
+function buttonClicked(id) {
   const words = id.split('-');
   const trId = words[1] + '-' + words[2];
   const tr = document.getElementById(trId);
@@ -82,11 +82,11 @@ function newBadge(parent) {
 }
 
 /** load uncompleted task onto html page
-* @ param {Array, <tasks>} data gives all tasks
+* @param {Array, <tasks>} data gives all tasks
 */
 function loadCurRow(data) {
   const tbody = document.getElementById(
-    'task-table').getElementsByTagName('tbody')[0];
+      'task-table').getElementsByTagName('tbody')[0];
   const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'success';
@@ -108,10 +108,11 @@ function loadCurData() {
 }
 
 /** load a completed task onto html page
-* @ param {Array, <tasks>} data gives all tasks
+* @param {Array, <tasks>} data gives all tasks
 */
 function loadCompleteRow(data) {
-  const tbody = document.getElementById('task-table').getElementsByTagName('tbody')[0];
+  const tbody = document.getElementById(
+      'task-table').getElementsByTagName('tbody')[0];
   const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'warning';
