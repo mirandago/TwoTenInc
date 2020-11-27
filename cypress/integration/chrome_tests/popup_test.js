@@ -13,6 +13,6 @@ describe('Popup Test', () => {
 		cy.get('div#play_img').should('exist')
 		cy.get('div#pause_img').should('exist')
         cy.get('div#reset_img').should('exist')
-        cy.get('div#setting_img').should('exist')
+        cy.get('div#expand_img').should('exist')
     })
   })
