@@ -1,4 +1,5 @@
 'use strict';
+import {getSettings, setSettings} from 'settingStorage.js';
 
 /**
  * Go to the timer settings page
@@ -14,78 +15,94 @@ function settingGroup() {
   location.href = 'settingGroup.html';
 }
 
+/**
+ * Get the inputs from input fields and saves them to the chrome local
+ * storage.
+ */
 function submitSetting() {
-  var values = {};
-  // do some checking here
-  var timerL = document.getElementById('timerL').value;
-  console.log('timer value ' + timerL);
+  const values = {};
+  const timerL = document.getElementById('timerL').value;
   values.timerL = timerL;
 
-  var breakL = document.getElementById('breakL').value;
-  console.log('break value ' + breakL);
+  const breakL = document.getElementById('breakL').value;
   values.breakL = breakL;
 
-  var SULB = document.getElementById('SULB').value;
-  console.log('sessions value ' + SULB);
+  const SULB = document.getElementById('SULB').value;
   values.SULB = SULB;
 
-  var longbreakL = document.getElementById('longbreakL').value;
-  console.log('long break value ' + longbreakL);
+  const longbreakL = document.getElementById('longbreakL').value;
   values.longbreakL = longbreakL;
 
+  // input validation
   if (checkInputs(values)) {
-    console.log("passed!");
     setSettings(values);
-    // submit here
-  } 
+  }
 }
 
+/**
+ * Function that does some input validation.
+ * Makes sure each value is a number and is not empty/undefined.
+ * If validation failed, show error message
+ * @param {*} values
+ * @return {Bool} Returns true if inputs are valid, else false
+ */
 function checkInputs(values) {
-  var v = values.timerL
+  let v = values.timerL;
   if (isNaN(v) || v === '' || v === undefined) {
     showError();
     return false;
-  } 
-  v = values.breakL
+  }
+  v = values.breakL;
   if (isNaN(v) || v === '' || v === undefined) {
     showError();
     return false;
-  } 
-  v = values.SULB
+  }
+  v = values.SULB;
   if (isNaN(v) || v === '' || v === undefined) {
     showError();
     return false;
-  } 
-  v = values.longbreakL
+  }
+  v = values.longbreakL;
   if (isNaN(v) || v === '' || v === undefined) {
     showError();
     return false;
-  } 
+  }
   // values pass check
   hideError();
   return true;
 }
 
+/**
+ * function to show the error message for input validation
+ */
 function showError() {
   document.getElementById('errorMessage').style.visibility = 'visible';
 }
 
+/**
+ * function to hide the error message
+ */
 function hideError() {
   document.getElementById('errorMessage').style.visibility = 'hidden';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('settingGroup').onclick = settingGroup;
-  document.getElementById('settingAudio').onclick = settingAudio;
-  document.getElementById('submitChanges').onclick = submitSetting;
-  getSettings(showSettings);
-  //console.log("what is obj" + obj);
-  // display the values 
-});
-
+/**
+ * Callback function for after getSettings finishes so that the UI elements
+ * will show the setting values from the storage
+ * @param {*} values
+ */
 function showSettings(values) {
   document.getElementById('timerL').value = values.timerL;
   document.getElementById('breakL').value = values.breakL;
   document.getElementById('SULB').value = values.SULB;
   document.getElementById('longbreakL').value = values.longbreakL;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('settingGroup').onclick = settingGroup;
+  document.getElementById('settingAudio').onclick = settingAudio;
+  document.getElementById('submitChanges').onclick = submitSetting;
+  // show setting values in UI
+  getSettings(showSettings);
+});
+
