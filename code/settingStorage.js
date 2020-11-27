@@ -15,7 +15,10 @@ const DEFAULT_LONGBREAKL = 15;
  * }
  * @param {*} callBackFunction function that takes in the results to show in UI
  */
-export function getSettings(callBackFunction) {
+/* eslint-disable */
+// Need to disable because getSettings is used in a different file
+function getSettings(callBackFunction) {
+/* eslint-enable */
   chrome.storage.local.get(['timerSetting'], function(result) {
     // settings is undefined, set values to default
     if (result.timerSetting === undefined) {
@@ -41,7 +44,7 @@ export function getSettings(callBackFunction) {
  * value has the following four fields: timerL, breakL, SULB, longbreakL
  * @param {*} values settings values
  */
-export function setSettings(values) {
+function setSettings(values) {
   const newSettings = {
     'timerL': values.timerL,
     'breakL': values.breakL,
