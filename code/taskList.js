@@ -35,7 +35,7 @@ function buttonClicked(id) {
         console.log('got!!');
         data[i].completed = true;
         if (loaded) {
-          loadCompleteRow(data[i],document.getElementById('completed-table'));
+          loadCompleteRow(data[i], document.getElementById('completed-table'));
         }
         break;
       }
@@ -88,7 +88,7 @@ function newBadge(parent) {
 function loadHeader(thead) {
   const tr = document.createElement('tr');
   thead.appendChild(tr);
-  const header = ['Complete','Name','Group','Date','Delete']
+  const header = ['Complete', 'Name', 'Group', 'Date', 'Delete'];
   for (let i = 0; i< header.length; i++) {
     const th = document.createElement('th');
     th.innerHTML = header[i];
@@ -118,7 +118,7 @@ function loadCurData() {
   const thead = document.getElementById(
       'task-table').getElementsByTagName('thead')[0];
   const tbody = document.getElementById(
-      'task-table').getElementsByTagName('tbody')[0];      
+      'task-table').getElementsByTagName('tbody')[0];
   loadHeader(thead);
   for (let i = 0; i < data.length; i++) {
     if (data[i].completed) continue;
@@ -128,8 +128,9 @@ function loadCurData() {
 
 /** load a completed task onto html page
 * @param {Array} data gives all tasks
+* @param {element} tbody gives HTML element for table
 */
-function loadCompleteRow(data, tbody) {  
+function loadCompleteRow(data, tbody) {
   const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'warning';
@@ -158,13 +159,13 @@ function loadCompletedData() {
 /** hide completed tasks
 */
 function hideCompletedData() {
-  document.getElementById('completed-table').style.display = "none";
+  document.getElementById('completed-table').style.display = 'none';
 }
 
 /** reveal completed tasks
 */
 function revealCompletedData() {
-  document.getElementById('completed-table').style.display = "table";  
+  document.getElementById('completed-table').style.display = 'table';
 }
 
 /**
@@ -176,23 +177,23 @@ function mainPage() {
 
 window.onload=function() {
   document.getElementById('back blackIcon').onclick = mainPage;
-  let showHide = document.getElementById('show-completed')
+  const showHide = document.getElementById('show-completed');
   showHide.addEventListener('click', function() {
-        if (!loaded) { // need to show completed
-          showHide.innerHTML = "Hide Completed";
-          loadCompletedData();
-          loaded = true;
-          hidden = false;
-        } else if (hidden) {
-          showHide.innerHTML = "Hide Completed";
-          revealCompletedData();
-          hidden = false;
-        } else { // want to hide completed
-          showHide.innerHTML = "Show Completed";
-          hideCompletedData();
-          hidden = true;
-        }
-      });
+    if (!loaded) { // need to show completed
+      showHide.innerHTML = 'Hide Completed';
+      loadCompletedData();
+      loaded = true;
+      hidden = false;
+    } else if (hidden) {
+      showHide.innerHTML = 'Hide Completed';
+      revealCompletedData();
+      hidden = false;
+    } else { // want to hide completed
+      showHide.innerHTML = 'Show Completed';
+      hideCompletedData();
+      hidden = true;
+    }
+  });
   loadCurData();
 };
 
