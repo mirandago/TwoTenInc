@@ -133,12 +133,14 @@ function loadCompletedData() {
   }
 }
 
-
-document.getElementById('show-completed').addEventListener('click', function() {
-  if (!loaded) {
-    loadCompletedData();
-    loaded = true;
-  }
-});
-loadCurData();
+window.onload=function() {
+  document.getElementById('show-completed').addEventListener(
+      'click', function() {
+        if (!loaded) {
+          loadCompletedData();
+          loaded = true;
+        }
+      });
+  loadCurData();
+};
 
