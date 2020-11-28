@@ -19,10 +19,6 @@ function settingGroup() {
  */
 function mainPage() {
   location.href = 'mainPage.html';
-  chrome.windows.getLastFocused(
-      function(currentWindow) {
-        chrome.windows.update(currentWindow.id, {height: 775, width: 800});
-      });
 }
 
 /**
