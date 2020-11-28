@@ -141,6 +141,6 @@ window.onload=function() {
           loaded = true;
         }
       });
-      loadCurData();
+  loadCurData();
 };
 
