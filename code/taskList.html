@@ -5,21 +5,26 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" href="css/taskList.css">
 	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<button id="back blackIcon" class="roundButton"><i class="fas fa-arrow-circle-left"></i></button>
+<br></br>
+<h1 class="title">Task List</h1>
+<br></br>
 <table class="table" id='task-table'>
 	<thead>
-		<tr>
-            <th>Complete</th>
+		<!-- <tr>
+      <th>Complete</th>
 			<th>Name</th>
 			<th>Group</th>
-            <th>Date</th>
-            <th>Delete</th>
-		</tr>
+      <th>Date</th>
+      <th>Delete</th>
+		</tr> -->
 	</thead>
 	<tbody>
 		<!-- <tr class="success">
@@ -28,8 +33,22 @@
 			<td>cse210</td>
             <td>2020-11-01</td>
             <td><input type="button" id="delete" value="delete"></td>
-		</tr>
-		<tr  class="warning">
+		</tr> -->
+	</tbody>
+</table>
+<div class="showHide"><button id="show-completed">Show Completed</button></div>
+<table class="table" id='completed-table'>
+	<thead>
+		<!-- <tr>
+      <th>Complete</th>
+			<th>Name</th>
+			<th>Group</th>
+      <th>Date</th>
+      <th>Delete</th>
+		</tr> -->
+	</thead>
+	<tbody>
+    <!-- <tr  class="warning">
             <td><input type="button" id="complete" value="complete"></td>
 			<td>task1</td>
 			<td>cse210</td>
@@ -38,8 +57,5 @@
 		</tr> -->
 	</tbody>
 </table>
-
-<td><input type="button" id="show-completed" value="Show Completed"></td>
-
 </body>
 </html>
