@@ -18,4 +18,16 @@ describe('Main Page Test', () => {
       cy.get('div#input_task').should('exist')
       cy.get('div#session_id').should('exist')
     })
+
+    it ('visit settings', () => {
+      cy.visit('/code/mainPage.html')
+      cy.get('div#setting_img').click()
+      cy.location('pathname').should('include', 'setting')
+    })
+
+    it ('visit full task list', () => {
+      cy.visit('/code/mainPage.html')
+      cy.get('button#viewTasksBtn').click()
+      cy.location('pathname').should('include', 'taskList')
+    })
   })
