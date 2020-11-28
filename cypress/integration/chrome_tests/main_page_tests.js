@@ -16,6 +16,6 @@ describe('Main Page Test', () => {
       cy.get('div#reset_img').should('exist')
       cy.get('div#setting_img').should('exist')
       cy.get('div#input_task').should('exist')
-      cy.get('div#session_select').should('exist')
+      cy.get('div#session_id').should('exist')
     })
   })
