@@ -80,8 +80,8 @@ document.getElementById('reset_img').addEventListener('click', function() {
 
 document.getElementById('expand_img').addEventListener('click', function() {
   window.self.close();
-  chrome.windows.create({url: 'mainPage.html', type: 'popup', height: 900,
-    width: 1000});
+  chrome.windows.create({url: 'mainPage.html', type: 'popup', height: 775,
+    width: 800});
 });
 
 
