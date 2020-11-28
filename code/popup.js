@@ -81,7 +81,7 @@ document.getElementById('reset_img').addEventListener('click', function() {
 document.getElementById('expand_img').addEventListener('click', function() {
   window.self.close();
   chrome.windows.create({url: 'mainPage.html', type: 'popup', height: 500,
-    width: 500});
+    width: 600});
 });
 
 

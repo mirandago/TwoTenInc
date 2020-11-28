@@ -15,6 +15,13 @@ function settingGroup() {
 }
 
 /**
+ * Go back to the main page
+ */
+function mainPage() {
+  location.href = 'mainPage.html';
+}
+
+/**
  * Get the inputs from input fields and saves them to the chrome local
  * storage.
  */
@@ -100,6 +107,7 @@ function showSettings(values) {
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('settingGroup').onclick = settingGroup;
   document.getElementById('settingAudio').onclick = settingAudio;
+  document.getElementById('mainPage').onclick = mainPage;
   document.getElementById('submitChanges').onclick = submitSetting;
   // show setting values in UI
   getSettings(showSettings);
