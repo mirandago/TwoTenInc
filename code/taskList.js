@@ -136,11 +136,11 @@ function loadCompletedData() {
 window.onload=function() {
   document.getElementById('show-completed').addEventListener(
       'click', function() {
-    if (!loaded) {
-      loadCompletedData();
-      loaded = true;
-    }
-  });
-  loadCurData();
+        if (!loaded) {
+          loadCompletedData();
+          loaded = true;
+        }
+      });
+      loadCurData();
 };
 
