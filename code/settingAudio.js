@@ -14,11 +14,23 @@ function settingGroup() {
   location.href = 'settingGroup.html';
 }
 
+/**
+ * Go back to the main page
+ */
+function mainPage() {
+  location.href = 'mainPage.html';
+  chrome.windows.getLastFocused(
+    function(currentWindow) {
+        chrome.windows.update(currentWindow.id, { height: 775, width: 800 });
+  });
+}
+
 // add click event listener to bell icon
 // add change event listener to checkboxes and set notification 'status'
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('settingTimer').onclick = settingTimer;
   document.getElementById('settingGroup').onclick = settingGroup;
+  document.getElementById('mainPage').onclick = mainPage;
 
   const _selector1 = document.querySelector('input[type=checkbox]#timer');
 

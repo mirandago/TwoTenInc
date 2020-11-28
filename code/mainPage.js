@@ -10,6 +10,11 @@ function viewTaskList() {
  */
 function viewSettings() {
   location.href = 'settingTimer.html';
+  chrome.windows.getLastFocused(
+    function(currentWindow) {
+        chrome.windows.update(currentWindow.id, { height: 500, width: 500 });
+    }
+);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
