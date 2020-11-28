@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+<script language='javascript' src='settingStorage.js'></script>
 <script language='javascript' src='settingTimer.js'></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 <link rel="stylesheet" href="css/settings.css">
@@ -31,7 +32,7 @@
       Timer Length
     </div>
     <div class ="settingColumn2">
-      <input type="text" id="timerLength" class="textInput" maxlength="4" size="4"></input>
+      <input type="text" id="timerL" class="textInput" maxlength="4" size="4"></input>
     </div>
     <div class ="settingColumn3">
       minutes
@@ -43,7 +44,7 @@
       Break Length
     </div>
     <div class ="settingColumn2">
-      <input type="text" id="breakLength" class="textInput" maxlength="4" size="4"></input>
+      <input type="text" id="breakL" class="textInput" maxlength="4" size="4"></input>
     </div>
     <div class ="settingColumn3">
       minutes
@@ -55,7 +56,7 @@
       Sessions until Long Break
     </div>
     <div class ="settingColumn2">
-      <input type="text" id="sessionsLB" class="textInput" maxlength="4" size="4"></input>
+      <input type="text" id="SULB" class="textInput" maxlength="4" size="4"></input>
     </div>
     <div class ="settingColumn3">
       sessions
@@ -67,7 +68,7 @@
       Long Break Length
     </div>
     <div class ="settingColumn2">
-      <input type="text" id="LBreakLength" class="textInput" maxlength="4" size="4"></input>
+      <input type="text" id="longbreakL" class="textInput" maxlength="4" size="4"></input>
     </div>
     <div class ="settingColumn3">
       minutes
@@ -78,6 +79,10 @@
     <button class="btnSubmit" id="submitChanges">Change Settings</button>
   </div>
 
+  </br>
+  <div class="errorMessageContainer" id="errorMessage">
+    <p class="errorMessage">Please enter numbers for the inputs</p>
+  </div>
 
 </body>
 

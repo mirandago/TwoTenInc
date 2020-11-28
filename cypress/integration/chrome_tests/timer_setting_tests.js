@@ -12,10 +12,10 @@ describe('Timer Settings Page test', () => {
 		cy.get('button#settingTimer').should('exist')
 		cy.get('button#settingGroup').should('exist')
 		cy.get('button#submitChanges').should('exist')
-		cy.get('input#timerLength').should('exist')
-		cy.get('input#breakLength').should('exist')
-		cy.get('input#sessionsLB').should('exist')
-		cy.get('input#LBreakLength').should('exist')
+		cy.get('input#timerL').should('exist')
+		cy.get('input#breakL').should('exist')
+		cy.get('input#SULB').should('exist')
+		cy.get('input#longbreakL').should('exist')
 	})
 
 	it ('current page highlighted', () => {
@@ -41,16 +41,16 @@ describe('Timer Settings Page test', () => {
 
 	it ('update value in input', () => {
 		cy.visit('/code/settingTimer.html')
-		cy.get('input#timerLength').type('abc12')
-		cy.get('input#timerLength').should('have.value', 'abc1')
+		cy.get('input#timerL').type('abc12')
+		cy.get('input#timerL').should('have.value', 'abc1')
 
-		cy.get('input#breakLength').type('abc12')
-		cy.get('input#breakLength').should('have.value', 'abc1')
+		cy.get('input#breakL').type('abc12')
+		cy.get('input#breakL').should('have.value', 'abc1')
 
-		cy.get('input#sessionsLB').type('abc12')
-		cy.get('input#sessionsLB').should('have.value', 'abc1')
+		cy.get('input#SULB').type('abc12')
+		cy.get('input#SULB').should('have.value', 'abc1')
 
-		cy.get('input#LBreakLength').type('abc12')
-		cy.get('input#LBreakLength').should('have.value', 'abc1')
+		cy.get('input#longbreakL').type('abc12')
+		cy.get('input#longbreakL').should('have.value', 'abc1')
 	})
   })
