@@ -7,6 +7,7 @@ data = [
 ];
 
 let loaded = false;
+let hidden = true;
 
 /** create new task node
 * @param {Object} parent gives parent node
@@ -34,7 +35,7 @@ function buttonClicked(id) {
         console.log('got!!');
         data[i].completed = true;
         if (loaded) {
-          loadCompleteRow(data[i]);
+          loadCompleteRow(data[i], document.getElementById('completed-table'));
         }
         break;
       }
@@ -81,12 +82,25 @@ function newBadge(parent) {
   parent.appendChild(td);
 }
 
+/** load a completed task onto html page
+* @param {element} thead gives HTML element for header
+*/
+function loadHeader(thead) {
+  const tr = document.createElement('tr');
+  thead.appendChild(tr);
+  const header = ['Complete', 'Name', 'Group', 'Date', 'Delete'];
+  for (let i = 0; i< header.length; i++) {
+    const th = document.createElement('th');
+    th.innerHTML = header[i];
+    tr.appendChild(th);
+  }
+}
+
 /** load uncompleted task onto html page
 * @param {Array} data gives all tasks
+* @param {element} tbody gives HTML element for table
 */
-function loadCurRow(data) {
-  const tbody = document.getElementById(
-      'task-table').getElementsByTagName('tbody')[0];
+function loadCurRow(data, tbody) {
   const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'success';
@@ -101,18 +115,22 @@ function loadCurRow(data) {
 /** load all uncompleted tasks onto html page
 */
 function loadCurData() {
+  const thead = document.getElementById(
+      'task-table').getElementsByTagName('thead')[0];
+  const tbody = document.getElementById(
+      'task-table').getElementsByTagName('tbody')[0];
+  loadHeader(thead);
   for (let i = 0; i < data.length; i++) {
     if (data[i].completed) continue;
-    loadCurRow(data[i]);
+    loadCurRow(data[i], tbody);
   }
 }
 
 /** load a completed task onto html page
 * @param {Array} data gives all tasks
+* @param {element} tbody gives HTML element for table
 */
-function loadCompleteRow(data) {
-  const tbody = document.getElementById(
-      'task-table').getElementsByTagName('tbody')[0];
+function loadCompleteRow(data, tbody) {
   const tr = document.createElement('tr');
   tr.id = data.group + '-' + data.name;
   tr.className = 'warning';
@@ -127,20 +145,55 @@ function loadCompleteRow(data) {
 /** load all completed tasks onto html page
 */
 function loadCompletedData() {
+  const thead = document.getElementById(
+      'completed-table').getElementsByTagName('thead')[0];
+  const tbody = document.getElementById(
+      'completed-table').getElementsByTagName('tbody')[0];
+  loadHeader(thead);
   for (let i = 0; i < data.length; i++) {
     if (!data[i].completed) continue;
-    loadCompleteRow(data[i]);
+    loadCompleteRow(data[i], tbody);
   }
 }
 
+/** hide completed tasks
+*/
+function hideCompletedData() {
+  document.getElementById('completed-table').style.display = 'none';
+}
+
+/** reveal completed tasks
+*/
+function revealCompletedData() {
+  document.getElementById('completed-table').style.display = 'table';
+}
+
+/**
+ * Go to the main app interface page
+ */
+function mainPage() {
+  location.href = 'mainPage.html';
+}
+
 window.onload=function() {
-  document.getElementById('show-completed').addEventListener(
-      'click', function() {
-        if (!loaded) {
-          loadCompletedData();
-          loaded = true;
-        }
-      });
+  document.getElementById('back blackIcon').onclick = mainPage;
+  const showHide = document.getElementById('show-completed');
+  showHide.addEventListener('click', function() {
+    if (!loaded) { // need to show completed
+      showHide.innerHTML = 'Hide Completed';
+      loadCompletedData();
+      loaded = true;
+      hidden = false;
+    } else if (hidden) {
+      showHide.innerHTML = 'Hide Completed';
+      revealCompletedData();
+      hidden = false;
+    } else { // want to hide completed
+      showHide.innerHTML = 'Show Completed';
+      hideCompletedData();
+      hidden = true;
+    }
+  });
   loadCurData();
 };
 
