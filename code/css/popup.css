@@ -11,6 +11,7 @@ body {
     background: blue;
     width: 50%;
     height: relative;
+    font-size: 16px;
 }
 
 #timerContainer {
