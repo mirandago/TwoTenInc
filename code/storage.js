@@ -3,10 +3,10 @@
 * @return {Boolean} Whether the group exists
 */
 export async function addGroup(group) {
-  let existed = await new Promise(function(resolve, reject){
+  const existed = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
-      if(typeof(result[group]) == 'undefined') {
-        let tasks = [];
+      if (typeof(result[group]) == 'undefined') {
+        const tasks = [];
         chrome.storage.sync.set({[group]: tasks}, function() {
           resolve(true);
           console.log('Group ' + group + ' added');
@@ -25,7 +25,7 @@ export async function addGroup(group) {
 * @return {Array} A list of all groups
 */
 export async function getGroups() {
-  let groups = await new Promise(function(resolve, reject){
+  const groups = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get(null, function(result) {
       resolve(Object.keys(result));
     });
@@ -41,28 +41,34 @@ export async function getGroups() {
 * @return {Boolean} Whether the task exists
 */
 export async function addTask(name, session, group) {
-  let d = new Date();
-  let date = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
-  let task = {name: name, group: group, session: session, date: date, completed: false};
+  const d = new Date();
+  const date = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+  const task = {
+    name: name,
+    group: group,
+    session: session,
+    date: date,
+    completed: false,
+  };
 
-  let existed = await new Promise(function(resolve, reject){
+  const existed = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
-      let tasks = result[group];
+      const tasks = result[group];
       let e = false;
-      for(let i = 0; i < tasks.length; i++){
-        if(tasks[i].name == name){
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].name == name) {
           e = true;
           break;
         }
       }
-      if(!e) {
+      if (!e) {
         tasks.push(task);
         chrome.storage.sync.set({[group]: tasks}, function() {
-          console.log("Task added");
+          console.log('Task added');
         });
         resolve(false);
       } else {
-        console.log("Task exists");
+        console.log('Task exists');
         resolve(true);
       }
     });
@@ -75,10 +81,10 @@ export async function addTask(name, session, group) {
 * @return {Array} A list of all tasks
 */
 export async function getAllTasks() {
-  let groups = await getGroups();
-  let allTasks = [];
-  for(let i = 0; i < groups.length; i++) {
-    let tasks = await getTasksByGroup(groups[i]);
+  const groups = await getGroups();
+  const allTasks = [];
+  for (let i = 0; i < groups.length; i++) {
+    const tasks = await getTasksByGroup(groups[i]);
     allTasks.push.apply(allTasks, tasks);
   }
   console.log(allTasks);
@@ -90,7 +96,7 @@ export async function getAllTasks() {
 * @return {Array} A list of tasks in the group
 */
 async function getTasksByGroup(group) {
-  let tasks = await new Promise(function(resolve, reject){
+  const tasks = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
       resolve(result[group]);
     });
@@ -104,14 +110,14 @@ async function getTasksByGroup(group) {
 */
 export function deleteTask(name, group) {
   chrome.storage.sync.get([group], function(result) {
-    let tasks = result[group];
-    for(let i = 0; i < tasks.length; i++) {
-      if(tasks[i].name == name) {
+    const tasks = result[group];
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == name) {
         tasks.splice(i, 1);
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log("Task deleted");
+      console.log('Task deleted');
     });
   });
 }
@@ -122,14 +128,14 @@ export function deleteTask(name, group) {
 */
 export function completeTask(name, group) {
   chrome.storage.sync.get([group], function(result) {
-    let tasks = result[group];
-    for(let i = 0; i < tasks.length; i++) {
-      if(tasks[i].name == name) {
+    const tasks = result[group];
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == name) {
         tasks[i].completed = true;
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log("Task Completed");
+      console.log('Task Completed');
     });
   });
 }
@@ -140,14 +146,14 @@ export function completeTask(name, group) {
 */
 export function completeSession(name, group) {
   chrome.storage.sync.get([group], function(result) {
-    let tasks = result[group];
-    for(let i = 0; i < tasks.length; i++) {
-      if(tasks[i].name == name) {
+    const tasks = result[group];
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == name) {
         tasks[i].session--;
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log("Session completed");
+      console.log('Session completed');
     });
   });
 }
