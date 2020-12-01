@@ -38,11 +38,11 @@ class TimerDisplay {
     if (timer.isFocus) {
       document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
       document.getElementById(this.stateContainerId).style.backgroundColor =
-        'blue';
+        'powderblue';
     } else {
       document.getElementById(this.stateTextId).innerText = DEFAULT_BREAK_TEXT;
       document.getElementById(this.stateContainerId).style.backgroundColor =
-        'green';
+        'lightGreen';
     }
   }
 }
@@ -51,12 +51,12 @@ class TimerDisplay {
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
     'timer_state', 'rcorners');
 
-// Every 200 millisecond the timer UI will update
+// Every 500 millisecond the timer UI will update
 getTimer = setInterval(() => {
   chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
     timerDisplay.updateTimerDisplay(response);
   });
-}, 200);
+}, 500);
 
 // Load the state of the timer as soon as the Dom loads
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -81,7 +81,7 @@ document.getElementById('reset_img').addEventListener('click', function() {
 document.getElementById('expand_img').addEventListener('click', function() {
   window.self.close();
   chrome.windows.create({url: 'mainPage.html', type: 'popup', height: 500,
-    width: 500});
+    width: 600});
 });
 
 

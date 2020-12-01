@@ -11,6 +11,7 @@ describe('Audio Settings Page test', () => {
 		cy.get('button#settingAudio').should('exist')
 		cy.get('button#settingTimer').should('exist')
 		cy.get('button#settingGroup').should('exist')
+		cy.get('button#mainPage').should('exist')
 		cy.get('input#timer').should('exist')
 		cy.get('input#break').should('exist')
 	})
@@ -34,6 +35,10 @@ describe('Audio Settings Page test', () => {
 		cy.visit('/code/settingAudio.html')
 		cy.get('button#settingAudio').click()
 		cy.location('pathname').should('include', 'settingAudio')
+
+		cy.visit('/code/settingAudio.html')
+		cy.get('button#mainPage').click()
+		cy.location('pathname').should('include', 'mainPage')
 	})
 
 	it ('click to change settings', () => {

@@ -151,3 +151,18 @@
     line-height: 20px;
     text-shadow: 1px 1px rgba(250,250,250,.3);
 }
+
+.mainPageButtonContainer {
+    position: absolute;
+    top: 8px;
+    right: 8px;    
+}
+
+.mainPageButton {
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #A9A9A9; /* Gray */
+    padding: 8px;
+}
