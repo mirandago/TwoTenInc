@@ -12,6 +12,7 @@ describe('Timer Settings Page test', () => {
 		cy.get('button#settingTimer').should('exist')
 		cy.get('button#settingGroup').should('exist')
 		cy.get('button#submitChanges').should('exist')
+		cy.get('button#mainPage').should('exist')
 		cy.get('input#timerL').should('exist')
 		cy.get('input#breakL').should('exist')
 		cy.get('input#SULB').should('exist')
@@ -37,6 +38,10 @@ describe('Timer Settings Page test', () => {
 		cy.visit('/code/settingTimer.html')
 		cy.get('button#settingAudio').click()
 		cy.location('pathname').should('include', 'settingAudio')
+
+		cy.visit('/code/settingAudio.html')
+		cy.get('button#mainPage').click()
+		cy.location('pathname').should('include', 'mainPage')
 	})
 
 	it ('update value in input', () => {
@@ -52,5 +57,73 @@ describe('Timer Settings Page test', () => {
 
 		cy.get('input#longbreakL').type('abc12')
 		cy.get('input#longbreakL').should('have.value', 'abc1')
+	})
+
+	it ('input validation', () =>  {
+		// start does not show error
+		cy.visit('/code/settingTimer.html')
+		cy.get('div#errorMessage').should('have.css', "visibility", "hidden")
+
+		// empty inputs
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
+
+		// all numbers in input
+		cy.get('input#timerL').type('1')
+		cy.get('input#breakL').type('1')
+		cy.get('input#SULB').type('1')
+		cy.get('input#longbreakL').type('1')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "hidden")
+
+		// input 0
+		cy.visit('/code/settingTimer.html')
+		cy.get('input#timerL').type('0');
+		cy.get('input#breakL').type('1')
+		cy.get('input#SULB').type('1')
+		cy.get('input#longbreakL').type('1')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
+
+		// input negative number
+		cy.visit('/code/settingTimer.html')
+		cy.get('input#timerL').type('-10');
+		cy.get('input#breakL').type('1')
+		cy.get('input#SULB').type('1')
+		cy.get('input#longbreakL').type('1')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
+
+		// input characters
+		cy.visit('/code/settingTimer.html')
+		cy.get('input#timerL').type('text');
+		cy.get('input#breakL').type('1')
+		cy.get('input#SULB').type('1')
+		cy.get('input#longbreakL').type('1')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
+
+		// check other input boxes
+		cy.visit('/code/settingTimer.html')
+		cy.get('input#timerL').type('1');
+		cy.get('input#breakL').type('text')
+		cy.get('input#SULB').type('1')
+		cy.get('input#longbreakL').type('1')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
+		cy.visit('/code/settingTimer.html')
+		cy.get('input#timerL').type('1');
+		cy.get('input#breakL').type('1')
+		cy.get('input#SULB').type('text')
+		cy.get('input#longbreakL').type('1')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
+		cy.visit('/code/settingTimer.html')
+		cy.get('input#timerL').type('1');
+		cy.get('input#breakL').type('1')
+		cy.get('input#SULB').type('1')
+		cy.get('input#longbreakL').type('text')
+		cy.get('button#submitChanges').click()
+		cy.get('div#errorMessage').should('have.css', "visibility", "visible")
 	})
   })

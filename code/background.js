@@ -1,7 +1,7 @@
 // Keeps running in the background
 
 // import the setting storage to use the get settings function
-var imported = document.createElement('script');
+const imported = document.createElement('script');
 imported.src = './settingStorage.js';
 document.head.appendChild(imported);
 
@@ -29,8 +29,6 @@ const focusAudio = new Audio(chrome.runtime.getURL('audio/focus.mp3'));
 // let currentTask;
 
 // constants
-const DEFAULT_FOCUS_TIME = 10;
-const DEFAULT_BREAK_TIME = 5;
 const DEFAULT_FOCUS = true;
 const DEFAULT_ACTIVE = false;
 
@@ -119,7 +117,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
   } else if (request.cmd === 'SET_SETTINGS') {
     sessionNum = 0;
-    console.log("what is timeL " + request.settings.timerL);
+    console.log('what is timeL ' + request.settings.timerL);
     timerL = request.settings.timerL;
     breakL = request.settings.breakL;
     sulb = request.settings.SULB;
@@ -130,7 +128,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 /**
  * Fresh start, does this as soon as storage returns
- * @param {Object} value 
+ * @param {Object} value
  */
 function setupStorageSettings(value) {
   timerL = value.timerL;

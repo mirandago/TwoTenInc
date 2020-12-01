@@ -54,5 +54,8 @@ function setSettings(values) {
   // store in local storage
   chrome.storage.local.set({'timerSetting': newSettings, function() {}});
   // tell background timer new settings
-  chrome.runtime.sendMessage({cmd: 'SET_SETTINGS', settings: values}, (response) => {});
+  chrome.runtime.sendMessage(
+      {cmd: 'SET_SETTINGS', settings: values},
+      (response) => {},
+  );
 }

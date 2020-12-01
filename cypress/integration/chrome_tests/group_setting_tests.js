@@ -11,6 +11,7 @@ describe('Group Settings Page test', () => {
 		cy.get('button#settingAudio').should('exist')
 		cy.get('button#settingTimer').should('exist')
 		cy.get('button#settingGroup').should('exist')
+		cy.get('button#mainPage').should('exist')
 		cy.get('button#clearAll').should('exist')
 	})
 
@@ -33,5 +34,9 @@ describe('Group Settings Page test', () => {
 		cy.visit('/code/settingGroup.html')
 		cy.get('button#settingAudio').click()
 		cy.location('pathname').should('include', 'settingAudio')
+
+		cy.visit('/code/settingAudio.html')
+		cy.get('button#mainPage').click()
+		cy.location('pathname').should('include', 'mainPage')
 	})
   })
