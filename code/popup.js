@@ -51,12 +51,12 @@ class TimerDisplay {
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
     'timer_state', 'rcorners');
 
-// Every 200 millisecond the timer UI will update
+// Every 500 millisecond the timer UI will update
 getTimer = setInterval(() => {
   chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
     timerDisplay.updateTimerDisplay(response);
   });
-}, 200);
+}, 500);
 
 // Load the state of the timer as soon as the Dom loads
 window.addEventListener('DOMContentLoaded', (event) => {
