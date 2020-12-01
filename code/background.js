@@ -52,8 +52,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (result.break_audio === undefined) {
               breakAudio.play();
               chrome.storage.local.set({'break_audio': 'on'});
+              chrome.notifications.create('focus_end', {
+                title: 'Your focus session is over',
+                message: 'Time to take a break!',
+                iconUrl: chrome.extension.getURL("img/logo.jpg"),
+                type: 'basic'
+              });
+              chrome.notifications.clear('break_end');
             } else if (result.break_audio === 'on') {
               breakAudio.play();
+              chrome.notifications.create('focus_end', {
+                title: 'Your focus session is over',
+                message: 'Time to take a break!',
+                iconUrl: chrome.extension.getURL("img/logo.jpg"),
+                type: 'basic'
+              });
+              chrome.notifications.clear('break_end');
             }
           });
         } else {
@@ -61,8 +75,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (result.focus_audio === undefined) {
               focusAudio.play();
               chrome.storage.local.set({'focus_audio': 'on'});
+              chrome.notifications.create('break_end', {
+                title: 'Your break is over',
+                message: 'Time to get back to work!',
+                iconUrl: chrome.extension.getURL("img/logo.jpg"),
+                type: 'basic'
+              });
+              chrome.notifications.clear('focus_end');
             } else if (result.focus_audio === 'on') {
               focusAudio.play();
+              chrome.notifications.create('break_end', {
+                title: 'Your break is over',
+                message: 'Time to get back to work!',
+                iconUrl: chrome.extension.getURL("img/logo.jpg"),
+                type: 'basic'
+              });
+              chrome.notifications.clear('focus_end');
             }
           });
         }
