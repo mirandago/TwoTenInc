@@ -85,7 +85,7 @@ export async function getAllTasks() {
   const allTasks = [];
   for (let i = 0; i < groups.length; i++) {
     const tasks = await getTasksByGroup(groups[i]);
-    allTasks.push.apply(allTasks, tasks);
+    allTasks.push(...tasks);
   }
   console.log(allTasks);
   return allTasks;
