@@ -55,8 +55,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               chrome.notifications.create('focus_end', {
                 title: 'Your focus session is over',
                 message: 'Time to take a break!',
-                iconUrl: chrome.extension.getURL("img/logo.jpg"),
-                type: 'basic'
+                iconUrl: chrome.extension.getURL('img/logo.jpg'),
+                type: 'basic',
               });
               chrome.notifications.clear('break_end');
             } else if (result.break_audio === 'on') {
@@ -64,8 +64,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               chrome.notifications.create('focus_end', {
                 title: 'Your focus session is over',
                 message: 'Time to take a break!',
-                iconUrl: chrome.extension.getURL("img/logo.jpg"),
-                type: 'basic'
+                iconUrl: chrome.extension.getURL('img/logo.jpg'),
+                type: 'basic',
               });
               chrome.notifications.clear('break_end');
             }
@@ -78,8 +78,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               chrome.notifications.create('break_end', {
                 title: 'Your break is over',
                 message: 'Time to get back to work!',
-                iconUrl: chrome.extension.getURL("img/logo.jpg"),
-                type: 'basic'
+                iconUrl: chrome.extension.getURL('img/logo.jpg'),
+                type: 'basic',
               });
               chrome.notifications.clear('focus_end');
             } else if (result.focus_audio === 'on') {
@@ -87,8 +87,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               chrome.notifications.create('break_end', {
                 title: 'Your break is over',
                 message: 'Time to get back to work!',
-                iconUrl: chrome.extension.getURL("img/logo.jpg"),
-                type: 'basic'
+                iconUrl: chrome.extension.getURL('img/logo.jpg'),
+                type: 'basic',
               });
               chrome.notifications.clear('focus_end');
             }
