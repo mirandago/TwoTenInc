@@ -1,8 +1,27 @@
 // Keeps running in the background
 
+// import the setting storage to use the get settings function
+var imported = document.createElement('script');
+imported.src = './settingStorage.js';
+document.head.appendChild(imported);
+
 // timer variables to keep track off
+
+// time left in seconds
 let timeLeft;
+// sessions counter
+let sessionNum = 0;
+// timeout function that is called every second
 let runningCall;
+// number of sessions until long break;
+let sulb;
+// length of focus timer
+let timerL;
+// length of break
+let breakL;
+// length of long break
+let longbreakL;
+
 let isFocus;
 let isActive;
 const breakAudio = new Audio(chrome.runtime.getURL('audio/break.mp3'));
@@ -21,7 +40,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.cmd === 'START_TIMER') {
     isActive = true;
     if (timeLeft === undefined) {
-      timeLeft = DEFAULT_FOCUS_TIME;
+      timeLeft = timerL;
       isFocus = DEFAULT_FOCUS;
     }
 
@@ -50,11 +69,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           });
         }
         if (isFocus) {
+          sessionNum++;
+          if (sessionNum % sulb === 0) {
+            timeLeft = longbreakL;
+          } else {
+            timeLeft = breakL;
+          }
           isFocus = false;
-          timeLeft = DEFAULT_BREAK_TIME;
         } else {
+          timeLeft = timerL;
           isFocus = true;
-          timeLeft = DEFAULT_FOCUS_TIME;
         }
       } else {
         timeLeft--;
@@ -66,7 +90,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     clearInterval(runningCall);
   } else if (request.cmd === 'RESET_TIMER') {
     // reset timer and the states
-    timeLeft = DEFAULT_FOCUS_TIME;
+    sessionNum = 0;
+    timeLeft = timerL;
     isFocus = DEFAULT_FOCUS;
     isActive = DEFAULT_ACTIVE;
     clearInterval(runningCall);
@@ -78,8 +103,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse({timeLeft: timeLeft});
   } else if (request.cmd === 'GET_TIMER') {
     // get the timer back including time and state
+    // if it is undefined, call the storage and get back stuff
     if (timeLeft === undefined) {
-      timeLeft = DEFAULT_FOCUS_TIME;
+      // may be a bit delayed until we get the settings back
+      getSettings(setupStorageSettings);
+      timeLeft = 0;
       isFocus = DEFAULT_FOCUS;
       isActive = DEFAULT_ACTIVE;
     }
@@ -89,6 +117,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       isFocus: isFocus,
       // currentTask: currentTask
     });
+  } else if (request.cmd === 'SET_SETTINGS') {
+    sessionNum = 0;
+    console.log("what is timeL " + request.settings.timerL);
+    timerL = request.settings.timerL;
+    breakL = request.settings.breakL;
+    sulb = request.settings.SULB;
+    longbreakL = request.settings.longbreakL;
   }
   return true;
 });
+
+/**
+ * Fresh start, does this as soon as storage returns
+ * @param {Object} value 
+ */
+function setupStorageSettings(value) {
+  timerL = value.timerL;
+  breakL = value.breakL;
+  sulb = value.SULB;
+  longbreakL = value.longbreakL;
+  timeLeft = value.timerL;
+}

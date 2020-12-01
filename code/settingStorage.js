@@ -51,9 +51,8 @@ function setSettings(values) {
     'SULB': values.SULB,
     'longbreakL': values.longbreakL,
   };
-  chrome.storage.local.set({'timerSetting': newSettings, function() {
-    // should have a way to contact the background storage
-    // to update new settings
-    console.log('new settings!');
-  }});
+  // store in local storage
+  chrome.storage.local.set({'timerSetting': newSettings, function() {}});
+  // tell background timer new settings
+  chrome.runtime.sendMessage({cmd: 'SET_SETTINGS', settings: values}, (response) => {});
 }

@@ -54,22 +54,22 @@ function submitSetting() {
  */
 function checkInputs(values) {
   let v = values.timerL;
-  if (isNaN(v) || v === '' || v === undefined) {
+  if (isNaN(v) || v <= 0 || v === '' || v === undefined) {
     showError();
     return false;
   }
   v = values.breakL;
-  if (isNaN(v) || v === '' || v === undefined) {
+  if (isNaN(v) || v <= 0 || v === '' || v === undefined) {
     showError();
     return false;
   }
   v = values.SULB;
-  if (isNaN(v) || v === '' || v === undefined) {
+  if (isNaN(v) || v <= 0 || v === '' || v === undefined) {
     showError();
     return false;
   }
   v = values.longbreakL;
-  if (isNaN(v) || v === '' || v === undefined) {
+  if (isNaN(v) || v <= 0 || v === '' || v === undefined) {
     showError();
     return false;
   }
