@@ -2,17 +2,17 @@
 * @param {String} group The color of the group
 * @return {Boolean} Whether the group exists
 */
-export async function addGroup(group) {
+async function addGroup(group) {
   const existed = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
       if (typeof(result[group]) == 'undefined') {
         const tasks = [];
         chrome.storage.sync.set({[group]: tasks}, function() {
-          resolve(true);
+          resolve(false);
           console.log('Group ' + group + ' added');
         });
       } else {
-        resolve(false);
+        resolve(true);
         console.log('Group ' + group + ' exists');
       }
     });
@@ -24,7 +24,7 @@ export async function addGroup(group) {
 /** Get all groups
 * @return {Array} A list of all groups
 */
-export async function getGroups() {
+async function getGroups() {
   const groups = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get(null, function(result) {
       resolve(Object.keys(result));
@@ -40,7 +40,7 @@ export async function getGroups() {
 * @param {String} group The group the task will be assigned to
 * @return {Boolean} Whether the task exists
 */
-export async function addTask(name, session, group) {
+async function addTask(name, session, group) {
   const d = new Date();
   const date = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
   const task = {
@@ -80,7 +80,7 @@ export async function addTask(name, session, group) {
 /** Get all tasks
 * @return {Array} A list of all tasks
 */
-export async function getAllTasks() {
+async function getAllTasks() {
   const groups = await getGroups();
   const allTasks = [];
   for (let i = 0; i < groups.length; i++) {
@@ -108,7 +108,7 @@ async function getTasksByGroup(group) {
 * @param {String} name The name of the task
 * @param {String} group The name of the group
 */
-export function deleteTask(name, group) {
+function deleteTask(name, group) {
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
@@ -126,7 +126,7 @@ export function deleteTask(name, group) {
 * @param {String} name The name of the task
 * @param {String} group The name of the group
 */
-export function completeTask(name, group) {
+function completeTask(name, group) {
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
@@ -144,7 +144,7 @@ export function completeTask(name, group) {
 * @param {String} name The name of the task
 * @param {String} group The name of the group
 */
-export function completeSession(name, group) {
+function completeSession(name, group) {
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
