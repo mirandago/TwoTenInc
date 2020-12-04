@@ -5,7 +5,8 @@
 
   <head>
     <title>Pomodoro Expanded </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/mainPage.css">
+ 
     <meta charset = "UTF-8" />
   </head>
   <body style="overflow-y: hidden;">
@@ -19,11 +20,11 @@
 
     <div class = "container" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="row d-flex justify-content-center" style="border:1px solid black; border-radius: 10px; padding:5px; margin: 5px;">
-        <div class="col-sm" style="font-size: 12px; text-align: center; padding-top: 5px;">
+        <div class="col-sm" style="font-size: 12px; text-align: center; padding-top: 6px;">
           <label>Current Task</label>
         </div>
 
-        <div class="col-sm" style=" font-size: 12px; text-align: center; padding-top: 5px;">
+        <div class="col-sm" style=" font-size: 12px; text-align: center; padding-top: 6px;">
           <label>25:00</label>
         </div>
 
@@ -45,30 +46,30 @@
           <div class="form-row">
             <div class="form-group col-" id="input_task">
               <label for="inputTask" style="font-size:14px;">New Task</label>
-              <input type="text" class="form-control" id="inputTask" placeholder="Enter new task" >
+              <input type="text" class="form-control" id="inputTask" placeholder="Enter new task" size="16">
             </div>
             <div class="form-group col-sm-2" id = "session_id"> 
               <label for="sessions" style="font-size:14px;">Sessions</label>
-              <input type = "text" id = "sessionId" class="form-control" placeholder="0" />
+              <input type = "text" id = "sessionId" class="form-control" placeholder="0" maxlength="2" />
             </div>
             <div class="form-group col-" id="group_select">
               <label for="inputState" style="font-size:14px;">Group</label>
-                <select id="groups" class="form-control" >
+                <select id="groups" style="height:38px;" class="form-control" style="width:96px;">
                   <option color="#FF0000">Red</option>
                   <option color="#008000">Green</option>
                   <option color="#FFFF00">Yellow</option>
                   <option color="#0000FF">Blue</option>
                 </select>
             </div>
-            <div class="form-group col-" style="margin-top: 30px;">
-              <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="form-group col-" style="margin-top: 24px;">
+              <button type="submit" style="font-size:16px;" class="btn btn-primary">Submit</button>
             </div>
           </div>
         </form>
       </div>
     </div>
 
-    <div class = "container" style="margin-top: 15px; margin-bottom: 10px; font-size: 12px;">
+    <div class = "container" style="margin-top: 16px; margin-bottom: 16px; font-size: 12px;">
       <div class="row" style="margin: 10px; margin-bottom: 0px;">
         <label>Task List</label>
       </div>
@@ -85,7 +86,7 @@
     </div>
 
     <div class="card">
-        <div class="card-footer" id="settingContainer" style ="padding: 10px;">
+        <div class="card-footer" id="settingContainer" style ="padding: 12px;">
           <div id="setting_img" style="text-align:right; font-size: 12px;">
             <img src="img/settingIcon.png" height="20" size="20">
           </div>
