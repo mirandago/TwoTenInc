@@ -2,7 +2,9 @@
 * @param {String} group The color of the group
 * @return {Boolean} Whether the group exists
 */
+/* eslint-disable */
 async function addGroup(group) {
+/* eslint-enable */
   const existed = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
       if (typeof(result[group]) == 'undefined') {
@@ -24,7 +26,9 @@ async function addGroup(group) {
 /** Get all groups
 * @return {Array} A list of all groups
 */
+/* eslint-disable */
 async function getGroups() {
+/* eslint-enable */
   const groups = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get(null, function(result) {
       resolve(Object.keys(result));
@@ -40,7 +44,9 @@ async function getGroups() {
 * @param {String} group The group the task will be assigned to
 * @return {Boolean} Whether the task exists
 */
+/* eslint-disable */
 async function addTask(name, session, group) {
+/* eslint-enable */
   const d = new Date();
   const date = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
   const task = {
@@ -80,7 +86,9 @@ async function addTask(name, session, group) {
 /** Get all tasks
 * @return {Array} A list of all tasks
 */
+/* eslint-disable */
 async function getAllTasks() {
+/* eslint-enable */
   const groups = await getGroups();
   const allTasks = [];
   for (let i = 0; i < groups.length; i++) {
@@ -95,7 +103,9 @@ async function getAllTasks() {
 * @param {String} group The name of the group
 * @return {Array} A list of tasks in the group
 */
+/* eslint-disable */
 async function getTasksByGroup(group) {
+/* eslint-enable */
   const tasks = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
       resolve(result[group]);
@@ -108,7 +118,9 @@ async function getTasksByGroup(group) {
 * @param {String} name The name of the task
 * @param {String} group The name of the group
 */
+/* eslint-disable */
 function deleteTask(name, group) {
+/* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
@@ -126,7 +138,9 @@ function deleteTask(name, group) {
 * @param {String} name The name of the task
 * @param {String} group The name of the group
 */
+/* eslint-disable */
 function completeTask(name, group) {
+/* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
@@ -144,7 +158,9 @@ function completeTask(name, group) {
 * @param {String} name The name of the task
 * @param {String} group The name of the group
 */
+/* eslint-disable */
 function completeSession(name, group) {
+/* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
@@ -157,4 +173,3 @@ function completeSession(name, group) {
     });
   });
 }
-
