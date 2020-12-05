@@ -1,12 +1,10 @@
 <!DOCTYPE HTML>
 <script language='javascript' src='mainPage.js'></script>
+<link rel="stylesheet" href="css/mainPage.css">
 <html lang = "en">
- 
 
   <head>
     <title>Pomodoro Expanded </title>
-      <link rel="stylesheet" href="css/mainPage.css">
- 
     <meta charset = "UTF-8" />
   </head>
   <body style="overflow-y: hidden;">
@@ -21,11 +19,11 @@
     <div class = "container" style="margin-top: 20px; margin-bottom: 20px;">
       <div class="row d-flex justify-content-center" style="border:1px solid black; border-radius: 10px; padding:5px; margin: 5px;">
         <div class="col-sm" style="font-size: 12px; text-align: center; padding-top: 6px;">
-          <label>Current Task</label>
+          <label id="timer_state">Timer State</label>
         </div>
 
         <div class="col-sm" style=" font-size: 12px; text-align: center; padding-top: 6px;">
-          <label>25:00</label>
+          <label id="timer">00:00</label>
         </div>
 
         <div class="col-sm" style="font-size: 12px;">
