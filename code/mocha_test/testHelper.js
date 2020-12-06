@@ -10,7 +10,7 @@ global.chrome = chrome;
 global.chai = chai;
 global.sinon = sinon;
 
-let doc = new JSDOM('<!doctype html><html><body></body></html>');
+const doc = new JSDOM('<!doctype html><html><body></body></html>');
 const win = doc.defaultView;
 
 global.document = doc;
@@ -20,6 +20,6 @@ document.createElement = function(tag) {
   this.tag;
   this.src;
   this.child;
-}
+};
 
 

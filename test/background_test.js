@@ -1,7 +1,7 @@
 import {bg, timeLeft, sessionNum, runningCall,
 sulb, timerL, breakL, longbreakL, isFocus, isActive, breakAudio, 
 focusAudio, DEFAULT_FOCUS, DEFAULT_ACTIVE, audioPlayed, setupStorageSettings,
-set_var_for_testing} from '../code/background.js';
+setVarForTesting} from '../code/background.js';
 
 describe('Testing API for background.js', () => {
   // spy to track calls, arguments, and return values of function
@@ -36,7 +36,7 @@ describe('Testing API for background.js', () => {
     get_time.resetHistory();
     get_timer.resetHistory();
     set_settings.resetHistory();
-    set_var_for_testing(defaultSettings);
+    setVarForTesting(defaultSettings);
   });
 
   it('constants and variables initialized correctly', () => {
@@ -108,7 +108,7 @@ describe('Testing API for background.js', () => {
       'isActive': true,
       'audioPlayed': 'none',
     };
-    set_var_for_testing(settings);    
+    setVarForTesting(settings);    
     // timeLeft should decrement
     chai.assert.ok(setRunningCall());
     chai.expect(setRunningCall.calledTwice).to.equal(true);
@@ -174,7 +174,7 @@ describe('Testing API for background.js', () => {
       'isFocus': !DEFAULT_FOCUS,
       'isActive': !DEFAULT_ACTIVE,
     };
-    set_var_for_testing(settings);
+    setVarForTesting(settings);
     
     chai.expect(reset_timer.called).to.equal(false);
     chai.assert.ok(reset_timer());
@@ -204,7 +204,7 @@ describe('Testing API for background.js', () => {
     const settings = {
       'timeLeft': 666,
     };
-    set_var_for_testing(settings);
+    setVarForTesting(settings);
     chai.expect(get_time.called).to.equal(false);
     chai.assert.ok(get_time(request));
     chai.expect(get_time.calledOnce).to.equal(true);
@@ -226,7 +226,7 @@ describe('Testing API for background.js', () => {
       'isActive': !DEFAULT_ACTIVE,
       'isFocus': !DEFAULT_FOCUS,
     };
-    set_var_for_testing(settings);
+    setVarForTesting(settings);
     chai.assert.ok(get_timer());
     chai.expect(get_timer.returnValues[1].timeLeft).to.equal(settings.timeLeft);    
     chai.expect(get_timer.returnValues[1].isActive).to.equal(settings.isActive);

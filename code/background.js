@@ -1,11 +1,11 @@
 // Keeps running in the background
 export const bg = {};
 
-import {getSettings, setSettings} from './settingStorage.js';
+import {getSettings} from './settingStorage.js';
 // import the setting storage to use the get settings function
-//const imported = document.createElement('script');
-//imported.src = './settingStorage.js';
-//document.head.appendChild(imported);
+// const imported = document.createElement('script');
+// imported.src = './settingStorage.js';
+// document.head.appendChild(imported);
 
 // timer variables to keep track off
 
@@ -143,12 +143,12 @@ bg.set_time = function(request) {
   return true;
 };
 
-bg.get_time = function(request) { 
+bg.get_time = function(request) {
   return {timeLeft: timeLeft};
-}
+};
 
 bg.get_timer = function() {
-   // if it is undefined, call the storage and get back stuff
+  // if it is undefined, call the storage and get back stuff
   if (timeLeft === undefined) {
     // may be a bit delayed until we get the settings back
     getSettings(setupStorageSettings);
@@ -172,7 +172,8 @@ bg.set_settings = function(request) {
   sulb = request.settings.SULB;
   longbreakL = request.settings.longbreakL;
   return true;
-}
+};
+
 // listener for run time messages
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // start timer or continue
@@ -202,6 +203,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 /**
  * Fresh start, does this as soon as storage returns
  * @param {Object} value
+ * @return {Boolean} for passing testing
  */
 export function setupStorageSettings(value) {
   timerL = value.timerL;
@@ -215,8 +217,10 @@ export function setupStorageSettings(value) {
 /**
  * sets all variables to allow for independent
  * testing of functions
+ * @param {Object} settings to set variables for testing
+ * @return {Boolean} for passing testing
  */
-export function set_var_for_testing(settings) {
+export function setVarForTesting(settings) {
   timeLeft = settings.timeLeft;
   sessionNum = settings.sessionNum;
   runningCall = settings.runningCall;
