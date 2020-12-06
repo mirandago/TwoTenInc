@@ -1,18 +1,18 @@
 import {bg, timeLeft, sessionNum, runningCall,
-sulb, timerL, breakL, longbreakL, isFocus, isActive, breakAudio, 
-focusAudio, DEFAULT_FOCUS, DEFAULT_ACTIVE, audioPlayed, setupStorageSettings,
-setVarForTesting} from '../code/background.js';
+  sulb, timerL, breakL, longbreakL, isFocus, isActive, breakAudio,
+  focusAudio, DEFAULT_FOCUS, DEFAULT_ACTIVE, audioPlayed, setupStorageSettings,
+  setVarForTesting} from '../code/background.js';
 
 describe('Testing API for background.js', () => {
   // spy to track calls, arguments, and return values of function
   const setRunningCall = sinon.spy(bg.setRunningCall);
-  const start_timer = sinon.spy(bg.start_timer);
-  const pause_timer = sinon.spy(bg.pause_timer);
-  const reset_timer = sinon.spy(bg.reset_timer);
-  const set_time = sinon.spy(bg.set_time);
-  const get_time = sinon.spy(bg.get_time);
-  const get_timer = sinon.spy(bg.get_timer);
-  const set_settings = sinon.spy(bg.set_settings);
+  const startTimer = sinon.spy(bg.startTimer);
+  const pauseTimer = sinon.spy(bg.pauseTImer);
+  const resetTimer = sinon.spy(bg.resetTimer);
+  const setTime = sinon.spy(bg.setTime);
+  const getTime = sinon.spy(bg.getTime);
+  const getTimer = sinon.spy(bg.getTimer);
+  const setSettings = sinon.spy(bg.setSettings);
   const setupStorageSettings_spy = sinon.spy(setupStorageSettings);
   const defaultSettings = {
     'timeLeft': undefined,
@@ -25,17 +25,16 @@ describe('Testing API for background.js', () => {
     'isFocus': undefined,
     'isActive': undefined,
     'audioPlayed': 'none',
-  }
-  
-  
+  };
+
   afterEach(function() {
-    start_timer.resetHistory();
-    pause_timer.resetHistory();
-    reset_timer.resetHistory();
-    set_time.resetHistory();
-    get_time.resetHistory();
-    get_timer.resetHistory();
-    set_settings.resetHistory();
+    startTimer.resetHistory();
+    pauseTImer.resetHistory();
+    resetTimer.resetHistory();
+    setTime.resetHistory();
+    getTime.resetHistory();
+    getTimer.resetHistory();
+    setSettings.resetHistory();
     setVarForTesting(defaultSettings);
   });
 
@@ -54,9 +53,9 @@ describe('Testing API for background.js', () => {
     chai.expect(DEFAULT_FOCUS).to.equal(true);
     chai.expect(DEFAULT_ACTIVE).to.equal(false);
   });
-  
-  it('SET_SETTINGS handled correctly', () => {
-    chai.expect(set_settings.called).to.equal(false);
+
+  it('setSettings handled correctly', () => {
+    chai.expect(setSettings.called).to.equal(false);
     // try setting settings with this
     const settings = {
       'timerL': 103,
@@ -67,35 +66,37 @@ describe('Testing API for background.js', () => {
     const request = {
       'settings': settings,
     };
-    chai.assert.ok(set_settings(request));
-    chai.expect(set_settings.calledOnce).to.equal(true); 
+    chai.assert.ok(setSettings(request));
+    chai.expect(setSettings.calledOnce).to.equal(true);
     chai.expect(sessionNum).to.equal(0);
     chai.expect(timerL).to.equal(request.settings.timerL);
     chai.expect(breakL).to.equal(request.settings.breakL);
     chai.expect(sulb).to.equal(request.settings.SULB);
     chai.expect(longbreakL).to.equal(request.settings.longbreakL);
     // check that function cannot take arguments
-    chai.expect(function () {set_settings(1);}).to.throw(TypeError);
+    chai.expect(function() {
+        setSettings(1);
+      }).to.throw(TypeError);
   });
 
-  it('START_TIMER handled correctly', () => {
-    chai.expect(start_timer.called).to.equal(false);
+  it('startTimer handled correctly', () => {
+    chai.expect(startTimer.called).to.equal(false);
     chai.expect(setRunningCall.called).to.equal(false);
-    chai.assert.ok(start_timer());
-    chai.expect(start_timer.calledOnce).to.equal(true);
+    chai.assert.ok(startTimer());
+    chai.expect(startTimer.calledOnce).to.equal(true);
     chai.expect(isActive).to.equal(true);
     chai.expect(timeLeft).to.equal(timerL);
-    chai.expect(isFocus).to.equal(DEFAULT_FOCUS); 
+    chai.expect(isFocus).to.equal(DEFAULT_FOCUS);
     chai.expect(runningCall).to.not.be.undefined;
     // need to clearinterval so test can end
-    clearInterval(runningCall);  
+    clearInterval(runningCall);
   });
-  
+
   it('setRunningCall functions correctly', () => {
     chai.expect(setRunningCall.called).to.equal(false);
     chai.assert.ok(setRunningCall());
     chai.expect(setRunningCall.calledOnce).to.equal(true);
-    
+
     const settings = {
       'timeLeft': 1,
       'sessionNum': 0,
@@ -108,64 +109,64 @@ describe('Testing API for background.js', () => {
       'isActive': true,
       'audioPlayed': 'none',
     };
-    setVarForTesting(settings);    
+    setVarForTesting(settings);
     // timeLeft should decrement
     chai.assert.ok(setRunningCall());
     chai.expect(setRunningCall.calledTwice).to.equal(true);
     chai.expect(audioPlayed).to.equal('none');
     chai.expect(sessionNum).to.equal(settings.sessionNum);
     chai.expect(isFocus).to.equal(settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.timeLeft-1);    
-    // break audio plays, sessionNum increments, 
+    chai.expect(timeLeft).to.equal(settings.timeLeft-1);
+    // break audio plays, sessionNum increments,
     // switch to break state, timeLeft = breakL
     chai.assert.ok(setRunningCall());
     chai.expect(setRunningCall.calledThrice).to.equal(true);
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.breakL);    
+    chai.expect(timeLeft).to.equal(settings.breakL);
     // timeLeft should decrement
-    chai.assert.ok(setRunningCall());    
+    chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.breakL - 1);    
+    chai.expect(timeLeft).to.equal(settings.breakL - 1);
     // timeLeft should decrement
-    chai.assert.ok(setRunningCall());    
+    chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.breakL - 2);    
+    chai.expect(timeLeft).to.equal(settings.breakL - 2);
     // focus audio plays, switch to focus state, timeLeft = timerL
-    chai.assert.ok(setRunningCall());    
+    chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('focus');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.timerL);    
+    chai.expect(timeLeft).to.equal(settings.timerL);
     // timer decrements
-    chai.assert.ok(setRunningCall());    
+    chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('focus');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.timerL - 1);    
+    chai.expect(timeLeft).to.equal(settings.timerL - 1);
     // break audio plays, sessionNum increments
     // switch to break state, timeLeft = longbreakL
-    chai.assert.ok(setRunningCall());    
+    chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 2);
     chai.expect(isFocus).to.equal(!settings.isFocus);
     chai.expect(timeLeft).to.equal(settings.longbreakL);
   });
-  
-  it('PAUSE_TIMER handled correctly', () => {
-    chai.expect(pause_timer.called).to.equal(false);
-    chai.assert.ok(pause_timer());
-    chai.expect(pause_timer.calledOnce).to.equal(true);
+
+  it('pauseTImer handled correctly', () => {
+    chai.expect(pauseTImer.called).to.equal(false);
+    chai.assert.ok(pauseTImer());
+    chai.expect(pauseTImer.calledOnce).to.equal(true);
     chai.expect(isActive).to.equal(false);
     chai.expect(runningCall).to.equal(false);
   });
-  
-  it('RESET_TIMER handled correctly', () => {
+
+  it('resetTimer handled correctly', () => {
     const settings = {
       'timeLeft': 10,
       'sessionNum': 10,
@@ -175,64 +176,65 @@ describe('Testing API for background.js', () => {
       'isActive': !DEFAULT_ACTIVE,
     };
     setVarForTesting(settings);
-    
-    chai.expect(reset_timer.called).to.equal(false);
-    chai.assert.ok(reset_timer());
-    chai.expect(reset_timer.calledOnce).to.equal(true);
+
+    chai.expect(resetTimer.called).to.equal(false);
+    chai.assert.ok(resetTimer());
+    chai.expect(resetTimer.calledOnce).to.equal(true);
     chai.expect(sessionNum).to.equal(0);
     chai.expect(timeLeft).to.equal(settings.timerL);
     chai.expect(isActive).to.equal(DEFAULT_ACTIVE);
     chai.expect(isFocus).to.equal(DEFAULT_FOCUS);
     chai.expect(runningCall).to.equal(false);
   });
-  
-  it('SET_TIME handled correctly', () => {
+
+  it('setTime handled correctly', () => {
     const request = {
       'timeLeft': 10,
-    };    
-    
-    chai.expect(set_time.called).to.equal(false);
-    chai.assert.ok(set_time(request));
-    chai.expect(set_time.calledOnce).to.equal(true);
+    };
+
+    chai.expect(setTime.called).to.equal(false);
+    chai.assert.ok(setTime(request));
+    chai.expect(setTime.calledOnce).to.equal(true);
     chai.expect(timeLeft).to.equal(request.timeLeft);
   });
-  
-  it('GET_TIME handled correctly', () => {
+
+  it('getTime handled correctly', () => {
     const request = {
       'timeLeft': 545,
-    };    
+    };
     const settings = {
       'timeLeft': 666,
     };
     setVarForTesting(settings);
-    chai.expect(get_time.called).to.equal(false);
-    chai.assert.ok(get_time(request));
-    chai.expect(get_time.calledOnce).to.equal(true);
-    chai.expect(get_time.returnValues[0].timeLeft).to.equal(settings.timeLeft);
+    chai.expect(getTime.called).to.equal(false);
+    chai.assert.ok(getTime(request));
+    chai.expect(getTime.calledOnce).to.equal(true);
+    chai.expect(getTime.returnValues[0].timeLeft).to.equal(settings.timeLeft);
   });
-  
-  it('GET_TIMER handled correctly', () => {
-    chai.expect(get_timer.called).to.equal(false);
-    chai.assert.ok(get_timer());
-    chai.expect(get_timer.calledOnce).to.equal(true);
+
+  it('getTimer handled correctly', () => {
+    chai.expect(getTimer.called).to.equal(false);
+    chai.assert.ok(getTimer());
+    chai.expect(getTimer.calledOnce).to.equal(true);
     chai.expect(timeLeft).to.equal(0);
     chai.expect(isActive).to.equal(DEFAULT_ACTIVE);
     chai.expect(isFocus).to.equal(DEFAULT_FOCUS);
-    chai.expect(get_timer.returnValues[0].timeLeft).to.equal(0);    
-    chai.expect(get_timer.returnValues[0].isActive).to.equal(DEFAULT_ACTIVE);
-    chai.expect(get_timer.returnValues[0].isFocus).to.equal(DEFAULT_FOCUS);  
+    chai.expect(getTimer.returnValues[0].timeLeft).to.equal(0);
+    chai.expect(getTimer.returnValues[0].isActive).to.equal(DEFAULT_ACTIVE);
+    chai.expect(getTimer.returnValues[0].isFocus).to.equal(DEFAULT_FOCUS);
     const settings = {
       'timeLeft': 123,
       'isActive': !DEFAULT_ACTIVE,
       'isFocus': !DEFAULT_FOCUS,
     };
     setVarForTesting(settings);
-    chai.assert.ok(get_timer());
-    chai.expect(get_timer.returnValues[1].timeLeft).to.equal(settings.timeLeft);    
-    chai.expect(get_timer.returnValues[1].isActive).to.equal(settings.isActive);
-    chai.expect(get_timer.returnValues[1].isFocus).to.equal(settings.isFocus);    
+    chai.assert.ok(getTimer());
+    chai.expect(getTimer.returnValues[1].timeLeft).to.equal(
+      settings.timeLeft);
+    chai.expect(getTimer.returnValues[1].isActive).to.equal(settings.isActive);
+    chai.expect(getTimer.returnValues[1].isFocus).to.equal(settings.isFocus);
   });
-  
+
   it('setupStorageSettings functions correctly', () => {
     chai.expect(setupStorageSettings_spy.called).to.equal(false);
     const value = {
@@ -245,8 +247,8 @@ describe('Testing API for background.js', () => {
     chai.expect(setupStorageSettings_spy.calledOnce).to.equal(true);
     chai.expect(timerL).to.equal(value.timerL);
     chai.expect(breakL).to.equal(value.breakL);
-    chai.expect(sulb).to.equal(value.SULB);    
+    chai.expect(sulb).to.equal(value.SULB);
     chai.expect(longbreakL).to.equal(value.longbreakL);
-    chai.expect(timeLeft).to.equal(value.timerL);   
-  });   
+    chai.expect(timeLeft).to.equal(value.timerL);
+  });
 });
