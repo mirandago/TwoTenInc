@@ -1,13 +1,7 @@
-data = [
-  {name: 'task1', group: 'group1', date: '2020-11-09', completed: true},
-  {name: 'task2', group: 'group2', date: '2020-11-10', completed: false},
-  {name: 'task3', group: 'group3', date: '2020-11-11', completed: false},
-  {name: 'task4', group: 'group3', date: '2020-11-12', completed: false},
-  {name: 'task5', group: 'group3', date: '2020-11-12', completed: true},
-];
-
+let data = [];
 let loaded = false;
 let hidden = true;
+
 
 /** create new task node
 * @param {Object} parent gives parent node
@@ -29,16 +23,24 @@ function buttonClicked(id) {
   const tr = document.getElementById(trId);
   const parent = tr.parentElement;
   parent.removeChild(tr);
-  if (words[0] === 'complete') {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].name === words[2] && data[i].group === words[1]) {
-        console.log('got!!');
+
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].name === words[2] && data[i].group === words[1]) {
+      console.log('got!!');
+      if (words[0] === 'complete') {
         data[i].completed = true;
+        completeTask(words[2], words[1]);
         if (loaded) {
-          loadCompleteRow(data[i], document.getElementById('completed-table'));
+          loadCompleteRow(data[i], document.getElementById(
+              'completed-table').getElementsByTagName('tbody')[0]);
         }
-        break;
       }
+      if (words[0] === 'delete') {
+        data.splice(i, 1);
+        deleteTask(words[2], words[1]);
+      }
+      break;
     }
   }
   // TODO: Delete or complete data in storage and add them to completed
@@ -175,7 +177,8 @@ function mainPage() {
   location.href = 'mainPage.html';
 }
 
-window.onload=function() {
+window.onload=async function() {
+  data = await getAllTasks();
   document.getElementById('back blackIcon').onclick = mainPage;
   const showHide = document.getElementById('show-completed');
   showHide.addEventListener('click', function() {
