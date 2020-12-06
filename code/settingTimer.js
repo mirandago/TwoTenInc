@@ -1,5 +1,5 @@
 'use strict';
-
+import {getSettings, setSettings} from './settingStorage.js';
 /**
  * Go to the timer settings page
  */
