@@ -6,14 +6,14 @@ import {bg, timeLeft, sessionNum, runningCall,
 describe('Testing API for background.js', () => {
   // spy to track calls, arguments, and return values of function
   const setRunningCall = sinon.spy(bg.setRunningCall);
-  const startTimer = sinon.spy(bg.startTimer);
-  const pauseTimer = sinon.spy(bg.pauseTImer);
-  const resetTimer = sinon.spy(bg.resetTimer);
-  const setTime = sinon.spy(bg.setTime);
-  const getTime = sinon.spy(bg.getTime);
-  const getTimer = sinon.spy(bg.getTimer);
-  const setSettings = sinon.spy(bg.setSettings);
-  const setupStorageSettings_spy = sinon.spy(setupStorageSettings);
+  const startTimer = sinon.spy(bg.start_timer);
+  const pauseTimer = sinon.spy(bg.pause_timer);
+  const resetTimer = sinon.spy(bg.reset_timer);
+  const setTime = sinon.spy(bg.set_time);
+  const getTime = sinon.spy(bg.get_time);
+  const getTimer = sinon.spy(bg.get_timer);
+  const setSettings = sinon.spy(bg.set_settings);
+  const setupStorageSettingsSpy = sinon.spy(setupStorageSettings);
   const defaultSettings = {
     'timeLeft': undefined,
     'sessionNum': 0,
@@ -29,7 +29,7 @@ describe('Testing API for background.js', () => {
 
   afterEach(function() {
     startTimer.resetHistory();
-    pauseTImer.resetHistory();
+    pauseTimer.resetHistory();
     resetTimer.resetHistory();
     setTime.resetHistory();
     getTime.resetHistory();
@@ -75,8 +75,8 @@ describe('Testing API for background.js', () => {
     chai.expect(longbreakL).to.equal(request.settings.longbreakL);
     // check that function cannot take arguments
     chai.expect(function() {
-        setSettings(1);
-      }).to.throw(TypeError);
+      setSettings(1);
+    }).to.throw(TypeError);
   });
 
   it('startTimer handled correctly', () => {
@@ -158,10 +158,10 @@ describe('Testing API for background.js', () => {
     chai.expect(timeLeft).to.equal(settings.longbreakL);
   });
 
-  it('pauseTImer handled correctly', () => {
-    chai.expect(pauseTImer.called).to.equal(false);
-    chai.assert.ok(pauseTImer());
-    chai.expect(pauseTImer.calledOnce).to.equal(true);
+  it('pauseTimer handled correctly', () => {
+    chai.expect(pauseTimer.called).to.equal(false);
+    chai.assert.ok(pauseTimer());
+    chai.expect(pauseTimer.calledOnce).to.equal(true);
     chai.expect(isActive).to.equal(false);
     chai.expect(runningCall).to.equal(false);
   });
@@ -230,21 +230,21 @@ describe('Testing API for background.js', () => {
     setVarForTesting(settings);
     chai.assert.ok(getTimer());
     chai.expect(getTimer.returnValues[1].timeLeft).to.equal(
-      settings.timeLeft);
+        settings.timeLeft);
     chai.expect(getTimer.returnValues[1].isActive).to.equal(settings.isActive);
     chai.expect(getTimer.returnValues[1].isFocus).to.equal(settings.isFocus);
   });
 
   it('setupStorageSettings functions correctly', () => {
-    chai.expect(setupStorageSettings_spy.called).to.equal(false);
+    chai.expect(setupStorageSettingsSpy.called).to.equal(false);
     const value = {
       'timerL': 13,
       'breakL': 33,
       'SULB': 27,
       'longbreakL': 9,
     };
-    chai.assert.ok(setupStorageSettings_spy(value));
-    chai.expect(setupStorageSettings_spy.calledOnce).to.equal(true);
+    chai.assert.ok(setupStorageSettingsSpy(value));
+    chai.expect(setupStorageSettingsSpy.calledOnce).to.equal(true);
     chai.expect(timerL).to.equal(value.timerL);
     chai.expect(breakL).to.equal(value.breakL);
     chai.expect(sulb).to.equal(value.SULB);
