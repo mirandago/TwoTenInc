@@ -56,7 +56,7 @@ async function addTask(name, session, group) {
     date: date,
     completed: false,
   };
-
+  await addGroup(group);
   const existed = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
       const tasks = result[group];
@@ -93,7 +93,9 @@ async function getAllTasks() {
   const allTasks = [];
   for (let i = 0; i < groups.length; i++) {
     const tasks = await getTasksByGroup(groups[i]);
-    allTasks.push(...tasks);
+    if (typeof tasks !== 'undefined') {
+      allTasks.push(...tasks);
+    }
   }
   console.log(allTasks);
   return allTasks;
