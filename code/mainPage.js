@@ -119,12 +119,16 @@ function newNode(parent, info) {
 }
 
 /**
- * Adds the task into storage
+ * Adds the task from inputs into storage
  */
 function submitTask() {
-  const name = document.getElementById('inputTask').value;
+  const name = document.getElementById('inputTask').value.trim();
   const session = document.getElementById('sessionId').value;
   const group = document.getElementById('groups').value;
+  if (name == "") {
+    alert("Please Input a Task");
+    return false;
+  }
   addTask(name, session, group);
 }
 
