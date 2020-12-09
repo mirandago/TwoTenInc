@@ -30,4 +30,13 @@ describe('Main Page Test', () => {
       cy.get('button#viewTasksBtn').click()
       cy.location('pathname').should('include', 'taskList')
     })
+
+    it('check group buttons', () => {
+      cy.visit('/code/mainPage.html')
+      cy.get('button#taskListGroupRed').should('exist')
+      cy.get('button#taskListGroupGreen').should('exist')
+      cy.get('button#taskListGroupYellow').should('exist')
+      cy.get('button#taskListGroupBlue').should('exist')
+    })
+
   })

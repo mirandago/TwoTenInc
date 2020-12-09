@@ -195,10 +195,10 @@ th, td {
     cursor: not-allowed;
 }
 
-.btn-Red {
+.btn-Red{
     color: #fff;
-    background-color: #d86c6c;
-    border-color: #d86c6c;
+    background-color: #d83b3b;
+    border-color: #d83b3b;
 }
 
 .btn-Green {
@@ -209,15 +209,12 @@ th, td {
 
 .btn-Yellow {
     color: #fff;
-    background-color: #c6c91c;
-    border-color: #c6c91c;
+    background-color: #ddda11;
+    border-color: #ddda11;
 }
 
-.btn-Blue {
+.btn-Blue{
     color: #fff;
-    background-color: #6c8ed8;
-    border-color: #6c8ed8;
+    background-color: #386bda;
+    border-color: #386bda;
 }
-
-
-

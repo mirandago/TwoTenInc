@@ -120,16 +120,22 @@ function newNode(parent, info) {
 
 /**
  * Adds the task from inputs into storage
+ * @return {Boolean} whether adding a task was successful
  */
 function submitTask() {
   const name = document.getElementById('inputTask').value.trim();
   const session = document.getElementById('sessionId').value;
   const group = document.getElementById('groups').value;
-  if (name == "") {
-    alert("Please Input a Task");
+  if (name == '') {
+    alert('Please input a task');
+    return false;
+  }
+  if (session == '') {
+    alert('Please input the number of sessions');
     return false;
   }
   addTask(name, session, group);
+  return true;
 }
 
 /** mark as completed
