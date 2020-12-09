@@ -53,6 +53,7 @@ async function addTask(name, session, group) {
     name: name,
     group: group,
     session: session,
+    sessionCompleted: 0,
     date: date,
     completed: false,
   };
@@ -167,7 +168,7 @@ function completeSession(name, group) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
-        tasks[i].session--;
+        tasks[i].sessionCompleted++;
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
