@@ -1,5 +1,5 @@
 data = [];
-prev = undefined;
+prevId = undefined;
 /**
  * Go to task list page
  */
@@ -14,10 +14,97 @@ function viewSettings() {
   location.href = 'settingTimer.html';
 }
 
+const DEFAULT_FOCUS_TEXT = 'Focus';
+const DEFAULT_BREAK_TEXT = 'Break';
+
+/**
+ * Displays and updates the UI of the main page
+ */
+class TimerDisplay {
+  /**
+   * Constructor for Timer Display. Saves the id for individual UI
+   * elements
+   * @param {*} timerId
+   * @param {*} playId
+   * @param {*} pauseId
+   * @param {*} stateTextId
+   */
+  constructor(timerId, playId, pauseId, stateTextId) {
+    this.timerId = timerId;
+    this.playId = playId;
+    this.pauseId = pauseId;
+    this.stateTextId = stateTextId;
+  }
+
+
+  /**
+   * Update timer display based on the timer argument passed in
+   * @param {*} timer
+   */
+  updateTimerDisplay(timer) {
+    document.getElementById(this.timerId).innerText = timer.timeLeft;
+    if (timer.isActive) {
+      document.getElementById(this.playId).style.display = 'none';
+      document.getElementById(this.pauseId).style.display = 'block';
+    } else {
+      document.getElementById(this.playId).style.display = 'block';
+      document.getElementById(this.pauseId).style.display = 'none';
+    }
+    if (timer.isFocus) {
+      document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+    } else {
+      document.getElementById(this.stateTextId).innerText = DEFAULT_BREAK_TEXT;
+    }
+  }
+}
+
+// Load the state of the timer as soon as the Dom loads
+window.addEventListener('DOMContentLoaded', (event) => {
+  // Button click event listeners
+  document.getElementById('play_img').addEventListener('click', function() {
+    chrome.runtime.sendMessage({cmd: 'START_TIMER'});
+  });
+
+  document.getElementById('pause_img').addEventListener('click', function() {
+    chrome.runtime.sendMessage({cmd: 'PAUSE_TIMER'});
+  });
+
+  document.getElementById('reset_img').addEventListener('click', function() {
+    chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
+  });
+
+  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+    timerDisplay.updateTimerDisplay(response);
+  });
+});
+
+
+// Every 500 millisecond the timer UI will update
+getTimer = setInterval(() => {
+  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+    timerDisplay.updateTimerDisplay(response);
+  });
+}, 500);
+
+const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
+    'timer_state');
+
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('viewTasksBtn').onclick = viewTaskList;
   document.getElementById('setting_img').onclick = viewSettings;
   document.getElementById('submitTaskBtn').onclick = submitTask;
+  document.getElementById('taskListGroupRed').onclick = () => {
+    changeTaskList('Red');
+  };
+  document.getElementById('taskListGroupGreen').onclick = () => {
+    changeTaskList('Green');
+  };
+  document.getElementById('taskListGroupYellow').onclick = () => {
+    changeTaskList('Yellow');
+  };
+  document.getElementById('taskListGroupBlue').onclick = () => {
+    changeTaskList('Blue');
+  };
 });
 
 /** create new task node
@@ -41,52 +128,36 @@ function submitTask() {
   addTask(name, session, group);
 }
 
-/** load a completed task onto html page
-* @param {element} thead gives HTML element for header
-*/
-// function loadHeader(thead) {
-//   const tr = document.createElement('tr');
-//   thead.appendChild(tr);
-//   const header = ['Complete', 'Name', 'Group', 'Date', 'Delete'];
-//   for (let i = 0; i< header.length; i++) {
-//     const th = document.createElement('th');
-//     th.innerHTML = header[i];
-//     tr.appendChild(th);
-//   }
-// }
-
 /** mark as completed
 * @param {string} id is key for storage
 */
 function buttonClicked(id) {
-  //update current task name!
-  console.log(id); 
-  if (typeof prev !== "undefined"){
-    prev.style = 'opacity: 1; cursor: allowed;';
+  console.log(id);
+  if (typeof prevId !== 'undefined' && document.getElementById(prevId)) {
+    document.getElementById(prevId).style = 'opacity: 1; cursor: allowed;';
   }
-  //grey out button (inactive)
   document.getElementById(id).style = 'opacity: 0.6; cursor: not-allowed;';
-  prev = document.getElementById(id);
-  //grey out button (inactive)
+  prevId = id;
 }
 
 /** add event listener for task button
 * @param {Object} parent gives parent node
 * @param {string} info is description of button
 * @param {string} id is key for storage
+* @param {string} group color for task
 */
-function newButton(parent, info, id) {
+function newButton(parent, info, id, group) {
   const td = document.createElement('td');
   const button = document.createElement('button');
   const text = document.createTextNode(info);
   button.type = 'button';
-  button.className = 'btn btn-primary btn-sm';
-  button.id = id;
+  button.className = 'btn-' + group + ' btn btn-primary btn-sm';
+  button.id = id + '-button';
   button.appendChild(text);
   td.appendChild(button);
   parent.appendChild(td);
-  document.getElementById(id).addEventListener('click', function() {
-    buttonClicked(id);
+  document.getElementById(button.id).addEventListener('click', function() {
+    buttonClicked(button.id);
   });
 }
 
@@ -99,25 +170,45 @@ function loadCurRow(data, tbody) {
   tr.id = data.group + '-' + data.name;
   tr.className = 'success';
   tbody.appendChild(tr);
-  newButton(tr, 'focus on me!', data.group + '-' + data.name);
+  newButton(tr, 'focus on me!', data.group + '-' + data.name, data.group);
   newNode(tr, data.name);
-  // newNode(tr, data.group);
   newNode(tr, data.date);
 }
 
 /** load all uncompleted tasks onto html page
+ * @param {string} group color for task
 */
-function loadCurData() {
-  const thead = document.getElementById(
-      'task-table').getElementsByTagName('thead')[0];
+function loadCurData(group) {
   const tbody = document.getElementById(
       'task-table').getElementsByTagName('tbody')[0];
+  tbody.innerHTML = '';
   for (let i = 0; i < data.length; i++) {
     if (data[i].completed) continue;
-    loadCurRow(data[i], tbody);
+    if (data[i].group == group) {
+      loadCurRow(data[i], tbody);
+    }
+  }
+
+  if (typeof prevId !== 'undefined' && document.getElementById(prevId)) {
+    document.getElementById(prevId).style='opacity: 0.6; cursor: not-allowed;';
   }
 }
+
+/** Changes task list based on group
+ * @param {string} groupColor represents color for task
+*/
+function changeTaskList(groupColor) {
+  loadCurData(groupColor);
+  document.getElementById('taskListGroupRed').disabled = false;
+  document.getElementById('taskListGroupGreen').disabled = false;
+  document.getElementById('taskListGroupYellow').disabled = false;
+  document.getElementById('taskListGroupBlue').disabled = false;
+  document.getElementById('taskListGroup' + groupColor).disabled = true;
+  console.log(groupColor);
+}
+
 window.onload=async function() {
   data = await getAllTasks();
-  loadCurData();
+  document.getElementById('taskListGroupRed').disabled = true;
+  loadCurData('Red');
 };
