@@ -168,8 +168,53 @@ body {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.btn-group {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
 .card-footer {
     background-color: rgba(0,0,0,.03);
     border-top: 1px solid rgba(0,0,0,.125);
 }
 
+th, td {
+    border-bottom: 1px solid #ddd;
+  }
+
+.active {
+    opacity: 0.6; 
+    cursor: not-allowed;
+}
+
+.btn-Red{
+    color: #fff;
+    background-color: #d83b3b;
+    border-color: #d83b3b;
+}
+
+.btn-Green {
+    color: #fff;
+    background-color: #2e9b2a;
+    border-color: #2e9b2a;
+}
+
+.btn-Yellow {
+    color: #fff;
+    background-color: #ddda11;
+    border-color: #ddda11;
+}
+
+.btn-Blue{
+    color: #fff;
+    background-color: #386bda;
+    border-color: #386bda;
+}
