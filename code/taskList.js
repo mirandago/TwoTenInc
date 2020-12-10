@@ -1,3 +1,4 @@
+import {getAllTasks, deleteTask, completeTask} from './storage.js';
 let data = [];
 let loaded = false;
 let hidden = true;

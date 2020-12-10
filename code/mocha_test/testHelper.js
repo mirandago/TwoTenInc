@@ -14,12 +14,10 @@ const doc = new JSDOM('<!doctype html><html><body></body></html>');
 const win = doc.defaultView;
 
 global.document = doc;
-global.window = win;
+global.window = document.parentWindow;
 
 document.createElement = function(tag) {
   this.tag;
   this.src;
   this.child;
 };
-
-

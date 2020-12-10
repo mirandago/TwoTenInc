@@ -1,5 +1,6 @@
-data = [];
-prevId = undefined;
+import {getAllTasks, addTask} from './storage.js';
+let data = [];
+let prevId = undefined;
 /**
  * Go to task list page
  */
@@ -80,7 +81,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 // Every 500 millisecond the timer UI will update
-getTimer = setInterval(() => {
+const getTimer = setInterval(() => {
   chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
     timerDisplay.updateTimerDisplay(response);
   });

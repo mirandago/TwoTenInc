@@ -1,3 +1,5 @@
+export let mochaTestListener;
+
 /** Add a new group
 * @param {String} group The color of the group
 * @return {Boolean} Whether the group exists
