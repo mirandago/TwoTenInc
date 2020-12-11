@@ -1,4 +1,5 @@
-//'use strict';
+'use strict';
+let data = [];
 
 /**
  * Go to the timer settings page
@@ -30,6 +31,11 @@ function mainPage() {
   location.href = 'mainPage.html';
 }
 
+/**
+ * make new node for task informations
+ * @param {element} parent gives HTML element above
+ * @param {String} info details task specifics
+ */
 function newNode(parent, info) {
   const td = document.createElement('td');
   const text = document.createTextNode(info);
@@ -106,8 +112,6 @@ function loadCompletedData() {
     loadCompleteRow(data[i], tbody);
   }
 }
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('settingTimer').onclick = settingTimer;
