@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+<script language='javascript' src='storage.js'></script>
 <script language='javascript' src='settingGroup.js'></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 <link rel="stylesheet" href="css/settings.css">
@@ -32,7 +33,15 @@
   <hr></hr>
   <h1 id="timer"><p class="largeText">Groups</p></h1>
 
-  <div class="groupTableContainer"></div>
+  <div class="groupTableContainer">
+    <table class="table" id='task-table' style="width:95%;text-align:left;">
+      <thead>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
 
   <div class="settingClearContainer">
     <button class="btnClearAll" id="clearAll">Erase all groups and tasks</button>

@@ -93,6 +93,7 @@ function loadHeader(thead) {
   const header = ['Complete', 'Name', 'Group', 'Date', 'Delete'];
   for (let i = 0; i< header.length; i++) {
     const th = document.createElement('th');
+    th.id = header[i];
     th.innerHTML = header[i];
     tr.appendChild(th);
   }
