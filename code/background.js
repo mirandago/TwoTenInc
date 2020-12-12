@@ -23,6 +23,8 @@ export let timerL;
 export let breakL;
 // length of long break
 export let longbreakL;
+// current task name
+export let task;
 
 export let isFocus;
 export let isActive;
@@ -156,12 +158,13 @@ bg.get_timer = function() {
     timeLeft = 0;
     isFocus = DEFAULT_FOCUS;
     isActive = DEFAULT_ACTIVE;
+    task = "";
   }
   return {
     timeLeft: timeLeft,
     isActive: isActive,
     isFocus: isFocus,
-    // currentTask: currentTask
+    currentTask: task
   };
 };
 
@@ -174,6 +177,14 @@ bg.set_settings = function(request) {
   longbreakL = request.settings.longbreakL;
   return true;
 };
+
+bg.set_task = function(request) {
+  task = request.task;
+}
+
+bg.complete_task = function(request) {
+  task = "";
+}
 
 // listener for run time messages
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -197,6 +208,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse(bg.get_timer());
   } else if (request.cmd === 'SET_SETTINGS') {
     bg.set_settings(request);
+  } else if (request.cmd === 'SET_TASK') {
+    bg.set_task(request);
   }
   return true;
 });

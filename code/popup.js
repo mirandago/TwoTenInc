@@ -36,7 +36,11 @@ class TimerDisplay {
       document.getElementById(this.pauseId).style.display = 'none';
     }
     if (timer.isFocus) {
-      document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+      if (timer.currentTask !== "") {
+        document.getElementById(this.stateTextId).innerText = timer.currentTask;
+      } else {
+        document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+      }
       document.getElementById(this.stateContainerId).style.backgroundColor =
         'powderblue';
     } else {

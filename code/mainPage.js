@@ -51,7 +51,11 @@ class TimerDisplay {
       document.getElementById(this.pauseId).style.display = 'none';
     }
     if (timer.isFocus) {
-      document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+      if (timer.currentTask !== "") {
+        document.getElementById(this.stateTextId).innerText = timer.currentTask;
+      } else {
+        document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+      }
     } else {
       document.getElementById(this.stateTextId).innerText = DEFAULT_BREAK_TEXT;
     }
@@ -168,6 +172,7 @@ function newButton(parent, info, id, group) {
   parent.appendChild(td);
   document.getElementById(button.id).addEventListener('click', function() {
     buttonClicked(button.id);
+    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: id});
   });
 }
 
