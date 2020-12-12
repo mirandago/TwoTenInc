@@ -158,13 +158,13 @@ bg.get_timer = function() {
     timeLeft = 0;
     isFocus = DEFAULT_FOCUS;
     isActive = DEFAULT_ACTIVE;
-    task = "";
+    task = '';
   }
   return {
     timeLeft: timeLeft,
     isActive: isActive,
     isFocus: isFocus,
-    currentTask: task
+    currentTask: task,
   };
 };
 
@@ -180,11 +180,11 @@ bg.set_settings = function(request) {
 
 bg.set_task = function(request) {
   task = request.task;
-}
+};
 
 bg.complete_task = function(request) {
-  task = "";
-}
+  task = '';
+};
 
 // listener for run time messages
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
