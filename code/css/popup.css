@@ -4,30 +4,30 @@ body {
     width: 200px;
 }
   
-#rcorners {
+.rcorners {
     margin: auto;
     text-align: center;
     border-radius: 12px;
-    background: blue;
+    background: powderblue;
     width: 50%;
     height: relative;
     font-size: 16px;
 }
 
-#timerContainer {
+.timerContainer {
     margin: auto;
     text-align: center;
     padding: 10px;
     font-size: 28px;
 }
 
-#expandContainer {
+.expandContainer {
     position: absolute;
     bottom: 8px;
     right: 8px;
 }
 
-#timerButtonsContainer {
+.timerButtonsContainer {
     text-align: center;
     display: flex;
     justify-content: center;

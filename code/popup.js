@@ -54,7 +54,7 @@ class TimerDisplay {
 
 // timer dsiplay variable
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
-    'timer_state', 'rcorners');
+    'timer_state', 'state_container');
 
 // Every 500 millisecond the timer UI will update
 getTimer = setInterval(() => {
