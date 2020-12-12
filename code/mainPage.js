@@ -160,8 +160,9 @@ function buttonClicked(id) {
 * @param {string} info is description of button
 * @param {string} id is key for storage
 * @param {string} group color for task
+* @param {string} taskName name of the task
 */
-function newButton(parent, info, id, group) {
+function newButton(parent, info, id, group, taskName) {
   const td = document.createElement('td');
   const button = document.createElement('button');
   const text = document.createTextNode(info);
@@ -173,7 +174,7 @@ function newButton(parent, info, id, group) {
   parent.appendChild(td);
   document.getElementById(button.id).addEventListener('click', function() {
     buttonClicked(button.id);
-    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: id});
+    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: taskName});
   });
 }
 
@@ -186,7 +187,8 @@ function loadCurRow(data, tbody) {
   tr.id = data.group + '-' + data.name;
   tr.className = 'success';
   tbody.appendChild(tr);
-  newButton(tr, 'focus on me!', data.group + '-' + data.name, data.group);
+  newButton(tr, 'focus on me!', data.group + '-' + data.name, data.group,
+      data.name);
   newNode(tr, data.name);
   newNode(tr, data.date);
 }
