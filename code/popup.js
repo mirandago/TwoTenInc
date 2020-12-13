@@ -36,7 +36,12 @@ class TimerDisplay {
       document.getElementById(this.pauseId).style.display = 'none';
     }
     if (timer.isFocus) {
-      document.getElementById(this.stateTextId).innerText = DEFAULT_FOCUS_TEXT;
+      if (timer.currentTask !== '') {
+        document.getElementById(this.stateTextId).innerText = timer.currentTask;
+      } else {
+        document.getElementById(this.stateTextId).innerText =
+          DEFAULT_FOCUS_TEXT;
+      }
       document.getElementById(this.stateContainerId).style.backgroundColor =
         'powderblue';
     } else {
@@ -49,7 +54,7 @@ class TimerDisplay {
 
 // timer dsiplay variable
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
-    'timer_state', 'rcorners');
+    'timer_state', 'roundCorners');
 
 // Every 500 millisecond the timer UI will update
 getTimer = setInterval(() => {
