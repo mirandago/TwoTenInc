@@ -37,7 +37,7 @@ class TimerDisplay {
     this.playId = playId;
     this.pauseId = pauseId;
     this.stateTextId = stateTextId;
-    this.completeId = completeId
+    this.completeId = completeId;
   }
 
 
