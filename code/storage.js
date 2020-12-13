@@ -168,13 +168,15 @@ export function completeSession(name, group) {
 /* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
-    for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].name == name) {
-        tasks[i].sessionCompleted++;
+    if (typeof tasks !== "undefined") {
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].name == name) {
+          tasks[i].sessionCompleted++;
+        }
       }
+      chrome.storage.sync.set({[group]: tasks}, function() {
+        console.log('Session completed');
+      });
     }
-    chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log('Session completed');
-    });
   });
 }
