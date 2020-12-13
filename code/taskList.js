@@ -3,7 +3,6 @@ let data = [];
 let loaded = false;
 let hidden = true;
 
-
 /** create new task node
 * @param {Object} parent gives parent node
 * @param {string} info is description of task
@@ -178,11 +177,18 @@ function mainPage() {
   location.href = 'mainPage.html';
 }
 
+
+
+
 window.onload=async function() {
-  data = await getAllTasks();
+  if (window.localStorage.getItem('runtest')) {
+    data = JSON.parse(window.localStorage.getItem('data'));
+  } else {
+    data = await getAllTasks();
+  }
   document.getElementById('back blackIcon').onclick = mainPage;
   const showHide = document.getElementById('show-completed');
-  showHide.addEventListener('click', function() {
+  document.getElementById('show-completed').addEventListener('click', function() {
     if (!loaded) { // need to show completed
       showHide.innerHTML = 'Hide Completed';
       loadCompletedData();

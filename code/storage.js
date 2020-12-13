@@ -7,17 +7,20 @@ export let testTask;
 /* eslint-disable */
 export async function addGroup(group) {
 /* eslint-enable */
+  if (window.localStorage.getItem('runtest')) {
+    // for cypress test
+    window.localStorage.setItem(group, 'addTask works');
+  }
   const existed = await new Promise(function(resolve, reject) {
-    if (window.localStorage.getItem('runtest')) {
-      const result = windlow.localStorage.getItem(group);
-      if (typeof(result) == 'undefined') {
+    if (window.localStorage.getItem('mochatest')) {
+      if (window.localStorage.getItem(group)==null) {
         const tasks = [];
-        window.localStorage.setItem(group, tasks);
+        window.localStorage.setItem(group, JSON.stringify(tasks));
         resolve(false);
-        console.log('Group ' + group + ' added');
+        console.log('\tGroup "' + group + '" added');
       } else {
         resolve(true);
-        console.log('Group ' + group + ' exists');
+        console.log('\tGroup "' + group + '" exists');
       }
     } else {
       chrome.storage.sync.get([group], function(result) {
@@ -25,16 +28,16 @@ export async function addGroup(group) {
           const tasks = [];
           chrome.storage.sync.set({[group]: tasks}, function() {
             resolve(false);
-            console.log('Group ' + group + ' added');
+            console.log('Group "' + group + '" added');
           });
         } else {
           resolve(true);
-          console.log('Group ' + group + ' exists');
+          console.log('Group "' + group + '" exists');
         }
       });
     }
   });
-  console.log(existed);
+  //console.log(existed);
   return existed;
 }
 
@@ -45,8 +48,8 @@ export async function addGroup(group) {
 export async function getGroups() {
 /* eslint-enable */
   const groups = await new Promise(function(resolve, reject) {
-    if (window.localStorage.getItem('runtest')) {
-      resolve(Object.entries(window.localStorage));
+    if (window.localStorage.getItem('mochatest')) {
+      resolve(Object.keys(window.localStorage));
     } else {
       chrome.storage.sync.get(null, function(result) {
         resolve(Object.keys(result));
@@ -78,9 +81,10 @@ export async function addTask(name, session, group) {
   };
   testTask = task; // for testing
   await addGroup(group);
+  console.log(window.localStorage.getItem(group));
   const existed = await new Promise(function(resolve, reject) {
-    if (window.localStorage.getItem(group)) {
-      const tasks = window.localStorage.getItem(group);
+    if (window.localStorage.getItem('mochatest')) {
+      const tasks = JSON.parse(window.localStorage.getItem(group));
       let e = false;
         for (let i = 0; i < tasks.length; i++) {
           if (tasks[i].name == name) {
@@ -90,11 +94,11 @@ export async function addTask(name, session, group) {
         }
         if (!e) {
           tasks.push(task);
-          window.localStorage.setItem(group, tasks);
-          console.log('Task added');
+          window.localStorage.setItem(group, JSON.stringify(tasks));
+          console.log('\tTask added');
           resolve(false);
         } else {
-          console.log('Task exists');
+          console.log('\tTask exists');
           resolve(true);
         }      
     } else {
@@ -150,8 +154,8 @@ export async function getAllTasks() {
 export async function getTasksByGroup(group) {
 /* eslint-enable */
   const tasks = await new Promise(function(resolve, reject) {
-    if (window.localStorage.getItem('runtest')) {
-      resolve(window.localStorage.getItem(group));
+    if (window.localStorage.getItem('mochatest')) {
+      resolve(JSON.parse(window.localStorage.getItem(group)));
     } else {
       chrome.storage.sync.get([group], function(result) {
         resolve(result[group]);
@@ -168,14 +172,14 @@ export async function getTasksByGroup(group) {
 /* eslint-disable */
 export function deleteTask(name, group) {
 /* eslint-enable */
-  if (window.localStorage.getItem('runtest')) {
-    const tasks = window.localStorage.getItem(group);
+  if (window.localStorage.getItem('mochatest')) {
+    const tasks = JSON.parse(window.localStorage.getItem(group));
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
         tasks.splice(i, 1);
       }
     }
-    window.localStoraage.setItem(group, tasks);
+    window.localStorage.setItem(group, JSON.stringify(tasks));
     console.log('Task deleted');
   } else {
     chrome.storage.sync.get([group], function(result) {
@@ -199,14 +203,14 @@ export function deleteTask(name, group) {
 /* eslint-disable */
 export function completeTask(name, group) {
 /* eslint-enable */
-  if (window.localStorage.getItem('runtest')) {
-    const tasks = window.localStorage.getItem(group);
+  if (window.localStorage.getItem('mochatest')) {
+    const tasks = JSON.parse(window.localStorage.getItem(group));
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
         tasks[i].completed = true;
       }
     }
-    window.localStorage.setItem(group, tasks);
+    window.localStorage.setItem(group, JSON.stringify(tasks));
     console.log('Task Completed');
   } else {
     chrome.storage.sync.get([group], function(result) {
@@ -230,14 +234,14 @@ export function completeTask(name, group) {
 /* eslint-disable */
 export function completeSession(name, group) {
 /* eslint-enable */
-  if (window.localStorage.getItem('runtest')) {
-    const tasks = window.localStorage.getItem(group);
+  if (window.localStorage.getItem('mochatest')) {
+    const tasks = JSON.parse(window.localStorage.getItem(group));
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
         tasks[i].sessionCompleted++;
       }
     }
-    window.localStorage.setItem(group, tasks);
+    window.localStorage.setItem(group, JSON.stringify(tasks));
     console.log('Session completed');
   } else {    
     chrome.storage.sync.get([group], function(result) {

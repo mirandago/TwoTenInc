@@ -27,7 +27,6 @@
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "chrome-api-mock": "0.0.2",
     "cypress": "^5.5.0",
     "eslint": "^7.12.1",
     "eslint-config-google": "^0.14.0",
@@ -39,5 +38,8 @@
     "sinon-chrome": "^3.0.1",
     "start-server-and-test": "^1.11.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cypress-promise": "^1.1.0",
+    "save-dev": "0.0.1-security"
+  }
 }

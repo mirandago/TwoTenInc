@@ -79,17 +79,31 @@ window.addEventListener('DOMContentLoaded', (event) => {
     chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
   });
 
-  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+  if (window.localStorage.getItem('runtest')) {
+    const response = {
+      timeLeft: 300,
+      isActive: true,
+      isFocus: true,
+      currentTask: 'testing',
+    };
     timerDisplay.updateTimerDisplay(response);
-  });
+  } else {
+    chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+      timerDisplay.updateTimerDisplay(response);
+    });
+  }
 });
 
 
 // Every 500 millisecond the timer UI will update
 const getTimer = setInterval(() => {
-  chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
-    timerDisplay.updateTimerDisplay(response);
-  });
+  if (window.localStorage.getItem('runtest')) {
+    timerDisplay.updateTimerDisplay(JSON.parse(window.localStorage.getItem('response')));
+  } else {
+    chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
+      timerDisplay.updateTimerDisplay(response);
+    });
+  }
 }, 500);
 
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
