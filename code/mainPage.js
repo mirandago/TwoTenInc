@@ -1,5 +1,4 @@
-import {addGroup, getGroups, addTask, getAllTasks, getTasksByGroup, 
-        deleteTask, completeTask, completeSession} from './storage.js';
+import {addTask, getAllTasks, getTasksByGroup} from './storage.js';
 
 let data = [];
 let prevId = undefined;
@@ -231,17 +230,21 @@ function changeTaskList(groupColor) {
   console.log(groupColor);
 }
 
+/** Get the current session status
+ * @return {String} A string for session status
+*/
+
 async function getSessionStr() {
   if(typeof prevId === 'undefined') {
     return 'Session 0/0';
   }
-  let words = prevId.split('-');
-  let group = words[0];
-  let name = words[1];
+  const words = prevId.split('-');
+  const group = words[0];
+  const name = words[1];
   let sessionStr = 'Sessoin ';
-  let tasks = await getTasksByGroup(group);
-  for(let i = 0; i < tasks.length; i++) {
-    if(tasks[i].name === name) {
+  const tasks = await getTasksByGroup(group);
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].name === name) {
       sessionStr = sessionStr + tasks[i].sessionCompleted + '/' + tasks[i].session;
     }
   }
