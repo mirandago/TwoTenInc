@@ -21,7 +21,6 @@
   "homepage": "https://github.com/mirandago/TwoTenInc#readme",
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.7",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
