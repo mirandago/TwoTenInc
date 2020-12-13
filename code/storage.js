@@ -168,7 +168,7 @@ export function completeSession(name, group) {
 /* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
-    if (typeof tasks !== "undefined") {
+    if (typeof tasks !== 'undefined') {
       for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].name == name) {
           tasks[i].sessionCompleted++;
