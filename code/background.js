@@ -186,9 +186,11 @@ bg.set_task = function(request) {
   group = request.group;
 };
 
-bg.complete_task = function(request) {
-  task = '';
-  group = '';
+bg.finish_task = function(request) {
+  if (request.task === task && request.group == group) {
+    task = '';
+    group = '';
+  }
 };
 
 // listener for run time messages
@@ -215,6 +217,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     bg.set_settings(request);
   } else if (request.cmd === 'SET_TASK') {
     bg.set_task(request);
+  } else if (request.cmd === 'FINISH_TASK') {
+    bg.finish_task(request);
   }
   return true;
 });
