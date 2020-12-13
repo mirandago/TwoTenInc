@@ -232,7 +232,7 @@ function changeTaskList(groupColor) {
  * @return {String} A string for session status
 */
 async function getSessionStr() {
-  if(typeof prevId === 'undefined') {
+  if (typeof prevId === 'undefined') {
     return 'Session 0/0';
   }
   const words = prevId.split('-');
@@ -242,7 +242,7 @@ async function getSessionStr() {
   const tasks = await getTasksByGroup(group);
   for (let i = 0; i < tasks.length; i++) {
     if (tasks[i].name === name) {
-      sessionStr = sessionStr + tasks[i].sessionCompleted + 
+      sessionStr = sessionStr + tasks[i].sessionCompleted +
       '/' + tasks[i].session;
     }
   }
