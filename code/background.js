@@ -2,7 +2,7 @@
 export const bg = {};
 
 import {getSettings} from './settingStorage.js';
-import {completeSession} from './storage.js';
+import {completeSession, completeTask} from './storage.js';
 // import the setting storage to use the get settings function
 // const imported = document.createElement('script');
 // imported.src = './settingStorage.js';
@@ -193,6 +193,13 @@ bg.finish_task = function(request) {
   }
 };
 
+// complete current task
+bg.complete_task = function(request) {
+  completeTask(task, group);
+  task = '';
+  group = '';
+};
+
 // listener for run time messages
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // start timer or continue
@@ -219,6 +226,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     bg.set_task(request);
   } else if (request.cmd === 'FINISH_TASK') {
     bg.finish_task(request);
+  } else if (request.cmd === 'COMPLETE_TASK') {
+    bg.complete_task(request);
   }
   return true;
 });
