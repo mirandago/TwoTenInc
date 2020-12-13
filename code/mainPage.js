@@ -158,7 +158,8 @@ function buttonClicked(id) {
   prevId = id;
 
   const words = id.split('-');
-  chrome.runtime.sendMessage({cmd: 'SET_TASK', task: words[1], group: words[0]});
+  chrome.runtime.sendMessage({cmd: 'SET_TASK', task: words[1],
+    group: words[0]});
 }
 
 /** add event listener for task button
