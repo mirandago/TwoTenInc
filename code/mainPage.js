@@ -238,7 +238,7 @@ async function getSessionStr() {
   const words = prevId.split('-');
   const group = words[0];
   const name = words[1];
-  let sessionStr = 'Sessoin ';
+  let sessionStr = 'Session ';
   const tasks = await getTasksByGroup(group);
   for (let i = 0; i < tasks.length; i++) {
     if (tasks[i].name === name) {
