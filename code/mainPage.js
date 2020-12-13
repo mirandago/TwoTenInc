@@ -156,6 +156,9 @@ function buttonClicked(id) {
   }
   document.getElementById(id).style = 'opacity: 0.6; cursor: not-allowed;';
   prevId = id;
+
+  const words = id.split('-');
+  chrome.runtime.sendMessage({cmd: 'SET_TASK', task: words[1], group: words[0]});
 }
 
 /** add event listener for task button
@@ -177,7 +180,6 @@ function newButton(parent, info, id, group, taskName) {
   parent.appendChild(td);
   document.getElementById(button.id).addEventListener('click', function() {
     buttonClicked(button.id);
-    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: taskName, group: group});
   });
 }
 
