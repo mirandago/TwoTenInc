@@ -3,7 +3,7 @@
 * @return {Boolean} Whether the group exists
 */
 /* eslint-disable */
-async function addGroup(group) {
+export async function addGroup(group) {
 /* eslint-enable */
   const existed = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
@@ -27,7 +27,7 @@ async function addGroup(group) {
 * @return {Array} A list of all groups
 */
 /* eslint-disable */
-async function getGroups() {
+export async function getGroups() {
 /* eslint-enable */
   const groups = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get(null, function(result) {
@@ -45,7 +45,7 @@ async function getGroups() {
 * @return {Boolean} Whether the task exists
 */
 /* eslint-disable */
-async function addTask(name, session, group) {
+export async function addTask(name, session, group) {
 /* eslint-enable */
   const d = new Date();
   const date = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
@@ -88,7 +88,7 @@ async function addTask(name, session, group) {
 * @return {Array} A list of all tasks
 */
 /* eslint-disable */
-async function getAllTasks() {
+export async function getAllTasks() {
 /* eslint-enable */
   const groups = await getGroups();
   const allTasks = [];
@@ -107,7 +107,7 @@ async function getAllTasks() {
 * @return {Array} A list of tasks in the group
 */
 /* eslint-disable */
-async function getTasksByGroup(group) {
+export async function getTasksByGroup(group) {
 /* eslint-enable */
   const tasks = await new Promise(function(resolve, reject) {
     chrome.storage.sync.get([group], function(result) {
@@ -122,7 +122,7 @@ async function getTasksByGroup(group) {
 * @param {String} group The name of the group
 */
 /* eslint-disable */
-function deleteTask(name, group) {
+export function deleteTask(name, group) {
 /* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
@@ -142,7 +142,7 @@ function deleteTask(name, group) {
 * @param {String} group The name of the group
 */
 /* eslint-disable */
-function completeTask(name, group) {
+export function completeTask(name, group) {
 /* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];
@@ -162,7 +162,7 @@ function completeTask(name, group) {
 * @param {String} group The name of the group
 */
 /* eslint-disable */
-function completeSession(name, group) {
+export function completeSession(name, group) {
 /* eslint-enable */
   chrome.storage.sync.get([group], function(result) {
     const tasks = result[group];

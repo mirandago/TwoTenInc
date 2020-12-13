@@ -1,5 +1,7 @@
-data = [];
-prevId = undefined;
+import {addTask, getAllTasks, getTasksByGroup} from './storage.js';
+
+let data = [];
+let prevId = undefined;
 /**
  * Go to task list page
  */
@@ -41,7 +43,7 @@ class TimerDisplay {
    * Update timer display based on the timer argument passed in
    * @param {*} timer
    */
-  updateTimerDisplay(timer) {
+  async updateTimerDisplay(timer) {
     document.getElementById(this.timerId).innerText = timer.timeLeft;
     if (timer.isActive) {
       document.getElementById(this.playId).style.display = 'none';
@@ -50,6 +52,7 @@ class TimerDisplay {
       document.getElementById(this.playId).style.display = 'block';
       document.getElementById(this.pauseId).style.display = 'none';
     }
+    document.getElementById('session').innerText = await getSessionStr();
     if (timer.isFocus) {
       if (timer.currentTask !== '') {
         document.getElementById(this.stateTextId).innerText = timer.currentTask;
@@ -85,7 +88,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 // Every 500 millisecond the timer UI will update
-getTimer = setInterval(() => {
+setInterval(() => {
   chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
     timerDisplay.updateTimerDisplay(response);
   });
@@ -174,7 +177,7 @@ function newButton(parent, info, id, group, taskName) {
   parent.appendChild(td);
   document.getElementById(button.id).addEventListener('click', function() {
     buttonClicked(button.id);
-    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: taskName});
+    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: taskName, group: group});
   });
 }
 
@@ -223,6 +226,27 @@ function changeTaskList(groupColor) {
   document.getElementById('taskListGroupBlue').disabled = false;
   document.getElementById('taskListGroup' + groupColor).disabled = true;
   console.log(groupColor);
+}
+
+/** Get the current session status
+ * @return {String} A string for session status
+*/
+async function getSessionStr() {
+  if (typeof prevId === 'undefined') {
+    return 'Session 0/0';
+  }
+  const words = prevId.split('-');
+  const group = words[0];
+  const name = words[1];
+  let sessionStr = 'Session ';
+  const tasks = await getTasksByGroup(group);
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].name === name) {
+      sessionStr = sessionStr + tasks[i].sessionCompleted +
+      '/' + tasks[i].session;
+    }
+  }
+  return sessionStr;
 }
 
 window.onload=async function() {
