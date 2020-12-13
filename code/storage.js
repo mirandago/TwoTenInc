@@ -135,6 +135,7 @@ export function deleteTask(name, group) {
       console.log('Task deleted');
     });
   });
+  chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
 }
 
 /** Complete a task in a group
@@ -155,6 +156,7 @@ export function completeTask(name, group) {
       console.log('Task Completed');
     });
   });
+  chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
 }
 
 /** Complete one session of a task in a group
