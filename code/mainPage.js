@@ -52,9 +52,7 @@ class TimerDisplay {
       document.getElementById(this.playId).style.display = 'block';
       document.getElementById(this.pauseId).style.display = 'none';
     }
-
     document.getElementById('session').innerText = await getSessionStr();
-    
     if (timer.isFocus) {
       if (timer.currentTask !== '') {
         document.getElementById(this.stateTextId).innerText = timer.currentTask;
@@ -90,7 +88,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 // Every 500 millisecond the timer UI will update
-let getTimer = setInterval(() => {
+setInterval(() => {
   chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
     timerDisplay.updateTimerDisplay(response);
   });
@@ -233,7 +231,6 @@ function changeTaskList(groupColor) {
 /** Get the current session status
  * @return {String} A string for session status
 */
-
 async function getSessionStr() {
   if(typeof prevId === 'undefined') {
     return 'Session 0/0';
@@ -245,7 +242,8 @@ async function getSessionStr() {
   const tasks = await getTasksByGroup(group);
   for (let i = 0; i < tasks.length; i++) {
     if (tasks[i].name === name) {
-      sessionStr = sessionStr + tasks[i].sessionCompleted + '/' + tasks[i].session;
+      sessionStr = sessionStr + tasks[i].sessionCompleted + 
+      '/' + tasks[i].session;
     }
   }
   return sessionStr;

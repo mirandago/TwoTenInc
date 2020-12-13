@@ -168,7 +168,7 @@ export function completeSession(name, group) {
     const tasks = result[group];
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
-          tasks[i].sessionCompleted++;
+        tasks[i].sessionCompleted++;
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
