@@ -1,4 +1,5 @@
 'use strict';
+import {getAllTasks} from './storage.js';
 let data = [];
 
 /**

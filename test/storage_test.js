@@ -11,17 +11,6 @@ describe('Testing API for storage.js', () => {
   const deleteTask = sinon.spy(deleteTask);
   const completeTask = sinon.spy(completeTask);
   const completeSession = sinon.spy(completeSession);
-  /*var store = {};
-
-  spyOn(localStorage, 'getItem').andCallFake(function (key) {
-    return store[key];
-  });
-  spyOn(localStorage, 'setItem').andCallFake(function (key, value) {
-    return store[key] = value + '';
-  });
-  spyOn(localStorage, 'clear').andCallFake(function () {
-      store = {};
-  });*/
 
   beforeEach(function() {
     addGroup.resetHistory();
@@ -35,14 +24,21 @@ describe('Testing API for storage.js', () => {
   });
   
   describe('test addGroup', () => {
-    it('check initial states', () => {
+    before('check initial states', () => {
       chai.expect(addGroup.called).to.equal(false);
     });
     
     it('Run addGroup', async () => {
-      await addGroup('this is mocha test');
+      return chai.expect(addGroup('this is mocha test'))
+        .to.eventually.be.fulfilled
+        //.then((value) => {  
+         // chai.expect(value).to.equal(42);  
+      //});  
+    });   
+
+    after('check results', () => {
       chai.expect(addGroup.called).to.equal(true);
-    });      
+    });    
   });
 /*
   it('test getGroups', () => {
@@ -80,7 +76,9 @@ describe('Testing API for storage.js', () => {
     chai.expect(testTask.date).to.equal(task.date);
     chai.expect(testTask.completed).to.equal(false);
   });
+
 /*
+
   it('pauseTimer handled correctly', () => {
     chai.expect(pauseTimer.called).to.equal(false);
     chai.assert.ok(pauseTimer());
@@ -88,7 +86,7 @@ describe('Testing API for storage.js', () => {
     chai.expect(isActive).to.equal(false);
     chai.expect(runningCall).to.equal(false);
   });
-
+/*
   it('resetTimer handled correctly', () => {
     const settings = {
       'timeLeft': 10,
