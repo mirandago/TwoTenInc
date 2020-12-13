@@ -2,6 +2,7 @@
 export const bg = {};
 
 import {getSettings} from './settingStorage.js';
+import {completeSession} from './storage.js';
 // import the setting storage to use the get settings function
 // const imported = document.createElement('script');
 // imported.src = './settingStorage.js';
@@ -25,6 +26,7 @@ export let breakL;
 export let longbreakL;
 // current task name
 export let task;
+export let group;
 
 export let isFocus;
 export let isActive;
@@ -95,6 +97,7 @@ bg.setRunningCall = () => {
       console.log('\t focus notification played');
     }
     if (isFocus) {
+      completeSession(task, group);
       sessionNum++;
       if (sessionNum % sulb === 0) {
         timeLeft = longbreakL;
@@ -180,10 +183,12 @@ bg.set_settings = function(request) {
 
 bg.set_task = function(request) {
   task = request.task;
+  group = request.group;
 };
 
 bg.complete_task = function(request) {
   task = '';
+  group = '';
 };
 
 // listener for run time messages

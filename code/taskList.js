@@ -1,7 +1,8 @@
 let data = [];
 let loaded = false;
 let hidden = true;
-
+import {addGroup, getGroups, addTask, getAllTasks, getTasksByGroup, 
+  deleteTask, completeTask, completeSession} from './storage.js';
 
 /** create new task node
 * @param {Object} parent gives parent node
