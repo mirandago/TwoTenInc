@@ -1,3 +1,4 @@
+//This is a temporary comment to display the CI/CD pipeline
 const DEFAULT_FOCUS_TEXT = 'Focus';
 const DEFAULT_BREAK_TEXT = 'Break';
 
