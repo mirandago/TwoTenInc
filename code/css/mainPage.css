@@ -7,11 +7,16 @@ body {
     line-height: 1.5;
     color: #212529;
     text-align: left;
-    background-color: #fff;
+    background-image: url(/img/darkBeanBG.jpg);    
+    background-size: 100%;
 }
 
 *, ::after, ::before {
     box-sizing: border-box;
+}
+
+.white {      
+    background-color: #fff;
 }
 
 .card {
@@ -21,7 +26,7 @@ body {
     -webkit-box-direction: normal;
     flex-direction: column;
     min-width: 0;
-    background-color: #fff;
+    background-color: #f2ece6;
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: .25rem;
@@ -83,7 +88,7 @@ body {
     display: block;
     width: 100%;
     padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 1.5;
     color: #495057;
     background-color: #fff;
