@@ -30,12 +30,14 @@ class TimerDisplay {
    * @param {*} playId
    * @param {*} pauseId
    * @param {*} stateTextId
+   * @param {*} completeId
    */
-  constructor(timerId, playId, pauseId, stateTextId) {
+  constructor(timerId, playId, pauseId, stateTextId, completeId) {
     this.timerId = timerId;
     this.playId = playId;
     this.pauseId = pauseId;
     this.stateTextId = stateTextId;
+    this.completeId = completeId;
   }
 
 
@@ -51,6 +53,12 @@ class TimerDisplay {
     } else {
       document.getElementById(this.playId).style.display = 'block';
       document.getElementById(this.pauseId).style.display = 'none';
+    }
+    // show complete task button only if a task is selected
+    if (timer.currentTask === '') {
+      document.getElementById(this.completeId).style.display = 'none';
+    } else {
+      document.getElementById(this.completeId).style.display = 'block';
     }
     document.getElementById('session').innerText = await getSessionStr();
     if (timer.isFocus) {
@@ -81,6 +89,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
   });
 
+  document.getElementById('complete_img').addEventListener('click', function() {
+    chrome.runtime.sendMessage({cmd: 'COMPLETE_TASK'});
+    window.location.reload();
+  });
+
   chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
     timerDisplay.updateTimerDisplay(response);
   });
@@ -95,7 +108,7 @@ setInterval(() => {
 }, 500);
 
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
-    'timer_state');
+    'timer_state', 'complete_img');
 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('viewTasksBtn').onclick = viewTaskList;
