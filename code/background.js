@@ -187,6 +187,7 @@ bg.finish_task = function(request) {
     task = '';
     group = '';
   }
+  return true;
 };
 
 // complete current task
@@ -257,6 +258,8 @@ export function setVarForTesting(settings) {
   timerL = settings.timerL;
   breakL = settings.breakL;
   longbreakL = settings.longbreakL;
+  task = settings.task;
+  group = settings.group;
   isFocus = settings.isFocus;
   isActive = settings.isActive;
   audioPlayed = settings.audioPlayed;

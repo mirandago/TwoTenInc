@@ -1,5 +1,5 @@
 import {bg, timeLeft, sessionNum, runningCall,
-  sulb, timerL, breakL, longbreakL, task, isFocus, isActive, breakAudio,
+  sulb, timerL, breakL, longbreakL, task, group, isFocus, isActive, breakAudio,
   focusAudio, DEFAULT_FOCUS, DEFAULT_ACTIVE, audioPlayed, setupStorageSettings,
   setVarForTesting} from '../code/background.js';
 
@@ -12,7 +12,8 @@ describe('Testing API for background.js', () => {
   const setTime = sinon.spy(bg.set_time);
   const getTime = sinon.spy(bg.get_time);
   const getTimer = sinon.spy(bg.get_timer);
-  const setTask = sinon.spy(bg.set_task);  
+  const setTask = sinon.spy(bg.set_task); 
+  const finishTask = sinon.spy(bg.finish_task);   
   const completeTask = sinon.spy(bg.complete_task);
   const setSettings = sinon.spy(bg.set_settings);  
   const setupStorageSettingsSpy = sinon.spy(setupStorageSettings);
@@ -24,6 +25,8 @@ describe('Testing API for background.js', () => {
     'timerL': undefined,
     'breakL': undefined,
     'longbreakL': undefined,
+    'task': undefined,
+    'group': undefined,
     'isFocus': undefined,
     'isActive': undefined,
     'audioPlayed': 'none',
@@ -38,6 +41,7 @@ describe('Testing API for background.js', () => {
     getTimer.resetHistory();
     setSettings.resetHistory();
     setTask.resetHistory();
+    finishTask.resetHistory();
     completeTask.resetHistory();
     setupStorageSettingsSpy.resetHistory();
     setVarForTesting(defaultSettings);
@@ -242,18 +246,44 @@ describe('Testing API for background.js', () => {
   
   it('setTask handled correctly', () => {
     chai.expect(setTask.called).to.equal(false);
-    const request = {task: '1234'};
+    const request = {task: '1234', group:'5678'};
     chai.assert.ok(setTask(request));
     chai.expect(setTask.calledOnce).to.equal(true);
     chai.expect(task).to.equal('1234');
+    chai.expect(group).to.equal('5678');
+  });
+  
+  it('finishTask handled correctly', () => {
+    chai.expect(finishTask.called).to.equal(false);
+    const request = {task: '1234', group:'5678'}; 
+    setVarForTesting({task:'task2',group:'Group1'}); 
+    chai.assert.ok(finishTask(request));
+    chai.expect(finishTask.calledOnce).to.equal(true);
+    chai.expect(task).to.equal('task2');
+    chai.expect(group).to.equal('Group1');     
+    
+    setVarForTesting({task:'1234',group:'5678'}); 
+    chai.assert.ok(finishTask(request));
+    chai.expect(finishTask.calledTwice).to.equal(true);
+    chai.expect(task).to.equal('');
+    chai.expect(group).to.equal('');      
   });
   
   it('completeTask handled correctly', () => {
+    window.localStorage.setItem('mochatest',true);
+    window.localStorage.setItem('Group1', 
+      JSON.stringify([{name:'task1',completed:false},
+        {name:'task2',completed:false}]));    
+    setVarForTesting({task:'task2',group:'Group1'});
     chai.expect(completeTask.called).to.equal(false);
-    const request = {task: '1234'};
+    const request = {};
     chai.assert.ok(completeTask(request));
     chai.expect(completeTask.calledOnce).to.equal(true);
     chai.expect(task).to.equal('');
+    chai.expect(group).to.equal('');
+    // completeTask also called to update storage
+    chai.expect(JSON.parse(window.localStorage.getItem('Group1'))[0].completed).to.equal(false);
+    chai.expect(JSON.parse(window.localStorage.getItem('Group1'))[1].completed).to.equal(true);
   });
 
   it('setupStorageSettings functions correctly', () => {
