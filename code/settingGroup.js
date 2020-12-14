@@ -1,7 +1,6 @@
 'use strict';
 import {getAllTasks} from './storage.js';
 let data = [];
-import {getAllTasks} from './storage.js';
 /**
  * Go to the timer settings page
  */

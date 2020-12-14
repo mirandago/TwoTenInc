@@ -242,6 +242,7 @@ export function completeSession(name, group) {
       if (tasks[i].name == name) {
         tasks[i].sessionCompleted++;
       }
+    }
     window.localStorage.setItem(group, JSON.stringify(tasks));
     console.log('Session completed');
   } else {    
