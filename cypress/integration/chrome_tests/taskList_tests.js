@@ -36,7 +36,7 @@ describe('Full Task List Test', () => {
 	// check tasklist has correct elements
 	it('taskList page loads', () => {
     cy.visit('/code/taskList.html')
-    cy.get('button[class=roundButton]').should('exist')
+    cy.get('button[class=mainPageButton]').should('exist')
     cy.get('h1').should('have.text', 'Task List')
     cy.get('table#task-table').should('exist')
     cy.get('button#show-completed').should('exist')
@@ -46,7 +46,7 @@ describe('Full Task List Test', () => {
   
   it ('back to main page', async () => {
     const finishAsyncCode = await promisify(cy.visit('/code/taskList.html'))
-    const finishAsyncClick = await promisify(cy.get('button[class=roundButton]').click())
+    const finishAsyncClick = await promisify(cy.get('button[class=mainPageButton]').click())
     cy.location('pathname').should('include', 'mainPage')
   })
   
