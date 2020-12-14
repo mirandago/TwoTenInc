@@ -5,8 +5,7 @@ body {
 }
   
 .stateContainer {
-    height: 60px;
-    padding-bottom: 10px;
+    height: 40px;
 }
 
 .rcorners {
@@ -22,10 +21,25 @@ body {
 .timerContainer {
     margin: auto;
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 20px;
     font-size: 28px;
-    height: 50px;
+    height: 32px;
+}
+
+.coffeeMugContainer {
+    position: relative;
+    text-align: left;
+}
+
+.mugImage {
+    padding-left: 40px;
+    width: 150px;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .expandContainer {
@@ -35,6 +49,7 @@ body {
 }
 
 .timerButtonsContainer {
+    padding-top: 4px;
     text-align: center;
     display: flex;
     justify-content: center;

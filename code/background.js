@@ -97,7 +97,10 @@ bg.setRunningCall = () => {
       console.log('\t focus notification played');
     }
     if (isFocus) {
-      completeSession(task, group);
+      // complete task if working on something
+      if (task !== '') {
+        completeSession(task, group);
+      }
       sessionNum++;
       if (sessionNum % sulb === 0) {
         timeLeft = longbreakL;
