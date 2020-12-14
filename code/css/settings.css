@@ -1,3 +1,10 @@
+body {    
+    background-image: url(/img/darkBeanBG.jpg);       
+    background-position: 0 -133px; 
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
 .topcorner{
     position:absolute;
     top:0;
@@ -159,10 +166,13 @@
 }
 
 .mainPageButton {
+    display: block;
+    margin: auto;
     border: none;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
     border-radius: 10px;
     background-color: #A9A9A9; /* Gray */
-    padding: 8px;
+    width: 40px;
+    height: 40px;
 }

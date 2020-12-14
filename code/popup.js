@@ -13,13 +13,16 @@ class TimerDisplay {
    * @param {*} pauseId
    * @param {*} stateTextId
    * @param {*} stateContainerId
+   * @param {*} completeId
    */
-  constructor(timerId, playId, pauseId, stateTextId, stateContainerId) {
+  constructor(timerId, playId, pauseId, stateTextId, stateContainerId,
+      completeId) {
     this.timerId = timerId;
     this.playId = playId;
     this.pauseId = pauseId;
     this.stateTextId = stateTextId;
     this.stateContainerId = stateContainerId;
+    this.completeId = completeId;
   }
 
   /**
@@ -34,6 +37,11 @@ class TimerDisplay {
     } else {
       document.getElementById(this.playId).style.display = 'block';
       document.getElementById(this.pauseId).style.display = 'none';
+    }
+    if (timer.currentTask === '') {
+      document.getElementById(this.completeId).style.display = 'none';
+    } else {
+      document.getElementById(this.completeId).style.display = 'block';
     }
     if (timer.isFocus) {
       if (timer.currentTask !== '') {
@@ -54,7 +62,7 @@ class TimerDisplay {
 
 // timer dsiplay variable
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
-    'timer_state', 'roundCorners');
+    'timer_state', 'roundCorners', 'complete_img');
 
 // Every 500 millisecond the timer UI will update
 getTimer = setInterval(() => {
@@ -81,6 +89,10 @@ document.getElementById('pause_img').addEventListener('click', function() {
 
 document.getElementById('reset_img').addEventListener('click', function() {
   chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
+});
+
+document.getElementById('complete_img').addEventListener('click', function() {
+  chrome.runtime.sendMessage({cmd: 'COMPLETE_TASK'});
 });
 
 document.getElementById('expand_img').addEventListener('click', function() {

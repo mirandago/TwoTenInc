@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<script type="module" language='javascript' src='storage.js'></script>
 <script type="module" language='javascript' src='taskList.js'></script>
 <html>
+
+<head>
+    <title>Focus with Caffeine </title>
+    <meta charset = "UTF-8" />
+  </head>
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-    <link rel="stylesheet" href="css/taskList.css">
+	<link rel="stylesheet" href="css/taskList.css">
 	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<button id="back blackIcon" class="roundButton"><i class="fas fa-arrow-circle-left"></i></button>
+
 <br></br>
+<div class="mainPageButtonContainer">
+	<button class="mainPageButton" id="back blackIcon">
+	<i class="fas fa-reply"></i>
+	</button>
+</div>
 <h1 class="title">Task List</h1>
 <br></br>
 <table class="table" id='task-table'>
