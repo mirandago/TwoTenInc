@@ -1,3 +1,5 @@
+export let testTask;
+
 /** Add a new group
 * @param {String} group The color of the group
 * @return {Boolean} Whether the group exists
@@ -5,21 +7,37 @@
 /* eslint-disable */
 export async function addGroup(group) {
 /* eslint-enable */
+  if (window.localStorage.getItem('runtest')) {
+    // for cypress test
+    window.localStorage.setItem(group, 'addTask works');
+  }
   const existed = await new Promise(function(resolve, reject) {
-    chrome.storage.sync.get([group], function(result) {
-      if (typeof(result[group]) == 'undefined') {
+    if (window.localStorage.getItem('mochatest')) {
+      if (window.localStorage.getItem(group)==null) {
         const tasks = [];
-        chrome.storage.sync.set({[group]: tasks}, function() {
-          resolve(false);
-          console.log('Group ' + group + ' added');
-        });
+        window.localStorage.setItem(group, JSON.stringify(tasks));
+        resolve(false);
+        console.log('\tGroup "' + group + '" added');
       } else {
         resolve(true);
-        console.log('Group ' + group + ' exists');
+        console.log('\tGroup "' + group + '" exists');
       }
-    });
+    } else {
+      chrome.storage.sync.get([group], function(result) {
+        if (typeof(result[group]) == 'undefined') {
+          const tasks = [];
+          chrome.storage.sync.set({[group]: tasks}, function() {
+            resolve(false);
+            console.log('Group "' + group + '" added');
+          });
+        } else {
+          resolve(true);
+          console.log('Group "' + group + '" exists');
+        }
+      });
+    }
   });
-  console.log(existed);
+  // console.log(existed);
   return existed;
 }
 
@@ -30,9 +48,13 @@ export async function addGroup(group) {
 export async function getGroups() {
 /* eslint-enable */
   const groups = await new Promise(function(resolve, reject) {
-    chrome.storage.sync.get(null, function(result) {
-      resolve(Object.keys(result));
-    });
+    if (window.localStorage.getItem('mochatest')) {
+      resolve(Object.keys(window.localStorage));
+    } else {
+      chrome.storage.sync.get(null, function(result) {
+        resolve(Object.keys(result));
+      });
+    }
   });
   console.log(groups);
   return groups;
@@ -57,10 +79,12 @@ export async function addTask(name, session, group) {
     date: date,
     completed: false,
   };
+  testTask = task; // for testing
   await addGroup(group);
+  console.log(window.localStorage.getItem(group));
   const existed = await new Promise(function(resolve, reject) {
-    chrome.storage.sync.get([group], function(result) {
-      const tasks = result[group];
+    if (window.localStorage.getItem('mochatest')) {
+      const tasks = JSON.parse(window.localStorage.getItem(group));
       let e = false;
       for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].name == name) {
@@ -70,15 +94,35 @@ export async function addTask(name, session, group) {
       }
       if (!e) {
         tasks.push(task);
-        chrome.storage.sync.set({[group]: tasks}, function() {
-          console.log('Task added');
-        });
+        window.localStorage.setItem(group, JSON.stringify(tasks));
+        console.log('\tTask added');
         resolve(false);
       } else {
-        console.log('Task exists');
+        console.log('\tTask exists');
         resolve(true);
       }
-    });
+    } else {
+      chrome.storage.sync.get([group], function(result) {
+        const tasks = result[group];
+        let e = false;
+        for (let i = 0; i < tasks.length; i++) {
+          if (tasks[i].name == name) {
+            e = true;
+            break;
+          }
+        }
+        if (!e) {
+          tasks.push(task);
+          chrome.storage.sync.set({[group]: tasks}, function() {
+            console.log('Task added');
+          });
+          resolve(false);
+        } else {
+          console.log('Task exists');
+          resolve(true);
+        }
+      });
+    }
   });
   console.log(existed);
   return existed;
@@ -110,9 +154,13 @@ export async function getAllTasks() {
 export async function getTasksByGroup(group) {
 /* eslint-enable */
   const tasks = await new Promise(function(resolve, reject) {
-    chrome.storage.sync.get([group], function(result) {
-      resolve(result[group]);
-    });
+    if (window.localStorage.getItem('mochatest')) {
+      resolve(JSON.parse(window.localStorage.getItem(group)));
+    } else {
+      chrome.storage.sync.get([group], function(result) {
+        resolve(result[group]);
+      });
+    }
   });
   return tasks;
 }
@@ -124,18 +172,29 @@ export async function getTasksByGroup(group) {
 /* eslint-disable */
 export function deleteTask(name, group) {
 /* eslint-enable */
-  chrome.storage.sync.get([group], function(result) {
-    const tasks = result[group];
+  if (window.localStorage.getItem('mochatest')) {
+    const tasks = JSON.parse(window.localStorage.getItem(group));
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
         tasks.splice(i, 1);
       }
     }
-    chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log('Task deleted');
+    window.localStorage.setItem(group, JSON.stringify(tasks));
+    console.log('Task deleted');
+  } else {
+    chrome.storage.sync.get([group], function(result) {
+      const tasks = result[group];
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].name == name) {
+          tasks.splice(i, 1);
+        }
+      }
+      chrome.storage.sync.set({[group]: tasks}, function() {
+        console.log('Task deleted');
+      });
     });
-  });
-  chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
+    chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
+  }
 }
 
 /** Complete a task in a group
@@ -145,18 +204,29 @@ export function deleteTask(name, group) {
 /* eslint-disable */
 export function completeTask(name, group) {
 /* eslint-enable */
-  chrome.storage.sync.get([group], function(result) {
-    const tasks = result[group];
+  if (window.localStorage.getItem('mochatest')) {
+    const tasks = JSON.parse(window.localStorage.getItem(group));
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].name == name) {
         tasks[i].completed = true;
       }
     }
-    chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log('Task Completed');
+    window.localStorage.setItem(group, JSON.stringify(tasks));
+    console.log('Task Completed');
+  } else {
+    chrome.storage.sync.get([group], function(result) {
+      const tasks = result[group];
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].name == name) {
+          tasks[i].completed = true;
+        }
+      }
+      chrome.storage.sync.set({[group]: tasks}, function() {
+        console.log('Task Completed');
+      });
     });
-  });
-  chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
+    chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
+  }
 }
 
 /** Complete one session of a task in a group
@@ -166,17 +236,28 @@ export function completeTask(name, group) {
 /* eslint-disable */
 export function completeSession(name, group) {
 /* eslint-enable */
-  chrome.storage.sync.get([group], function(result) {
-    const tasks = result[group];
-    if (typeof tasks !== 'undefined') {
-      for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].name == name) {
-          tasks[i].sessionCompleted++;
-        }
+  if (window.localStorage.getItem('mochatest')) {
+    const tasks = JSON.parse(window.localStorage.getItem(group));
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].name == name) {
+        tasks[i].sessionCompleted++;
       }
-      chrome.storage.sync.set({[group]: tasks}, function() {
-        console.log('Session completed');
-      });
     }
-  });
+    window.localStorage.setItem(group, JSON.stringify(tasks));
+    console.log('Session completed');
+  } else {
+    chrome.storage.sync.get([group], function(result) {
+      const tasks = result[group];
+      if (typeof tasks !== 'undefined') {
+        for (let i = 0; i < tasks.length; i++) {
+          if (tasks[i].name == name) {
+            tasks[i].sessionCompleted++;
+          }
+        }
+        chrome.storage.sync.set({[group]: tasks}, function() {
+          console.log('Session completed');
+        });
+      }
+    });
+  }
 }

@@ -1,7 +1,7 @@
+import {getAllTasks, deleteTask, completeTask} from './storage.js';
 let data = [];
 let loaded = false;
 let hidden = true;
-import {getAllTasks, deleteTask, completeTask} from './storage.js';
 
 /** create new task node
 * @param {Object} parent gives parent node
@@ -177,26 +177,32 @@ function mainPage() {
   location.href = 'mainPage.html';
 }
 
+
 window.onload=async function() {
-  data = await getAllTasks();
+  if (window.localStorage.getItem('runtest')) {
+    data = JSON.parse(window.localStorage.getItem('data'));
+  } else {
+    data = await getAllTasks();
+  }
   document.getElementById('back blackIcon').onclick = mainPage;
   const showHide = document.getElementById('show-completed');
-  showHide.addEventListener('click', function() {
-    if (!loaded) { // need to show completed
-      showHide.innerHTML = 'Hide Completed';
-      loadCompletedData();
-      loaded = true;
-      hidden = false;
-    } else if (hidden) {
-      showHide.innerHTML = 'Hide Completed';
-      revealCompletedData();
-      hidden = false;
-    } else { // want to hide completed
-      showHide.innerHTML = 'Show Completed';
-      hideCompletedData();
-      hidden = true;
-    }
-  });
+  document.getElementById('show-completed')
+      .addEventListener('click', function() {
+        if (!loaded) { // need to show completed
+          showHide.innerHTML = 'Hide Completed';
+          loadCompletedData();
+          loaded = true;
+          hidden = false;
+        } else if (hidden) {
+          showHide.innerHTML = 'Hide Completed';
+          revealCompletedData();
+          hidden = false;
+        } else { // want to hide completed
+          showHide.innerHTML = 'Show Completed';
+          hideCompletedData();
+          hidden = true;
+        }
+      });
   loadCurData();
 };
 

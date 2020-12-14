@@ -1,15 +1,9 @@
 // Keeps running in the background
 export const bg = {};
-
 import {getSettings} from './settingStorage.js';
 import {completeSession, completeTask} from './storage.js';
-// import the setting storage to use the get settings function
-// const imported = document.createElement('script');
-// imported.src = './settingStorage.js';
-// document.head.appendChild(imported);
 
 // timer variables to keep track off
-
 // time left in seconds
 export let timeLeft;
 // sessions counter
@@ -32,7 +26,6 @@ export let isFocus;
 export let isActive;
 export const breakAudio = new Audio(chrome.runtime.getURL('audio/break.mp3'));
 export const focusAudio = new Audio(chrome.runtime.getURL('audio/focus.mp3'));
-// let currentTask;
 
 // constants
 export const DEFAULT_FOCUS = true;
@@ -124,7 +117,6 @@ bg.start_timer = function() {
     timeLeft = timerL;
     isFocus = DEFAULT_FOCUS;
   }
-  // don't know how to test setInterval at the moment
   // runs every second
   runningCall = setInterval(bg.setRunningCall, 1000);
   return true;
@@ -187,6 +179,7 @@ bg.set_settings = function(request) {
 bg.set_task = function(request) {
   task = request.task;
   group = request.group;
+  return true;
 };
 
 bg.finish_task = function(request) {
@@ -194,6 +187,7 @@ bg.finish_task = function(request) {
     task = '';
     group = '';
   }
+  return true;
 };
 
 // complete current task
@@ -201,6 +195,7 @@ bg.complete_task = function(request) {
   completeTask(task, group);
   task = '';
   group = '';
+  return true;
 };
 
 // listener for run time messages
@@ -263,6 +258,8 @@ export function setVarForTesting(settings) {
   timerL = settings.timerL;
   breakL = settings.breakL;
   longbreakL = settings.longbreakL;
+  task = settings.task;
+  group = settings.group;
   isFocus = settings.isFocus;
   isActive = settings.isActive;
   audioPlayed = settings.audioPlayed;
