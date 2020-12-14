@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <script type="module" language='javascript' src='mainPage.js'></script>
 <link rel="stylesheet" href="css/mainPage.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 <html lang = "en">
 
   <head>
@@ -17,7 +18,7 @@
     </div>
 
     <div class = "container" style="margin-top: 20px; margin-bottom: 20px;">
-      <div class="row d-flex justify-content-center" style="border:1px solid black; border-radius: 10px; padding:5px; margin: 5px;">
+      <div class="row d-flex justify-content-center white" style="border:1px solid black; border-radius: 10px; padding:5px; margin: 5px;">
         <div class="col-sm" style="font-size: 12px; text-align: center; padding-top: 6px;">
           <label id="timer_state" style="white-space: nowrap;" >Timer State</label>
         </div>
@@ -34,14 +35,14 @@
           <div class="container d-flex justify-content-center" id="timerButtonsContainer">
             <div class="row">
               <div id="play_img">
-              <div class="col- d-flex justify-content-center"><img id="imgid" src="img/playIcon.png" height="28" size="28"></div>
+              <div class="col- d-flex justify-content-center imgWithPointer"><img id="imgid" src="img/playIcon.png" height="28" size="28"></div>
               </div>
               <div id="pause_img">
-              <div class="col- d-flex justify-content-center"><img src="img/pauseIcon.png" height="28" size="28"></div>
+              <div class="col- d-flex justify-content-center imgWithPointer"><img src="img/pauseIcon.png" height="28" size="28"></div>
               </div>
-              <div class="col- d-flex justify-content-center" id="reset_img"><img src="img/resetIcon.png" height="28" size="28"></div>
+              <div class="col- d-flex justify-content-center imgWithPointer" id="reset_img"><img src="img/resetIcon.png" height="28" size="28"></div>
               <div id="complete_img">
-              <div class="col- d-flex justify-content-center" ><img src="img/completeIcon.png" style="padding:4px;" height="28" size="28"></div>
+              <div class="col- d-flex justify-content-center imgWithPointer" ><img src="img/completeIcon.png" style="padding:4px;" height="28" size="28"></div>
               </div>
             </div>
           </div>
@@ -50,7 +51,7 @@
     </div>
 
     <div class="container" style="margin-top: 10px;">
-      <div class="row d-flex justify-content-center" style="border:1px solid black; border-radius: 10px; padding:10px; margin: 5px;">
+      <div class="row d-flex justify-content-center white" style="border:1px solid black; border-radius: 10px; padding:10px; margin: 5px;height:80px">
         <form>
           <div class="form-row">
             <div class="form-group col-" id="input_task">
@@ -63,7 +64,7 @@
             </div>
             <div class="form-group col-" id="group_select">
               <label for="inputState" style="font-size:14px;">Group</label>
-                <select id="groups" style="height:38px;" class="form-control" style="width:96px;">
+                <select id="groups" style="height:35px;width:96px;" class="form-control">
                   <option color="#FF0000">Red</option>
                   <option color="#008000">Green</option>
                   <option color="#FFFF00">Yellow</option>
@@ -71,7 +72,7 @@
                 </select>
             </div>
             <div class="form-group col-" style="margin-top: 24px;">
-              <button type="submit" style="font-size:16px;" class="btn btn-primary" id="submitTaskBtn">Submit</button>
+              <button type="submit" style="font-size:14px;" class="btn btn-primary" id="submitTaskBtn">Submit</button>
             </div>
           </div>
         </form>
@@ -79,36 +80,45 @@
     </div>
 
     <div class = "container" style="margin-top: 16px; margin-bottom: 16px; font-size: 12px;">
-      <div class="row" style="margin: 10px; margin-bottom: 0px;">
-        <label style="margin-top: 5px; font-size: 16px;">Task List </label>
-        <div class="btn-group d-flex justify-content-right">
-          <button type="submit" id="taskListGroupRed">Red</button>
-          <button type="submit" id="taskListGroupGreen">Green</button>
-          <button type="submit" id="taskListGroupYellow">Yellow</button>
-          <button type="submit" id="taskListGroupBlue">Blue</button>
+      <div class="container white" style="border:1px solid black; border-radius: 10px; padding:5px;">
+        <label style="margin-top: 5px; font-size: 16px; float: left;">Task List </label>
+        <div class="btn-group d-flex">
+          <button type="submit" id="taskListGroupRed">
+            <text class="red"><i class="fas fa-circle"></i></text> Red
+          </button>
+          <button type="submit" id="taskListGroupGreen">
+            <text class="green"><i class="fas fa-circle"></i></text> Green
+          </button>
+          <button type="submit" id="taskListGroupYellow">
+            <text class="yellow"><i class="fas fa-circle"></i></text> Yellow
+          </button>
+          <button type="submit" id="taskListGroupBlue">
+            <text class="blue"><i class="fas fa-circle"></i></text> Blue
+          </button>
         </div>
-      </div>
-      <div class="container" style="border:1px solid black; border-radius: 10px; padding:5px;">
+        <div class="container white" style="border:1px solid black; border-radius: 10px; padding:5px;">
+          <div style="height:100px;overflow:auto;font-size: 8px;">
 
-        <div style="height:100px;overflow:auto;font-size: 8px;">
-
-          <table class="table" id='task-table' style="height:auto; width: 100%;">
-            <tbody id="task-table-body">
-              
-            </tbody>
-          </table>
-          
+            <table class="table" id='task-table' style="height:auto; width: 100%;">
+              <tbody id="task-table-body">
+                
+              </tbody>
+            </table>
+            
+            </div>
+          <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary" id="viewTasksBtn" style="margin-top: 10px; font-size:8px;"> View Full Task List</button>
           </div>
-        <div style="text-align: center;">
-          <button type="submit" class="btn btn-primary" id="viewTasksBtn" style="margin-top: 10px; font-size:8px;"> View Full Task List</button>
         </div>
       </div>
     </div>
 
     <div class="card">
         <div class="card-footer" id="settingContainer" style ="padding: 12px;">
-          <div id="setting_img" style="text-align:right; font-size: 12px;">
+          <div style="text-align:right; font-size: 12px;">
+            <div id="setting_img" style="position: relative; float: right;" class="imgWithPointer">
             <img src="img/settingIcon.png" height="20" size="20">
+            </div>
           </div>
         </div>
     </div>

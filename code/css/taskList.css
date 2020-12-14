@@ -1,7 +1,20 @@
+body {
+    background-image: url(/img/taskListTopBG.jpg), url(/img/taskListBottomBG.jpg);
+    background-size: 100%, 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+    background-position: center top, center bottom;
+}
+
 .title {
     font-size: 24px;
-    margin: 0px 15px;
-    line-height: 10px;
+    margin: 0px 5px;
+    margin-bottom: 20px;
+    float:left;
+    border:1px solid black; 
+    border-radius: 10px; 
+    padding:5px;
+    background-color:white;
 }
 
 .roundButton {
@@ -33,10 +46,29 @@
     border-width: 1px;
     border-color: black;
     width: 98%;
+    background-color:white;
 }
 
 .showHide {
    display: flex;
    justify-content: center;
    padding: 10px;
+}
+
+.mainPageButtonContainer {
+    position: absolute;
+    top: 8px;
+    right: 8px;    
+}
+
+.mainPageButton {
+    display: block;
+    margin: auto;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #A9A9A9; /* Gray */
+    width: 40px;
+    height: 40px;
 }
