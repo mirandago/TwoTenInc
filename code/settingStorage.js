@@ -19,8 +19,8 @@ const DEFAULT_LONGBREAKL = 15;
 // Need to disable because getSettings is used in a different file
 export function getSettings(callBackFunction) {
 /* eslint-enable */
-  chrome.storage.local.get(['timerSetting'], function(result) {
-    // settings is undefined, set values to default
+  if (window.localStorage.getItem('runtest')) {
+    const result = window.localStorage.getItem('timerSetting');
     if (result.timerSetting === undefined) {
       // console.log('undefined');
       const values = {
@@ -35,7 +35,25 @@ export function getSettings(callBackFunction) {
       // has the result
       callBackFunction(result.timerSetting);
     }
-  });
+  } else {
+    chrome.storage.local.get(['timerSetting'], function(result) {
+      // settings is undefined, set values to default
+      if (result.timerSetting === undefined) {
+        console.log('undefined');
+        const values = {
+          'timerL': DEFAULT_TIMERL,
+          'breakL': DEFAULT_BREAKL,
+          'SULB': DEFAULT_SULB,
+          'longbreakL': DEFAULT_LONGBREAKL,
+        };
+        setSettings(values);
+        callBackFunction(values);
+      } else {
+        // has the result
+        callBackFunction(result.timerSetting);
+      }
+    });
+  }
 }
 
 /**
@@ -51,11 +69,17 @@ export function setSettings(values) {
     'SULB': values.SULB,
     'longbreakL': values.longbreakL,
   };
-  // store in local storage
-  chrome.storage.local.set({'timerSetting': newSettings, function() {}});
-  // tell background timer new settings
-  chrome.runtime.sendMessage(
-      {cmd: 'SET_SETTINGS', settings: values},
-      (response) => {},
-  );
+  if (window.localStorage.getItem('runtest')) {
+    window.localStorage.setItem('timerSetting', newSettings);
+    const request = {cmd: 'SET_SETTINGS', settings: values};
+    bg.set_settings(request);
+  } else {
+    // store in local storage
+    chrome.storage.local.set({'timerSetting': newSettings, function() {}});
+    // tell background timer new settings
+    chrome.runtime.sendMessage(
+        {cmd: 'SET_SETTINGS', settings: values},
+        (response) => {},
+    );
+  }
 }
