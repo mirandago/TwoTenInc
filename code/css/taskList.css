@@ -40,3 +40,21 @@
    justify-content: center;
    padding: 10px;
 }
+
+.mainPageButtonContainer {
+    position: absolute;
+    top: 8px;
+    right: 8px;    
+}
+
+.mainPageButton {
+    display: block;
+    margin: auto;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #A9A9A9; /* Gray */
+    width: 40px;
+    height: 40px;
+}

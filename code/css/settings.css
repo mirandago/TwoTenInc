@@ -159,10 +159,13 @@
 }
 
 .mainPageButton {
+    display: block;
+    margin: auto;
     border: none;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
     border-radius: 10px;
     background-color: #A9A9A9; /* Gray */
-    padding: 8px;
+    width: 40px;
+    height: 40px;
 }
