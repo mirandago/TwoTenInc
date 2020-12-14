@@ -167,7 +167,8 @@ function buttonClicked(id) {
   if (typeof prevId !== 'undefined' && document.getElementById(prevId)) {
     document.getElementById(prevId).style = 'opacity: 1; cursor: allowed;';
   }
-  document.getElementById(id).style = 'background-color: green; cursor: not-allowed;';
+  document.getElementById(id).style =
+      'background-color: green; cursor: not-allowed;';
   prevId = id;
 
   const words = id.split('-');
@@ -187,7 +188,7 @@ function newButton(parent, info, id, group, taskName) {
   const button = document.createElement('button');
   const text = document.createTextNode(info);
   button.type = 'button';
-  button.className = ' btn btn-primary btn-sm'; //'btn-' + group + 
+  button.className = ' btn btn-primary btn-sm'; // 'btn-' + group +
   button.id = id + '-button';
   button.appendChild(text);
   td.appendChild(button);

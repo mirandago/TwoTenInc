@@ -9,17 +9,20 @@
     <div class="rcorners" id="roundCorners"><p id="timer_state">Timer State</p></div>
     </div>
 
-    <div><p class="timerContainer" id="timer">00:00</p></div>
+    <div class="coffeeMugContainer">
+    <img src="./img/coffeeMug.png"  class="mugImage">
+    <div><p class="timerContainer centered" id="timer">00:00</p></div>
+    </div>
     
     <div class="timerButtonsContainer">
-    <div id="play_img"><img id="imgid" src="img/playIcon.png" height="28" size="28"></div>
-    <div id="pause_img"><img src="img/pauseIcon.png" height="28" size="28"></div>
-    <div id="reset_img"><img src="img/resetIcon.png" height="28" size="28"></div>
-    <div id="complete_img" style="padding:4px;"><img src="img/completeIcon.png" height="20" size="20"></div>
+    <div id="play_img" class="imgWithPointer"><img id="imgid" src="img/playIcon.png" height="28" size="28"></div>
+    <div id="pause_img" class="imgWithPointer"><img src="img/pauseIcon.png" height="28" size="28"></div>
+    <div id="reset_img" class="imgWithPointer"><img src="img/resetIcon.png" height="28" size="28"></div>
+    <div id="complete_img" style="padding:4px;" class="imgWithPointer"><img src="img/completeIcon.png" height="20" size="20"></div>
     </div>
 
     <div class="expandContainer">
-    <div id="expand_img"><img src="img/expandIcon.png" height="16" size="16"></div>
+    <div id="expand_img" class="imgWithPointer"><img src="img/expandIcon.png" height="16" size="16"></div>
     </div>
 
 <script language='javascript' src='popup.js'></script>
