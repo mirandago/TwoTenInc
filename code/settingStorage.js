@@ -22,7 +22,7 @@ export function getSettings(callBackFunction) {
   chrome.storage.local.get(['timerSetting'], function(result) {
     // settings is undefined, set values to default
     if (result.timerSetting === undefined) {
-      console.log('undefined');
+      // console.log('undefined');
       const values = {
         'timerL': DEFAULT_TIMERL,
         'breakL': DEFAULT_BREAKL,

@@ -69,7 +69,7 @@ bg.setRunningCall = () => {
         }
       });
       audioPlayed = 'break'; // for testing
-      console.log('\t break notification played');
+      // console.log('\t break notification played');
     } else {
       chrome.storage.local.get(['focus_audio'], function(result) {
         if (result.focus_audio === undefined) {
@@ -94,7 +94,7 @@ bg.setRunningCall = () => {
         }
       });
       audioPlayed = 'focus'; // for testing
-      console.log('\t focus notification played');
+      // console.log('\t focus notification played');
     }
     if (isFocus) {
       // complete task if working on something
@@ -176,7 +176,7 @@ bg.get_timer = function() {
 
 bg.set_settings = function(request) {
   sessionNum = 0;
-  console.log('what is timeL ' + request.settings.timerL);
+  // console.log('what is timeL ' + request.settings.timerL);
   timerL = request.settings.timerL;
   breakL = request.settings.breakL;
   sulb = request.settings.SULB;

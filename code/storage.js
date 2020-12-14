@@ -11,15 +11,15 @@ export async function addGroup(group) {
         const tasks = [];
         chrome.storage.sync.set({[group]: tasks}, function() {
           resolve(false);
-          console.log('Group ' + group + ' added');
+          // console.log('Group ' + group + ' added');
         });
       } else {
         resolve(true);
-        console.log('Group ' + group + ' exists');
+        // console.log('Group ' + group + ' exists');
       }
     });
   });
-  console.log(existed);
+  // console.log(existed);
   return existed;
 }
 
@@ -34,7 +34,7 @@ export async function getGroups() {
       resolve(Object.keys(result));
     });
   });
-  console.log(groups);
+  // console.log(groups);
   return groups;
 }
 
@@ -71,16 +71,16 @@ export async function addTask(name, session, group) {
       if (!e) {
         tasks.push(task);
         chrome.storage.sync.set({[group]: tasks}, function() {
-          console.log('Task added');
+          // console.log('Task added');
         });
         resolve(false);
       } else {
-        console.log('Task exists');
+        // console.log('Task exists');
         resolve(true);
       }
     });
   });
-  console.log(existed);
+  // console.log(existed);
   return existed;
 }
 
@@ -98,7 +98,7 @@ export async function getAllTasks() {
       allTasks.push(...tasks);
     }
   }
-  console.log(allTasks);
+  // console.log(allTasks);
   return allTasks;
 }
 
@@ -132,7 +132,7 @@ export function deleteTask(name, group) {
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log('Task deleted');
+      // console.log('Task deleted');
     });
   });
   chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
@@ -153,7 +153,7 @@ export function completeTask(name, group) {
       }
     }
     chrome.storage.sync.set({[group]: tasks}, function() {
-      console.log('Task Completed');
+      // console.log('Task Completed');
     });
   });
   chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
@@ -175,7 +175,7 @@ export function completeSession(name, group) {
         }
       }
       chrome.storage.sync.set({[group]: tasks}, function() {
-        console.log('Session completed');
+        // console.log('Session completed');
       });
     }
   });

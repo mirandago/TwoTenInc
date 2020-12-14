@@ -174,7 +174,7 @@ function submitTask() {
 * @param {string} id is key for storage
 */
 function buttonClicked(id) {
-  console.log(id);
+  // console.log(id);
   if (typeof prevId !== 'undefined' && document.getElementById(prevId)) {
     document.getElementById(prevId).style = 'opacity: 1; cursor: allowed;';
   }
@@ -253,7 +253,7 @@ function changeTaskList(groupColor) {
   document.getElementById('taskListGroupYellow').disabled = false;
   document.getElementById('taskListGroupBlue').disabled = false;
   document.getElementById('taskListGroup' + groupColor).disabled = true;
-  console.log(groupColor);
+  // console.log(groupColor);
 }
 
 /** Get the current session status
