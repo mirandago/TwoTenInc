@@ -37,7 +37,7 @@ export async function addGroup(group) {
       });
     }
   });
-  //console.log(existed);
+  // console.log(existed);
   return existed;
 }
 
@@ -86,21 +86,21 @@ export async function addTask(name, session, group) {
     if (window.localStorage.getItem('mochatest')) {
       const tasks = JSON.parse(window.localStorage.getItem(group));
       let e = false;
-        for (let i = 0; i < tasks.length; i++) {
-          if (tasks[i].name == name) {
-            e = true;
-            break;
-          }
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].name == name) {
+          e = true;
+          break;
         }
-        if (!e) {
-          tasks.push(task);
-          window.localStorage.setItem(group, JSON.stringify(tasks));
-          console.log('\tTask added');
-          resolve(false);
-        } else {
-          console.log('\tTask exists');
-          resolve(true);
-        }      
+      }
+      if (!e) {
+        tasks.push(task);
+        window.localStorage.setItem(group, JSON.stringify(tasks));
+        console.log('\tTask added');
+        resolve(false);
+      } else {
+        console.log('\tTask exists');
+        resolve(true);
+      }
     } else {
       chrome.storage.sync.get([group], function(result) {
         const tasks = result[group];
@@ -245,7 +245,7 @@ export function completeSession(name, group) {
     }
     window.localStorage.setItem(group, JSON.stringify(tasks));
     console.log('Session completed');
-  } else {    
+  } else {
     chrome.storage.sync.get([group], function(result) {
       const tasks = result[group];
       if (typeof tasks !== 'undefined') {

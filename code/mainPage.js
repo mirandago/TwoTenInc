@@ -89,12 +89,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('reset_img').addEventListener('click', function() {
     chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
   });
-  
+
   document.getElementById('complete_img').addEventListener('click', function() {
     chrome.runtime.sendMessage({cmd: 'COMPLETE_TASK'});
     window.location.reload();
   });
-  
+
   if (window.localStorage.getItem('runtest')) {
     const response = {
       timeLeft: 300,
@@ -114,7 +114,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 // Every 500 millisecond the timer UI will update
 setInterval(() => {
   if (window.localStorage.getItem('runtest')) {
-    timerDisplay.updateTimerDisplay(JSON.parse(window.localStorage.getItem('response')));
+    timerDisplay.updateTimerDisplay(JSON
+        .parse(window.localStorage.getItem('response')));
   } else {
     chrome.runtime.sendMessage({cmd: 'GET_TIMER'}, (response) => {
       timerDisplay.updateTimerDisplay(response);

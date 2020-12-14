@@ -194,7 +194,7 @@ bg.finish_task = function(request) {
 bg.complete_task = function(request) {
   completeTask(task, group);
   task = '';
-  group = '';  
+  group = '';
   return true;
 };
 

@@ -178,8 +178,6 @@ function mainPage() {
 }
 
 
-
-
 window.onload=async function() {
   if (window.localStorage.getItem('runtest')) {
     data = JSON.parse(window.localStorage.getItem('data'));
@@ -188,22 +186,23 @@ window.onload=async function() {
   }
   document.getElementById('back blackIcon').onclick = mainPage;
   const showHide = document.getElementById('show-completed');
-  document.getElementById('show-completed').addEventListener('click', function() {
-    if (!loaded) { // need to show completed
-      showHide.innerHTML = 'Hide Completed';
-      loadCompletedData();
-      loaded = true;
-      hidden = false;
-    } else if (hidden) {
-      showHide.innerHTML = 'Hide Completed';
-      revealCompletedData();
-      hidden = false;
-    } else { // want to hide completed
-      showHide.innerHTML = 'Show Completed';
-      hideCompletedData();
-      hidden = true;
-    }
-  });
+  document.getElementById('show-completed')
+      .addEventListener('click', function() {
+        if (!loaded) { // need to show completed
+          showHide.innerHTML = 'Hide Completed';
+          loadCompletedData();
+          loaded = true;
+          hidden = false;
+        } else if (hidden) {
+          showHide.innerHTML = 'Hide Completed';
+          revealCompletedData();
+          hidden = false;
+        } else { // want to hide completed
+          showHide.innerHTML = 'Show Completed';
+          hideCompletedData();
+          hidden = true;
+        }
+      });
   loadCurData();
 };
 
