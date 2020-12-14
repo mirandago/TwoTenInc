@@ -54,3 +54,7 @@ body {
     display: flex;
     justify-content: center;
 }
+
+.imgWithPointer {
+    cursor: pointer;
+}
