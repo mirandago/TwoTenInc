@@ -27,8 +27,8 @@ describe('Full Task List Test', () => {
   }
   const data = [task1,task2,task3,task4];
   
-  beforeEach(() => {  
-    window.localStorage.clear();
+  beforeEach(() => {
+    window.localStorage.clear()
     window.localStorage.setItem('runtest', true)    
     window.localStorage.setItem('data', JSON.stringify(data))
   });
@@ -46,7 +46,7 @@ describe('Full Task List Test', () => {
   
   it ('back to main page', async () => {
     const finishAsyncCode = await promisify(cy.visit('/code/taskList.html'))
-    const finishAsyncClick = await promisify(cy.get('button[class=mainPageButton]').click())
+    cy.get('button[class=mainPageButton]').click()
     cy.location('pathname').should('include', 'mainPage')
   })
   
@@ -67,7 +67,7 @@ describe('Full Task List Test', () => {
   
   it('taskList completed data loads', async () => {
     const finishAsyncCode = await promisify(cy.visit('/code/taskList.html'))        
-    let finishAsyncClick = await promisify(cy.get('button#show-completed').click())    
+    cy.get('button#show-completed').click()
     cy.get('table#completed-table').should('have.css', 'display','table')
     cy.get('button#show-completed').should('have.text', 'Hide Completed')
     cy.get('table#completed-table').should('be.visible')
@@ -82,13 +82,13 @@ describe('Full Task List Test', () => {
     cy.get('table#completed-table').find('th').contains('Group')
     cy.get('table#completed-table').find('th').contains('Date')
     cy.get('table#completed-table').find('th').contains('Delete')         
-    finishAsyncClick = await promisify(cy.get('button#show-completed').click())  
+    cy.get('button#show-completed').click()
     cy.get('table#completed-table').should('have.css', 'display','none')
     cy.get('button#show-completed').should('have.text', 'Show Completed')
           
-    finishAsyncClick = await promisify(cy.get('button#show-completed').click())
+    cy.get('button#show-completed').click()
     cy.get('button#show-completed').should('have.text', 'Hide Completed')
-    finishAsyncClick = await promisify(cy.get('button#show-completed').click()) 
+    cy.get('button#show-completed').click()
     cy.get('button#show-completed').should('have.text', 'Show Completed')
   })
 })
