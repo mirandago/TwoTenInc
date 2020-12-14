@@ -246,3 +246,7 @@ th, td {
     background-color: #386bda;
     border-color: #386bda;
 }
+
+.imgWithPointer {
+    cursor: pointer;
+}
