@@ -1,18 +1,8 @@
-.backImg {    
-    background-image: url(/img/darkBeanBG.jpg) !important;    
-    background-size: 100% !important;
-}
-
-header {    
-    background-image: url(/img/darkBeanBG.jpg) !important;    
-    background-size: 100% !important;
-}
-
 body {    
-    background-image: url(/img/darkBeanBG.jpg) !important;       
+    background-image: url(/img/darkBeanBG.jpg);       
     background-position: 0 -243px; 
     background-repeat: no-repeat;
-    background-size: 100% !important;
+    background-size: 100%;
 }
 
 .topcorner{

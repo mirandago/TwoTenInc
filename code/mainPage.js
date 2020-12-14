@@ -168,7 +168,7 @@ function buttonClicked(id) {
     document.getElementById(prevId).style = 'opacity: 1; cursor: allowed;';
   }
   document.getElementById(id).style =
-      'background-color: green; cursor: not-allowed;';
+      'background-color: orange; cursor: not-allowed;';
   prevId = id;
 
   const words = id.split('-');
