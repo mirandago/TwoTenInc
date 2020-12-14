@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx serve",
     "cy:run": "npx cypress run --browser chrome --headless --spec 'cypress/integration/chrome_tests/*' --quiet",
-    "mochatest": "node_modules/.bin/mocha --require babel-register --require babel-polyfill --require jsdom-global --require mock-local-storage --require ./code/mocha_test/testHelper.js",
+    "mochatest": "node_modules/.bin/mocha --require babel-register --require babel-polyfill --require mock-local-storage --require ./code/mocha_test/testHelper.js",
     "test": "npm run mochatest && start-server-and-test start http://localhost:5000 cy:run"
   },
   "repository": {
@@ -30,7 +30,6 @@
     "eslint": "^7.12.1",
     "eslint-config-google": "^0.14.0",
     "jsdom": "16.4.0",
-    "jsdom-global": "3.0.2",
     "mocha": "^8.2.1",
     "mock-audio-element": "0.0.0-beta.2",
     "mock-local-storage": "^1.1.15",
@@ -38,7 +37,6 @@
     "start-server-and-test": "^1.11.5"
   },
   "dependencies": {
-    "cypress-promise": "^1.1.0",
-    "save-dev": "0.0.1-security"
+    "cypress-promise": "^1.1.0"
   }
 }
