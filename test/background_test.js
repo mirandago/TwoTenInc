@@ -1,5 +1,5 @@
 import {bg, timeLeft, sessionNum, runningCall,
-  sulb, timerL, breakL, longbreakL, isFocus, isActive, breakAudio,
+  sulb, timerL, breakL, longbreakL, task, isFocus, isActive, breakAudio,
   focusAudio, DEFAULT_FOCUS, DEFAULT_ACTIVE, audioPlayed, setupStorageSettings,
   setVarForTesting} from '../code/background.js';
 
@@ -12,7 +12,9 @@ describe('Testing API for background.js', () => {
   const setTime = sinon.spy(bg.set_time);
   const getTime = sinon.spy(bg.get_time);
   const getTimer = sinon.spy(bg.get_timer);
-  const setSettings = sinon.spy(bg.set_settings);
+  const setTask = sinon.spy(bg.set_task);  
+  const completeTask = sinon.spy(bg.complete_task);
+  const setSettings = sinon.spy(bg.set_settings);  
   const setupStorageSettingsSpy = sinon.spy(setupStorageSettings);
   const defaultSettings = {
     'timeLeft': undefined,
@@ -35,6 +37,9 @@ describe('Testing API for background.js', () => {
     getTime.resetHistory();
     getTimer.resetHistory();
     setSettings.resetHistory();
+    setTask.resetHistory();
+    completeTask.resetHistory();
+    setupStorageSettingsSpy.resetHistory();
     setVarForTesting(defaultSettings);
   });
 
@@ -233,6 +238,22 @@ describe('Testing API for background.js', () => {
         settings.timeLeft);
     chai.expect(getTimer.returnValues[1].isActive).to.equal(settings.isActive);
     chai.expect(getTimer.returnValues[1].isFocus).to.equal(settings.isFocus);
+  });
+  
+  it('setTask handled correctly', () => {
+    chai.expect(setTask.called).to.equal(false);
+    const request = {task: '1234'};
+    chai.assert.ok(setTask(request));
+    chai.expect(setTask.calledOnce).to.equal(true);
+    chai.expect(task).to.equal('1234');
+  });
+  
+  it('completeTask handled correctly', () => {
+    chai.expect(completeTask.called).to.equal(false);
+    const request = {task: '1234'};
+    chai.assert.ok(completeTask(request));
+    chai.expect(completeTask.calledOnce).to.equal(true);
+    chai.expect(task).to.equal('');
   });
 
   it('setupStorageSettings functions correctly', () => {
