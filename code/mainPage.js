@@ -1,4 +1,6 @@
-import {getAllTasks, addTask} from './storage.js';
+
+import {addTask, getAllTasks, getTasksByGroup} from './storage.js';
+
 let data = [];
 let prevId = undefined;
 /**
@@ -29,12 +31,14 @@ class TimerDisplay {
    * @param {*} playId
    * @param {*} pauseId
    * @param {*} stateTextId
+   * @param {*} completeId
    */
-  constructor(timerId, playId, pauseId, stateTextId) {
+  constructor(timerId, playId, pauseId, stateTextId, completeId) {
     this.timerId = timerId;
     this.playId = playId;
     this.pauseId = pauseId;
     this.stateTextId = stateTextId;
+    this.completeId = completeId;
   }
 
 
@@ -42,7 +46,7 @@ class TimerDisplay {
    * Update timer display based on the timer argument passed in
    * @param {*} timer
    */
-  updateTimerDisplay(timer) {
+  async updateTimerDisplay(timer) {
     document.getElementById(this.timerId).innerText = timer.timeLeft;
     if (timer.isActive) {
       document.getElementById(this.playId).style.display = 'none';
@@ -51,6 +55,13 @@ class TimerDisplay {
       document.getElementById(this.playId).style.display = 'block';
       document.getElementById(this.pauseId).style.display = 'none';
     }
+    // show complete task button only if a task is selected
+    if (timer.currentTask === '') {
+      document.getElementById(this.completeId).style.display = 'none';
+    } else {
+      document.getElementById(this.completeId).style.display = 'block';
+    }
+    document.getElementById('session').innerText = await getSessionStr();
     if (timer.isFocus) {
       if (timer.currentTask !== '') {
         document.getElementById(this.stateTextId).innerText = timer.currentTask;
@@ -78,7 +89,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('reset_img').addEventListener('click', function() {
     chrome.runtime.sendMessage({cmd: 'RESET_TIMER'});
   });
-
+  
+  document.getElementById('complete_img').addEventListener('click', function() {
+    chrome.runtime.sendMessage({cmd: 'COMPLETE_TASK'});
+    window.location.reload();
+  });
+  
   if (window.localStorage.getItem('runtest')) {
     const response = {
       timeLeft: 300,
@@ -96,7 +112,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 // Every 500 millisecond the timer UI will update
-const getTimer = setInterval(() => {
+setInterval(() => {
   if (window.localStorage.getItem('runtest')) {
     timerDisplay.updateTimerDisplay(JSON.parse(window.localStorage.getItem('response')));
   } else {
@@ -107,7 +123,7 @@ const getTimer = setInterval(() => {
 }, 500);
 
 const timerDisplay = new TimerDisplay('timer', 'play_img', 'pause_img',
-    'timer_state');
+    'timer_state', 'complete_img');
 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('viewTasksBtn').onclick = viewTaskList;
@@ -166,8 +182,13 @@ function buttonClicked(id) {
   if (typeof prevId !== 'undefined' && document.getElementById(prevId)) {
     document.getElementById(prevId).style = 'opacity: 1; cursor: allowed;';
   }
-  document.getElementById(id).style = 'opacity: 0.6; cursor: not-allowed;';
+  document.getElementById(id).style =
+      'background-color: orange; cursor: not-allowed;';
   prevId = id;
+
+  const words = id.split('-');
+  chrome.runtime.sendMessage({cmd: 'SET_TASK', task: words[1],
+    group: words[0]});
 }
 
 /** add event listener for task button
@@ -182,14 +203,13 @@ function newButton(parent, info, id, group, taskName) {
   const button = document.createElement('button');
   const text = document.createTextNode(info);
   button.type = 'button';
-  button.className = 'btn-' + group + ' btn btn-primary btn-sm';
+  button.className = ' btn btn-primary btn-sm'; // 'btn-' + group +
   button.id = id + '-button';
   button.appendChild(text);
   td.appendChild(button);
   parent.appendChild(td);
   document.getElementById(button.id).addEventListener('click', function() {
     buttonClicked(button.id);
-    chrome.runtime.sendMessage({cmd: 'SET_TASK', task: taskName});
   });
 }
 
@@ -238,6 +258,27 @@ function changeTaskList(groupColor) {
   document.getElementById('taskListGroupBlue').disabled = false;
   document.getElementById('taskListGroup' + groupColor).disabled = true;
   console.log(groupColor);
+}
+
+/** Get the current session status
+ * @return {String} A string for session status
+*/
+async function getSessionStr() {
+  if (typeof prevId === 'undefined') {
+    return 'Session 0/0';
+  }
+  const words = prevId.split('-');
+  const group = words[0];
+  const name = words[1];
+  let sessionStr = 'Session ';
+  const tasks = await getTasksByGroup(group);
+  for (let i = 0; i < tasks.length; i++) {
+    if (tasks[i].name === name) {
+      sessionStr = sessionStr + tasks[i].sessionCompleted +
+      '/' + tasks[i].session;
+    }
+  }
+  return sessionStr;
 }
 
 window.onload=async function() {

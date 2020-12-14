@@ -2,6 +2,7 @@
 export const bg = {};
 
 import {getSettings} from './settingStorage.js';
+import {completeSession, completeTask} from './storage.js';
 // import the setting storage to use the get settings function
 // const imported = document.createElement('script');
 // imported.src = './settingStorage.js';
@@ -25,6 +26,7 @@ export let breakL;
 export let longbreakL;
 // current task name
 export let task;
+export let group;
 
 export let isFocus;
 export let isActive;
@@ -95,6 +97,10 @@ bg.setRunningCall = () => {
       console.log('\t focus notification played');
     }
     if (isFocus) {
+      // complete task if working on something
+      if (task !== '') {
+        completeSession(task, group);
+      }
       sessionNum++;
       if (sessionNum % sulb === 0) {
         timeLeft = longbreakL;
@@ -180,10 +186,21 @@ bg.set_settings = function(request) {
 
 bg.set_task = function(request) {
   task = request.task;
+  group = request.group;
 };
 
+bg.finish_task = function(request) {
+  if (request.task === task && request.group == group) {
+    task = '';
+    group = '';
+  }
+};
+
+// complete current task
 bg.complete_task = function(request) {
+  completeTask(task, group);
   task = '';
+  group = '';
 };
 
 // listener for run time messages
@@ -210,6 +227,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     bg.set_settings(request);
   } else if (request.cmd === 'SET_TASK') {
     bg.set_task(request);
+  } else if (request.cmd === 'FINISH_TASK') {
+    bg.finish_task(request);
+  } else if (request.cmd === 'COMPLETE_TASK') {
+    bg.complete_task(request);
   }
   return true;
 });

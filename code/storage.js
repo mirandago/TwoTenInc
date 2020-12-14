@@ -193,6 +193,7 @@ export function deleteTask(name, group) {
         console.log('Task deleted');
       });
     });
+    chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
   }
 }
 
@@ -224,6 +225,7 @@ export function completeTask(name, group) {
         console.log('Task Completed');
       });
     });
+    chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
   }
 }
 
@@ -240,20 +242,21 @@ export function completeSession(name, group) {
       if (tasks[i].name == name) {
         tasks[i].sessionCompleted++;
       }
-    }
     window.localStorage.setItem(group, JSON.stringify(tasks));
     console.log('Session completed');
   } else {    
     chrome.storage.sync.get([group], function(result) {
       const tasks = result[group];
-      for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].name == name) {
-          tasks[i].sessionCompleted++;
+      if (typeof tasks !== 'undefined') {
+        for (let i = 0; i < tasks.length; i++) {
+          if (tasks[i].name == name) {
+            tasks[i].sessionCompleted++;
+          }
         }
+        chrome.storage.sync.set({[group]: tasks}, function() {
+          console.log('Session completed');
+        });
       }
-      chrome.storage.sync.set({[group]: tasks}, function() {
-        console.log('Session completed');
-      });
     });
   }
 }
