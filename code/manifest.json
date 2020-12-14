@@ -2,7 +2,7 @@
 {
    "manifest_version": 2,
    "version": "1.0",
-   "name": "Caffeinated Coders Pomodoro Timer",
+   "name": "Focus with Caffeine",
    "description": "Pomodoro Timer with task lists and notifications",
  
    "icons": { "16": "img/icon16.png",
