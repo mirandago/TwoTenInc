@@ -227,6 +227,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.cmd === 'COMPLETE_TASK') {
     bg.complete_task(request);
   }
+  sendResponse('request was completed');
   return true;
 });
 
