@@ -96,7 +96,7 @@ describe('Testing API for background.js', () => {
       'runningCall': undefined,
       'timerL': 500,
     };
-    setVarForTesting(settings);    
+    setVarForTesting(settings);
     chai.assert.ok(startTimer());
     chai.expect(startTimer.calledOnce).to.equal(true);
     chai.expect(isActive).to.equal(true);
@@ -152,7 +152,7 @@ describe('Testing API for background.js', () => {
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
     chai.expect(timeLeft).to.equal((settings.breakL*60) - 2);
-    
+
     // force timeLeft --> 0
     const settings2 = {
       'timeLeft': 0,
@@ -167,7 +167,7 @@ describe('Testing API for background.js', () => {
       'audioPlayed': audioPlayed,
     };
     setVarForTesting(settings2);
-    
+
     // focus audio plays, switch to focus state, timeLeft = timerL
     chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('focus');
@@ -180,7 +180,7 @@ describe('Testing API for background.js', () => {
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(settings.isFocus);
     chai.expect(timeLeft).to.equal((settings.timerL*60) - 1);
-         
+
     // force timeLeft --> 0
     const settings3 = {
       'timeLeft': 0,
@@ -195,7 +195,7 @@ describe('Testing API for background.js', () => {
       'audioPlayed': audioPlayed,
     };
     setVarForTesting(settings3);
-    
+
     // break audio plays, sessionNum increments
     // switch to break state, timeLeft = longbreakL
     chai.assert.ok(setRunningCall());
