@@ -69,8 +69,7 @@ export async function getGroups() {
 /* eslint-disable */
 export async function addTask(name, session, group) {
 /* eslint-enable */
-  const d = new Date();
-  const date = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+  const date = new Date().toDateString();
   const task = {
     name: name,
     group: group,
