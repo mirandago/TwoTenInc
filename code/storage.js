@@ -17,10 +17,10 @@ export async function addGroup(group) {
         const tasks = [];
         window.localStorage.setItem(group, JSON.stringify(tasks));
         resolve(false);
-        console.log('\tGroup "' + group + '" added');
+        // console.log('\tGroup "' + group + '" added');
       } else {
         resolve(true);
-        console.log('\tGroup "' + group + '" exists');
+        // console.log('\tGroup "' + group + '" exists');
       }
     } else {
       chrome.storage.sync.get([group], function(result) {
@@ -56,7 +56,7 @@ export async function getGroups() {
       });
     }
   });
-  console.log(groups);
+  // console.log(groups);
   return groups;
 }
 
@@ -95,10 +95,10 @@ export async function addTask(name, session, group) {
       if (!e) {
         tasks.push(task);
         window.localStorage.setItem(group, JSON.stringify(tasks));
-        console.log('\tTask added');
+        // console.log('\tTask added');
         resolve(false);
       } else {
-        console.log('\tTask exists');
+        // console.log('\tTask exists');
         resolve(true);
       }
     } else {
@@ -124,7 +124,7 @@ export async function addTask(name, session, group) {
       });
     }
   });
-  console.log(existed);
+  // console.log(existed);
   return existed;
 }
 
@@ -142,7 +142,7 @@ export async function getAllTasks() {
       allTasks.push(...tasks);
     }
   }
-  console.log(allTasks);
+  // console.log(allTasks);
   return allTasks;
 }
 
@@ -180,7 +180,7 @@ export function deleteTask(name, group) {
       }
     }
     window.localStorage.setItem(group, JSON.stringify(tasks));
-    console.log('Task deleted');
+    // console.log('Task deleted');
   } else {
     chrome.storage.sync.get([group], function(result) {
       const tasks = result[group];
@@ -190,7 +190,7 @@ export function deleteTask(name, group) {
         }
       }
       chrome.storage.sync.set({[group]: tasks}, function() {
-        console.log('Task deleted');
+        // console.log('Task deleted');
       });
     });
     chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});
@@ -212,7 +212,7 @@ export function completeTask(name, group) {
       }
     }
     window.localStorage.setItem(group, JSON.stringify(tasks));
-    console.log('Task Completed');
+    // console.log('Task Completed');
   } else {
     chrome.storage.sync.get([group], function(result) {
       const tasks = result[group];
@@ -222,7 +222,7 @@ export function completeTask(name, group) {
         }
       }
       chrome.storage.sync.set({[group]: tasks}, function() {
-        console.log('Task Completed');
+        // console.log('Task Completed');
       });
     });
     chrome.runtime.sendMessage({cmd: 'FINISH_TASK', task: name, group: group});

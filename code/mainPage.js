@@ -41,13 +41,24 @@ class TimerDisplay {
     this.completeId = completeId;
   }
 
+  /**
+   * Convert seconds left to timer format
+   * @param {String} seconds
+   * @return {String} formated time string
+   */
+  formatTime(seconds) {
+    const mins = Math.trunc(seconds / 60);
+    const secs = seconds % 60;
+    return mins + ':' + ('0' + secs).slice(-2);
+  }
 
   /**
    * Update timer display based on the timer argument passed in
    * @param {*} timer
    */
   async updateTimerDisplay(timer) {
-    document.getElementById(this.timerId).innerText = timer.timeLeft;
+    document.getElementById(this.timerId).innerText =
+        this.formatTime(timer.timeLeft);
     if (timer.isActive) {
       document.getElementById(this.playId).style.display = 'none';
       document.getElementById(this.pauseId).style.display = 'block';
@@ -179,7 +190,7 @@ function submitTask() {
 * @param {string} id is key for storage
 */
 function buttonClicked(id) {
-  console.log(id);
+  // console.log(id);
   if (typeof prevId !== 'undefined' && document.getElementById(prevId)) {
     document.getElementById(prevId).style = 'opacity: 1; cursor: allowed;';
   }
@@ -258,7 +269,7 @@ function changeTaskList(groupColor) {
   document.getElementById('taskListGroupYellow').disabled = false;
   document.getElementById('taskListGroupBlue').disabled = false;
   document.getElementById('taskListGroup' + groupColor).disabled = true;
-  console.log(groupColor);
+  // console.log(groupColor);
 }
 
 /** Get the current session status
@@ -287,3 +298,12 @@ window.onload=async function() {
   document.getElementById('taskListGroupRed').disabled = true;
   loadCurData('Red');
 };
+
+/* eslint-disable */
+/**
+ * function to call in the console to skip time to 5 seconds
+ */
+function skipTime() {
+  chrome.runtime.sendMessage({cmd: 'SET_TIME', timeLeft: '5'});
+};
+/* eslint-enable */

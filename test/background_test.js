@@ -91,10 +91,16 @@ describe('Testing API for background.js', () => {
   it('startTimer handled correctly', () => {
     chai.expect(startTimer.called).to.equal(false);
     chai.expect(setRunningCall.called).to.equal(false);
+    const settings = {
+      'timeLeft': undefined,
+      'runningCall': undefined,
+      'timerL': 500,
+    };
+    setVarForTesting(settings);
     chai.assert.ok(startTimer());
     chai.expect(startTimer.calledOnce).to.equal(true);
     chai.expect(isActive).to.equal(true);
-    chai.expect(timeLeft).to.equal(timerL);
+    chai.expect(timeLeft).to.equal(timerL*60);
     chai.expect(isFocus).to.equal(DEFAULT_FOCUS);
     chai.expect(runningCall).to.not.be.undefined;
     // need to clearinterval so test can end
@@ -133,38 +139,70 @@ describe('Testing API for background.js', () => {
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.breakL);
+    chai.expect(timeLeft).to.equal(settings.breakL*60);
     // timeLeft should decrement
     chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.breakL - 1);
+    chai.expect(timeLeft).to.equal((settings.breakL*60) - 1);
     // timeLeft should decrement
     chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.breakL - 2);
+    chai.expect(timeLeft).to.equal((settings.breakL*60) - 2);
+
+    // force timeLeft --> 0
+    const settings2 = {
+      'timeLeft': 0,
+      'sessionNum': sessionNum,
+      'runningCall': runningCall,
+      'sulb': sulb,
+      'timerL': timerL,
+      'breakL': breakL,
+      'longbreakL': longbreakL,
+      'isFocus': isFocus,
+      'isActive': isActive,
+      'audioPlayed': audioPlayed,
+    };
+    setVarForTesting(settings2);
+
     // focus audio plays, switch to focus state, timeLeft = timerL
     chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('focus');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.timerL);
+    chai.expect(timeLeft).to.equal(settings.timerL*60);
     // timer decrements
     chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('focus');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
     chai.expect(isFocus).to.equal(settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.timerL - 1);
+    chai.expect(timeLeft).to.equal((settings.timerL*60) - 1);
+
+    // force timeLeft --> 0
+    const settings3 = {
+      'timeLeft': 0,
+      'sessionNum': sessionNum,
+      'runningCall': runningCall,
+      'sulb': sulb,
+      'timerL': timerL,
+      'breakL': breakL,
+      'longbreakL': longbreakL,
+      'isFocus': isFocus,
+      'isActive': isActive,
+      'audioPlayed': audioPlayed,
+    };
+    setVarForTesting(settings3);
+
     // break audio plays, sessionNum increments
     // switch to break state, timeLeft = longbreakL
     chai.assert.ok(setRunningCall());
     chai.expect(audioPlayed).to.equal('break');
     chai.expect(sessionNum).to.equal(settings.sessionNum + 2);
     chai.expect(isFocus).to.equal(!settings.isFocus);
-    chai.expect(timeLeft).to.equal(settings.longbreakL);
+    chai.expect(timeLeft).to.equal((settings.longbreakL*60));
   });
 
   it('pauseTimer handled correctly', () => {
@@ -190,7 +228,7 @@ describe('Testing API for background.js', () => {
     chai.assert.ok(resetTimer());
     chai.expect(resetTimer.calledOnce).to.equal(true);
     chai.expect(sessionNum).to.equal(0);
-    chai.expect(timeLeft).to.equal(settings.timerL);
+    chai.expect(timeLeft).to.equal(settings.timerL*60);
     chai.expect(isActive).to.equal(DEFAULT_ACTIVE);
     chai.expect(isFocus).to.equal(DEFAULT_FOCUS);
     chai.expect(runningCall).to.equal(false);
@@ -302,6 +340,6 @@ describe('Testing API for background.js', () => {
     chai.expect(breakL).to.equal(value.breakL);
     chai.expect(sulb).to.equal(value.SULB);
     chai.expect(longbreakL).to.equal(value.longbreakL);
-    chai.expect(timeLeft).to.equal(value.timerL);
+    chai.expect(timeLeft).to.equal(value.timerL*60);
   });
 });

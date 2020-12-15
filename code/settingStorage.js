@@ -22,7 +22,7 @@ export function getSettings(callBackFunction) {
   if (window.localStorage.getItem('runtest')) {
     const result = window.localStorage.getItem('timerSetting');
     if (result.timerSetting === undefined) {
-      console.log('undefined');
+      // console.log('undefined');
       const values = {
         'timerL': DEFAULT_TIMERL,
         'breakL': DEFAULT_BREAKL,

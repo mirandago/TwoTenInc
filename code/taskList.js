@@ -27,7 +27,7 @@ function buttonClicked(id) {
 
   for (let i = 0; i < data.length; i++) {
     if (data[i].name === words[2] && data[i].group === words[1]) {
-      console.log('got!!');
+      // console.log('got!!');
       if (words[0] === 'complete') {
         data[i].completed = true;
         completeTask(words[2], words[1]);
