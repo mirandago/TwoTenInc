@@ -62,7 +62,6 @@ bg.setRunningCall = () => {
         }
       });
       audioPlayed = 'break'; // for testing
-      console.log('\t break notification played');
     } else {
       chrome.storage.local.get(['focus_audio'], function(result) {
         if (result.focus_audio === undefined) {
@@ -87,7 +86,6 @@ bg.setRunningCall = () => {
         }
       });
       audioPlayed = 'focus'; // for testing
-      console.log('\t focus notification played');
     }
     if (isFocus) {
       // complete task if working on something
@@ -96,13 +94,13 @@ bg.setRunningCall = () => {
       }
       sessionNum++;
       if (sessionNum % sulb === 0) {
-        timeLeft = longbreakL;
+        timeLeft = longbreakL * 60;
       } else {
-        timeLeft = breakL;
+        timeLeft = breakL * 60;
       }
       isFocus = false;
     } else {
-      timeLeft = timerL;
+      timeLeft = timerL * 60;
       isFocus = true;
     }
   } else {
@@ -114,7 +112,7 @@ bg.setRunningCall = () => {
 bg.start_timer = function() {
   isActive = true;
   if (timeLeft === undefined) {
-    timeLeft = timerL;
+    timeLeft = timerL * 60;
     isFocus = DEFAULT_FOCUS;
   }
   // runs every second
@@ -131,7 +129,7 @@ bg.pause_timer = function() {
 
 bg.reset_timer = function() {
   sessionNum = 0;
-  timeLeft = timerL;
+  timeLeft = timerL * 60;
   isFocus = DEFAULT_FOCUS;
   isActive = DEFAULT_ACTIVE;
   clearInterval(runningCall);
@@ -168,7 +166,6 @@ bg.get_timer = function() {
 
 bg.set_settings = function(request) {
   sessionNum = 0;
-  console.log('what is timeL ' + request.settings.timerL);
   timerL = request.settings.timerL;
   breakL = request.settings.breakL;
   sulb = request.settings.SULB;
@@ -211,7 +208,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     bg.reset_timer();
   } else if (request.cmd === 'SET_TIME') {
     // set time
-    bg.set_time();
+    bg.set_time(request);
   } else if (request.cmd === 'GET_TIME') {
     // get time
     sendResponse(bg.get_time());
@@ -241,7 +238,7 @@ export function setupStorageSettings(value) {
   breakL = value.breakL;
   sulb = value.SULB;
   longbreakL = value.longbreakL;
-  timeLeft = value.timerL;
+  timeLeft = value.timerL * 60;
   return true;
 }
 
