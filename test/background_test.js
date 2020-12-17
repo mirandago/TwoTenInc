@@ -31,7 +31,7 @@ describe('Testing API for background.js', () => {
     'isActive': undefined,
     'audioPlayed': 'none',
   };
-  
+
   /**
    * resets all spies between tests
    */
@@ -103,13 +103,13 @@ describe('Testing API for background.js', () => {
     resetSpies();
   });
 
-  describe('setRunningCall functions correctly', () => {        
+  describe('setRunningCall functions correctly', () => {
     it('confirm initial states', () => {
       chai.expect(setRunningCall.called).to.equal(false);
       chai.assert.ok(setRunningCall());
       chai.expect(setRunningCall.calledOnce).to.equal(true);
     });
-    
+
     const settings = {
       'timeLeft': 1,
       'sessionNum': 0,
@@ -124,7 +124,7 @@ describe('Testing API for background.js', () => {
       'isActive': true,
       'audioPlayed': 'none',
     };
-    
+
     it('focus session time decrements', () => {
       setVarForTesting(settings);
       // timeLeft should decrement

@@ -13,8 +13,9 @@ describe('Testing API for settingStorage.js', () => {
     const settings = {timerL: 9, breakL: 8, SULB: 7, longbreakL: 6};
 
     /**
-     * help test getSettings
+     * help test getSettings by passing as an argument
      * @param {List} value used to call function from getSettings
+     * @return {List} value returned so we can check what it is
      */
     function checkCallBack(value) {
       return value;
