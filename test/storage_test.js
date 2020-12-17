@@ -54,15 +54,15 @@ describe('Testing API for storage.js', () => {
 
   describe('test addTask', () => {
     const d = new Date();
-    const task1 = {name: 'mochatest', group: 'green', session: 4, 
+    const task1 = {name: 'mochatest', group: 'green', session: 4,
       sessionCompleted: 0,
       date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
-      completed: false
+      completed: false,
     };
-    const task2 = {name: 'mochatest2', group: 'green', session: 3, 
+    const task2 = {name: 'mochatest2', group: 'green', session: 3,
       sessionCompleted: 0,
       date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
-      completed: false
+      completed: false,
     };
 
     before(() => {
@@ -77,7 +77,7 @@ describe('Testing API for storage.js', () => {
           .then((value) => {
             chai.expect(value).to.equal(false); // because this is new task
           });
-      chai.expect(window.localStorage.getItem('green')).to.eql(task1);      
+      chai.expect(window.localStorage.getItem('green')).to.eql(task1);
     });
 
     it('test addTask for different task', async () => {

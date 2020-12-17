@@ -60,6 +60,7 @@ export function getSettings(callBackFunction) {
  * These values passed should already have been input validated.
  * value has the following four fields: timerL, breakL, SULB, longbreakL
  * @param {*} values settings values
+ * @return {List} for testing message sent to chrome.runtime
  */
 export function setSettings(values) {
   const newSettings = {
