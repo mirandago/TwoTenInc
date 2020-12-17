@@ -7,7 +7,7 @@ describe('Main Page Test', () => {
 	  // prevents Cypress from failing the test
 	  return false
 	})
-		
+  		
 	// check main page has correct elements
 	it('main page loads', () => {
     window.localStorage.setItem('runtest', true)
@@ -105,7 +105,13 @@ describe('Main Page Test', () => {
     cy.get('input#inputTask').type('test')
     cy.get('input#sessionId').type('1')
     cy.get('select').select('Red')
+    const date = new Date().toDateString()
     const asyncFunction = await promisify(cy.get('button#submitTaskBtn').click()) 
-    expect(window.localStorage.getItem('Red')).not.to.be.null
+    expect(JSON.parse(window.localStorage.getItem('Red'))[0].name).to.equal('test')
+    expect(JSON.parse(window.localStorage.getItem('Red'))[0].group).to.equal('Red')
+    expect(JSON.parse(window.localStorage.getItem('Red'))[0].session).to.equal('1')
+    expect(JSON.parse(window.localStorage.getItem('Red'))[0].sessionCompleted).to.equal(0) 
+    expect(JSON.parse(window.localStorage.getItem('Red'))[0].date).to.equal(date)
+    expect(JSON.parse(window.localStorage.getItem('Red'))[0].completed).to.equal(false)
   })
 })

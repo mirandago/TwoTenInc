@@ -1,8 +1,8 @@
 // constants for default settings
-const DEFAULT_TIMERL = 25;
-const DEFAULT_BREAKL = 5;
-const DEFAULT_SULB = 4;
-const DEFAULT_LONGBREAKL = 15;
+export const DEFAULT_TIMERL = 25;
+export const DEFAULT_BREAKL = 5;
+export const DEFAULT_SULB = 4;
+export const DEFAULT_LONGBREAKL = 15;
 
 /**
  * Gets the timer settings from the chrome local storage.
@@ -19,10 +19,9 @@ const DEFAULT_LONGBREAKL = 15;
 // Need to disable because getSettings is used in a different file
 export function getSettings(callBackFunction) {
 /* eslint-enable */
-  if (window.localStorage.getItem('runtest')) {
-    const result = window.localStorage.getItem('timerSetting');
-    if (result.timerSetting === undefined) {
-      // console.log('undefined');
+  if (window.localStorage.getItem('mochatest')) {
+    const result = JSON.parse(window.localStorage.getItem('timerSetting'));
+    if (result === null) {
       const values = {
         'timerL': DEFAULT_TIMERL,
         'breakL': DEFAULT_BREAKL,
@@ -33,7 +32,7 @@ export function getSettings(callBackFunction) {
       callBackFunction(values);
     } else {
       // has the result
-      callBackFunction(result.timerSetting);
+      callBackFunction(result);
     }
   } else {
     chrome.storage.local.get(['timerSetting'], function(result) {
@@ -61,6 +60,7 @@ export function getSettings(callBackFunction) {
  * These values passed should already have been input validated.
  * value has the following four fields: timerL, breakL, SULB, longbreakL
  * @param {*} values settings values
+ * @return {List} for testing message sent to chrome.runtime
  */
 export function setSettings(values) {
   const newSettings = {
@@ -69,10 +69,9 @@ export function setSettings(values) {
     'SULB': values.SULB,
     'longbreakL': values.longbreakL,
   };
-  if (window.localStorage.getItem('runtest')) {
-    window.localStorage.setItem('timerSetting', newSettings);
-    const request = {cmd: 'SET_SETTINGS', settings: values};
-    bg.set_settings(request);
+  if (window.localStorage.getItem('mochatest')) {
+    window.localStorage.setItem('timerSetting', JSON.stringify(newSettings));
+    return {cmd: 'SET_SETTINGS', settings: values};
   } else {
     // store in local storage
     chrome.storage.local.set({'timerSetting': newSettings, function() {}});

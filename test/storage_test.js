@@ -47,25 +47,22 @@ describe('Testing API for storage.js', () => {
       return getGroups()
           .then((value) => {
             chai.expect(value.length).to.equal(2);
-            chai.expect(value[0]).to.equal('mochatest');
-            chai.expect(value[1]).to.equal('Group1');
+            chai.expect(value).to.eql(['mochatest', 'Group1']);
           });
     });
   });
 
   describe('test addTask', () => {
     const d = new Date();
-    const task1 = {
-      name: 'mochatest',
-      group: 'green',
-      session: 4,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+    const task1 = {name: 'mochatest', group: 'green', session: 4,
+      sessionCompleted: 0,
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
+      completed: false,
     };
-    const task2 = {
-      name: 'mochatest2',
-      group: 'green',
-      session: 3,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+    const task2 = {name: 'mochatest2', group: 'green', session: 3,
+      sessionCompleted: 0,
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
+      completed: false,
     };
 
     before(() => {
@@ -80,18 +77,7 @@ describe('Testing API for storage.js', () => {
           .then((value) => {
             chai.expect(value).to.equal(false); // because this is new task
           });
-      chai.expect(window.localStorage.getItem('green')[0].name)
-          .to.equal(task1.name);
-      chai.expect(window.localStorage.getItem('green')[0].group)
-          .to.equal(task1.group);
-      chai.expect(window.localStorage.getItem('green')[0].session)
-          .to.equal(task1.session);
-      chai.expect(window.localStorage.getItem('green')[0].sessionCompleted)
-          .to.equal(0);
-      chai.expect(window.localStorage.getItem('green')[0].date)
-          .to.equal(task1.date);
-      chai.expect(window.localStorage.getItem('green')[0].completed)
-          .to.equal(false);
+      chai.expect(window.localStorage.getItem('green')).to.eql(task1);
     });
 
     it('test addTask for different task', async () => {
@@ -101,18 +87,7 @@ describe('Testing API for storage.js', () => {
           .then((value) => {
             chai.expect(value).to.equal(false); // because this is new task
           });
-      chai.expect(window.localStorage.getItem('green')[0].name)
-          .to.equal(task2.name);
-      chai.expect(window.localStorage.getItem('green')[0].group)
-          .to.equal(task2.group);
-      chai.expect(window.localStorage.getItem('green')[0].session)
-          .to.equal(task2.session);
-      chai.expect(window.localStorage.getItem('green')[0].sessionCompleted)
-          .to.equal(0);
-      chai.expect(window.localStorage.getItem('green')[0].date)
-          .to.equal(task2.date);
-      chai.expect(window.localStorage.getItem('green')[0].completed)
-          .to.equal(false);
+      chai.expect(window.localStorage.getItem('green')).to.eql(task2);
     });
 
     it('test addTask for same task', async () => {
@@ -122,18 +97,7 @@ describe('Testing API for storage.js', () => {
           .then((value) => {
             chai.expect(value).to.equal(true); // because this task exists
           });
-      chai.expect(window.localStorage.getItem('green')[0]
-          .name).to.equal(task2.name);
-      chai.expect(window.localStorage.getItem('green')[0]
-          .group).to.equal(task2.group);
-      chai.expect(window.localStorage.getItem('green')[0]
-          .session).to.equal(task2.session);
-      chai.expect(window.localStorage.getItem('green')[0]
-          .sessionCompleted).to.equal(0);
-      chai.expect(window.localStorage.getItem('green')[0]
-          .date).to.equal(task2.date);
-      chai.expect(window.localStorage.getItem('green')[0]
-          .completed).to.equal(false);
+      chai.expect(window.localStorage.getItem('green')).to.eql(task2);
     });
   });
 
@@ -227,8 +191,8 @@ describe('Testing API for storage.js', () => {
       deleteTask('nonexsistent task', 'yellow');
       chai.expect(JSON.parse(window.localStorage.getItem('yellow'))
           .length).to.equal(1);
-      chai.expect(JSON.parse(window.localStorage.getItem('yellow'))[0].name)
-          .to.equal('a');
+      chai.expect(JSON.parse(window.localStorage.getItem('yellow'))[0]).
+          to.eql(task1);
     });
 
     it('test deleteTask when only task', () => {
@@ -241,8 +205,8 @@ describe('Testing API for storage.js', () => {
       deleteTask('c', 'blue');
       chai.expect(JSON.parse(window.localStorage.getItem('blue')).length)
           .to.equal(1);
-      chai.expect(JSON.parse(window.localStorage.getItem('blue'))[0].name)
-          .to.equal('b');
+      chai.expect(JSON.parse(window.localStorage.getItem('blue'))[0])
+          .to.eql(task2);
     });
   });
 
@@ -250,15 +214,15 @@ describe('Testing API for storage.js', () => {
     const d = new Date();
     const task1 = {name: 'a', group: 'yellow',
       session: 42, sessionCompleted: 0,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
       completed: false,
     };
     const task2 = {name: 'b', group: 'blue', session: 1, sessionCompleted: 0,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
       completed: false,
     };
     const task3 = {name: 'c', group: 'blue', session: 2, sessionCompleted: 0,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
       completed: false,
     };
     before(() => {
@@ -292,15 +256,15 @@ describe('Testing API for storage.js', () => {
   describe('test completeSession', () => {
     const d = new Date();
     const task1 = {name: 'a', group: 'yellow', session: 42, sessionCompleted: 0,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
       completed: false,
     };
     const task2 = {name: 'b', group: 'blue', session: 1, sessionCompleted: 0,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
       completed: false,
     };
     const task3 = {name: 'c', group: 'blue', session: 2, sessionCompleted: 0,
-      date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
+      date: d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(),
       completed: false,
     };
     before(() => {

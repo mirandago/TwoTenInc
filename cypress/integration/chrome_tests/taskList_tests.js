@@ -8,22 +8,16 @@ describe('Full Task List Test', () => {
 	  return false
 	})
   
-  const d = new Date();
+  const date = new Date().toDateString();
   const task1 = { name: 'test1', group: 'green', session: 4, sessionCompleted: 0,
-    date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
-    completed: false
-  }
+    date: date, completed: false}
   const task2 = { name: 'test2', group: 'green', session: 3, sessionCompleted: 0,
-    date: d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(),
-    completed: true
-  }   
+    date: date, completed: true}   
   const task3 = { name: 'test3', group: 'yellow', session: 2, sessionCompleted: 0,
-    date: '2019-03-15',
-    completed: true
+    date: '2019-03-15', completed: true
   }   
   const task4 = { name: 'test4', group: 'red', session: 2, sessionCompleted: 0,
-    date: '1807-02-01',
-    completed: false
+    date: '1807-02-01', completed: false
   }
   const data = [task1,task2,task3,task4];
   
@@ -91,4 +85,19 @@ describe('Full Task List Test', () => {
     cy.get('button#show-completed').click()
     cy.get('button#show-completed').should('have.text', 'Show Completed')
   })
+  
+  it('delete and complete tasks', async () => {
+    const finishAsyncCode = await promisify(cy.visit('/code/taskList.html'))        
+    cy.get('button#show-completed').click()
+    cy.get('button#complete-'+task1.group+'-'+task1.name).click()
+    cy.get('table#task-table').should('not.have.text',task1.name)
+    
+    cy.get('button#delete-'+task4.group+'-'+task4.name).click()    
+    cy.get('table#task-table').should('not.have.text', task4.name) 
+    
+    cy.get('button#delete-'+task2.group+'-'+task2.name).click()        
+    cy.get('table#task-table').should('not.have.text', task2.name)
+ })
+  
+  
 })
