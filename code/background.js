@@ -33,8 +33,11 @@ export const DEFAULT_ACTIVE = false;
 
 export let audioPlayed = 'none'; // for testing
 
-// 2 cases: timer hits 0, decrement counter
-bg.setRunningCall = () => {
+/**
+ * called by 'START_TIMER' to keep timer running in background
+ * 2 cases: timer hits 0, and decrement counter
+ */
+bg.setRunningCall = function() {
   // time hits 0, play sound and update state
   if (timeLeft == 0) {
     if (isFocus) {
@@ -103,12 +106,15 @@ bg.setRunningCall = () => {
       timeLeft = timerL * 60;
       isFocus = true;
     }
-  } else {
+  } else { // decrement counter
     timeLeft--;
   }
   return true;
 };
 
+/**
+ * initializes variables and starts timer
+ */
 bg.start_timer = function() {
   isActive = true;
   if (timeLeft === undefined) {
@@ -120,6 +126,9 @@ bg.start_timer = function() {
   return true;
 };
 
+/**
+ * changes state and pause timer
+ */
 bg.pause_timer = function() {
   isActive = false;
   clearInterval(runningCall);
@@ -127,6 +136,9 @@ bg.pause_timer = function() {
   return true;
 };
 
+/**
+ * reset states and pause+reset timer
+ */
 bg.reset_timer = function() {
   sessionNum = 0;
   timeLeft = timerL * 60;
@@ -137,15 +149,24 @@ bg.reset_timer = function() {
   return true;
 };
 
+/**
+ * set time on timer
+ */
 bg.set_time = function(request) {
   timeLeft = request.timeLeft;
   return true;
 };
 
+/**
+ * return time left
+ */
 bg.get_time = function(request) {
   return {timeLeft: timeLeft};
 };
 
+/**
+ * initialize and return timer variables
+ */
 bg.get_timer = function() {
   // if it is undefined, call the storage and get back stuff
   if (timeLeft === undefined) {
@@ -164,6 +185,9 @@ bg.get_timer = function() {
   };
 };
 
+/**
+ * customize focus and break
+ */
 bg.set_settings = function(request) {
   sessionNum = 0;
   timerL = request.settings.timerL;
@@ -173,12 +197,18 @@ bg.set_settings = function(request) {
   return true;
 };
 
+/**
+ * change current task
+ */
 bg.set_task = function(request) {
   task = request.task;
   group = request.group;
   return true;
 };
 
+/**
+ * finish current task if match request
+ */
 bg.finish_task = function(request) {
   if (request.task === task && request.group == group) {
     task = '';
@@ -187,7 +217,9 @@ bg.finish_task = function(request) {
   return true;
 };
 
-// complete current task
+/**
+ * finish and mark current task as completed
+ */
 bg.complete_task = function(request) {
   completeTask(task, group);
   task = '';
@@ -218,10 +250,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.cmd === 'SET_SETTINGS') {
     bg.set_settings(request);
   } else if (request.cmd === 'SET_TASK') {
+    // change current task
     bg.set_task(request);
   } else if (request.cmd === 'FINISH_TASK') {
+    // finish current task if match request
     bg.finish_task(request);
   } else if (request.cmd === 'COMPLETE_TASK') {
+    // finish and mark current task as completed
     bg.complete_task(request);
   }
   sendResponse('request was completed');
