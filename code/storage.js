@@ -72,7 +72,6 @@ export async function addTask(name, session, group) {
     date: date,
     completed: false,
   };
-  testTask = task; // for testing
   await addGroup(group);
   console.log(window.localStorage.getItem(group));
   const existed = await new Promise(function(resolve, reject) {
