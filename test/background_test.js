@@ -32,7 +32,7 @@ describe('Testing API for background.js', () => {
     'audioPlayed': 'none',
   };
 
-  afterEach(function() {
+  function resetSpies() {
     startTimer.resetHistory();
     pauseTimer.resetHistory();
     resetTimer.resetHistory();
@@ -45,8 +45,8 @@ describe('Testing API for background.js', () => {
     completeTask.resetHistory();
     setupStorageSettingsSpy.resetHistory();
     setVarForTesting(defaultSettings);
-  });
-
+  }
+  
   it('constants and variables initialized correctly', () => {
     chai.expect(timeLeft).to.be.undefined;
     chai.expect(sessionNum).to.equal(0);
@@ -61,6 +61,7 @@ describe('Testing API for background.js', () => {
     chai.expect(focusAudio).to.be.an('Object');
     chai.expect(DEFAULT_FOCUS).to.equal(true);
     chai.expect(DEFAULT_ACTIVE).to.equal(false);
+    resetSpies();
   });
 
   it('setSettings handled correctly', () => {
@@ -79,6 +80,7 @@ describe('Testing API for background.js', () => {
     chai.expect(function() {
       setSettings(1);
     }).to.throw(TypeError);
+    resetSpies();
   });
 
   it('startTimer handled correctly', () => {
@@ -95,6 +97,7 @@ describe('Testing API for background.js', () => {
     chai.expect(runningCall).to.not.be.undefined;
     // need to clearinterval so test can end
     clearInterval(runningCall);
+    resetSpies();
   });
 
   describe('setRunningCall functions correctly', () => {
@@ -104,20 +107,21 @@ describe('Testing API for background.js', () => {
       chai.assert.ok(setRunningCall());
       chai.expect(setRunningCall.calledOnce).to.equal(true);
     });
-    
+    const settings = {
+      'timeLeft': 1,
+      'sessionNum': 0,
+      'runningCall': undefined,
+      'sulb': 2,
+      'timerL': 1,
+      'breakL': 2,
+      'longbreakL': 5,
+      'task': 'this is a test',
+      'group': 'Group1',
+      'isFocus': true,
+      'isActive': true,
+      'audioPlayed': 'none',
+    };
     it('focus session time decrements', () => {
-      const settings = {
-        'timeLeft': 1,
-        'sessionNum': 0,
-        'runningCall': undefined,
-        'sulb': 2,
-        'timerL': 1,
-        'breakL': 2,
-        'longbreakL': 5,
-        'isFocus': true,
-        'isActive': true,
-        'audioPlayed': 'none',
-      };
       setVarForTesting(settings);
       // timeLeft should decrement
       chai.assert.ok(setRunningCall());
@@ -126,16 +130,23 @@ describe('Testing API for background.js', () => {
       chai.expect(sessionNum).to.equal(settings.sessionNum);
       chai.expect(isFocus).to.equal(settings.isFocus);
       chai.expect(timeLeft).to.equal(settings.timeLeft-1);
+    });
       
     it('switches to break state', () => {
+      const task = {name: settings.task, sessionCompleted: 0};
+      window.localStorage.setItem(settings.group, JSON.stringify([task]));
       // break audio plays, sessionNum increments,
       // switch to break state, timeLeft = breakL
+      // session completed      
       chai.assert.ok(setRunningCall());
       chai.expect(setRunningCall.calledThrice).to.equal(true);
       chai.expect(audioPlayed).to.equal('break');
       chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
       chai.expect(isFocus).to.equal(!settings.isFocus);
       chai.expect(timeLeft).to.equal(settings.breakL*60);
+      chai.expect(JSON.parse(window.localStorage.getItem(settings.group))[0]
+          .sessionCompleted).to.equal(task.sessionCompleted+1);
+    });
       
     it('break session time decrements', () => {
       // timeLeft should decrement
@@ -162,6 +173,8 @@ describe('Testing API for background.js', () => {
         'timerL': timerL,
         'breakL': breakL,
         'longbreakL': longbreakL,
+        'task': 'this is a test',
+        'group': 'Group2',
         'isFocus': isFocus,
         'isActive': isActive,
         'audioPlayed': audioPlayed,
@@ -183,7 +196,7 @@ describe('Testing API for background.js', () => {
       chai.expect(sessionNum).to.equal(settings.sessionNum + 1);
       chai.expect(isFocus).to.equal(settings.isFocus);
       chai.expect(timeLeft).to.equal((settings.timerL*60) - 1);
-    }
+    });
 
     it('switches to long break', () => {
     // force timeLeft --> 0
@@ -195,11 +208,15 @@ describe('Testing API for background.js', () => {
         'timerL': timerL,
         'breakL': breakL,
         'longbreakL': longbreakL,
+        'task': 'this is a test',
+        'group': 'Group3',
         'isFocus': isFocus,
         'isActive': isActive,
         'audioPlayed': audioPlayed,
       };
-      setVarForTesting(settings3);
+      setVarForTesting(settings3); 
+      const task = {name: settings3.task, sessionCompleted: 4};
+      window.localStorage.setItem(settings3.group, JSON.stringify([task]));
 
       // break audio plays, sessionNum increments
       // switch to break state, timeLeft = longbreakL
@@ -208,7 +225,10 @@ describe('Testing API for background.js', () => {
       chai.expect(sessionNum).to.equal(settings.sessionNum + 2);
       chai.expect(isFocus).to.equal(!settings.isFocus);
       chai.expect(timeLeft).to.equal((settings.longbreakL*60));
+      chai.expect(JSON.parse(window.localStorage.getItem(settings3.group))[0]
+          .sessionCompleted).to.equal(task.sessionCompleted+1);
     });
+    resetSpies();
   });
 
   it('pauseTimer handled correctly', () => {
@@ -217,6 +237,7 @@ describe('Testing API for background.js', () => {
     chai.expect(pauseTimer.calledOnce).to.equal(true);
     chai.expect(isActive).to.equal(false);
     chai.expect(runningCall).to.equal(false);
+    resetSpies();
   });
 
   it('resetTimer handled correctly', () => {
@@ -238,6 +259,7 @@ describe('Testing API for background.js', () => {
     chai.expect(isActive).to.equal(DEFAULT_ACTIVE);
     chai.expect(isFocus).to.equal(DEFAULT_FOCUS);
     chai.expect(runningCall).to.equal(false);
+    resetSpies();
   });
 
   it('setTime handled correctly', () => {
@@ -249,6 +271,7 @@ describe('Testing API for background.js', () => {
     chai.assert.ok(setTime(request));
     chai.expect(setTime.calledOnce).to.equal(true);
     chai.expect(timeLeft).to.equal(request.timeLeft);
+    resetSpies();
   });
 
   it('getTime handled correctly', () => {
@@ -263,6 +286,7 @@ describe('Testing API for background.js', () => {
     chai.assert.ok(getTime(request));
     chai.expect(getTime.calledOnce).to.equal(true);
     chai.expect(getTime.returnValues[0].timeLeft).to.equal(settings.timeLeft);
+    resetSpies();
   });
 
   it('getTimer handled correctly', () => {
@@ -286,6 +310,7 @@ describe('Testing API for background.js', () => {
         settings.timeLeft);
     chai.expect(getTimer.returnValues[1].isActive).to.equal(settings.isActive);
     chai.expect(getTimer.returnValues[1].isFocus).to.equal(settings.isFocus);
+    resetSpies();
   });
 
   it('setTask handled correctly', () => {
@@ -295,6 +320,7 @@ describe('Testing API for background.js', () => {
     chai.expect(setTask.calledOnce).to.equal(true);
     chai.expect(task).to.equal('1234');
     chai.expect(group).to.equal('5678');
+    resetSpies();
   });
 
   it('finishTask handled correctly', () => {
@@ -311,6 +337,7 @@ describe('Testing API for background.js', () => {
     chai.expect(finishTask.calledTwice).to.equal(true);
     chai.expect(task).to.equal('');
     chai.expect(group).to.equal('');
+    resetSpies();
   });
 
   it('completeTask handled correctly', () => {
@@ -330,6 +357,7 @@ describe('Testing API for background.js', () => {
         .completed).to.equal(false);
     chai.expect(JSON.parse(window.localStorage.getItem('Group1'))[1]
         .completed).to.equal(true);
+    resetSpies();
   });
 
   it('setupStorageSettings functions correctly', () => {
@@ -347,5 +375,6 @@ describe('Testing API for background.js', () => {
     chai.expect(sulb).to.equal(value.SULB);
     chai.expect(longbreakL).to.equal(value.longbreakL);
     chai.expect(timeLeft).to.equal(value.timerL*60);
+    resetSpies();
   });
 });
