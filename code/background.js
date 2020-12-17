@@ -36,6 +36,7 @@ export let audioPlayed = 'none'; // for testing
 /**
  * called by 'START_TIMER' to keep timer running in background
  * 2 cases: timer hits 0, and decrement counter
+ * @return {Boolean} for testing
  */
 bg.setRunningCall = function() {
   // time hits 0, play sound and update state
@@ -114,6 +115,7 @@ bg.setRunningCall = function() {
 
 /**
  * initializes variables and starts timer
+ * @return {Boolean} for testing
  */
 bg.start_timer = function() {
   isActive = true;
@@ -128,6 +130,7 @@ bg.start_timer = function() {
 
 /**
  * changes state and pause timer
+ * @return {Boolean} for testing
  */
 bg.pause_timer = function() {
   isActive = false;
@@ -138,6 +141,7 @@ bg.pause_timer = function() {
 
 /**
  * reset states and pause+reset timer
+ * @return {Boolean} for testing
  */
 bg.reset_timer = function() {
   sessionNum = 0;
@@ -151,6 +155,8 @@ bg.reset_timer = function() {
 
 /**
  * set time on timer
+ * @param {Object} request with any values needed
+ * @return {Boolean} for testing
  */
 bg.set_time = function(request) {
   timeLeft = request.timeLeft;
@@ -159,6 +165,8 @@ bg.set_time = function(request) {
 
 /**
  * return time left
+ * @param {Object} request with any values needed
+ * @return {Boolean} for testing
  */
 bg.get_time = function(request) {
   return {timeLeft: timeLeft};
@@ -166,6 +174,7 @@ bg.get_time = function(request) {
 
 /**
  * initialize and return timer variables
+ * @return {Boolean} for testing
  */
 bg.get_timer = function() {
   // if it is undefined, call the storage and get back stuff
@@ -187,6 +196,8 @@ bg.get_timer = function() {
 
 /**
  * customize focus and break
+ * @param {Object} request with any values needed
+ * @return {Boolean} for testing
  */
 bg.set_settings = function(request) {
   sessionNum = 0;
@@ -199,6 +210,8 @@ bg.set_settings = function(request) {
 
 /**
  * change current task
+ * @param {Object} request with any values needed
+ * @return {Boolean} for testing
  */
 bg.set_task = function(request) {
   task = request.task;
@@ -208,6 +221,8 @@ bg.set_task = function(request) {
 
 /**
  * finish current task if match request
+ * @param {Object} request with any values needed
+ * @return {Boolean} for testing
  */
 bg.finish_task = function(request) {
   if (request.task === task && request.group == group) {
@@ -219,6 +234,8 @@ bg.finish_task = function(request) {
 
 /**
  * finish and mark current task as completed
+ * @param {Object} request with any values needed
+ * @return {Boolean} for testing
  */
 bg.complete_task = function(request) {
   completeTask(task, group);

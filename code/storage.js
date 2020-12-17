@@ -5,12 +5,8 @@
 /* eslint-disable */
 export async function addGroup(group) {
 /* eslint-enable */
-  if (window.localStorage.getItem('runtest')) {
-    // for cypress test
-    //window.localStorage.setItem(group, 'addTask works');
-  }
   const existed = await new Promise(function(resolve, reject) {
-    if (window.localStorage.getItem('mochatest') || 
+    if (window.localStorage.getItem('mochatest') ||
       window.localStorage.getItem('runtest')) {
       if (window.localStorage.getItem(group)==null) {
         const tasks = [];
